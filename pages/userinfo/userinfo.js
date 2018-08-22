@@ -56,6 +56,7 @@ Page({
     if (!wx.getStorageSync('userDetail')) {
         const notify = (content) => wx.showToast({ title: content, icon: 'none' });
         notify('获取用户信息失败');
+        
       } else {
         this.setData({
           userDetail: wx.getStorageSync('userDetail')

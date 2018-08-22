@@ -283,7 +283,7 @@ class ActivityService {
   /**
   * 点击取消参讲
   */
-  cancelEnrollActivity(ksId, kpId, callback) {
+  cancelPartakeActivity(ksId, kpId, callback) {
     console.log("活动Id", ksId)
     console.log("参讲用户Id", kpId)
 

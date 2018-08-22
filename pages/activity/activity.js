@@ -315,13 +315,12 @@ Page({
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
 
     // 判断还有无数据
-    console.log("下拉刷新isEnd:", wx.getStorageSync('pageData').isEnd)
+    console.log("触底刷新isEnd:", wx.getStorageSync('pageData').isEnd)
     this.isEnd = wx.getStorageSync('pageData').isEnd;
     if (this.isEnd) notify("没有更多");
-
     
     else {
-      let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum++).param('queryType', 'browser');
+      let url = new URL('http', serverAddr).path('subjects').param('page', ++this.pageNum).param('queryType', 'browser');
       console.log("正在加载第", this.pageNum, "页")
       wx.request({
         url: url.toString(),
@@ -333,6 +332,7 @@ Page({
           switch (statusCode) {
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
+              console.log("触底刷新运行了:", result)
               wx.setStorageSync('pageData', result);
               console.log("触底刷新运行了:", wx.getStorageSync('pageData'))
 
@@ -353,6 +353,7 @@ Page({
                 activityList: tmpArr 
               });
               console.log(this.data.activityList)
+              console.log("加载完第", this.pageNum, "页")
 
               break;
             case StatusCode.FOUND_NOTHING:

@@ -1,1 +1,94 @@
 /* pages/myPartakeList/myPartakeList.wxss */
+/* activityList */
+.activities {
+  background: #f9f9f9;
+  /* padding: 30rpx 30rpx 0 30rpx; */
+}
+.activity { 
+  margin-bottom: 30rpx;
+  background: #fff;padding: 0 60rpx;
+  height: 440rpx;
+  box-shadow: 0 .05em .25em rgba(0,0,0,.5);
+  border-radius: 6rpx;
+}
+
+.activity-header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 180rpx;
+  border-bottom: 1rpx solid #F0F5FA;
+}
+.activity-header view{
+  text-align: center;
+}
+.activity-header text, .activity-header view{
+  display: block;
+}
+.activity-header .start, .activity-header .end{
+  width: 150rpx;
+}
+.activity-header .header-avatar{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+.activity-header .header-nickname{
+  font-size: 28rpx;
+  color: #666;
+}
+.activity-header .distance{
+  margin: 0px 10px;
+  display: block;
+  width: 176rpx;
+}
+.activity-header .distance image, .activity-header .distance .image{
+  width: 176rpx;
+  height: 30rpx;
+  margin-bottom:1 2rpx;
+  overflow: hidden;
+}
+.activity-header .distance text{
+  color:#8FAACC;
+  line-height: 24rpx;
+  font-size: 24rpx;
+}
+.activity-header .province{
+  font-size: 28rpx;
+  color: #666;
+}
+
+.list-title {
+  position: relative;
+  height: 40rpx;
+  border-bottom: 1rpx solid #F0F5FA;
+  font-size: 24rpx;
+  padding: 20rpx 0;
+}
+
+.list-abstract {
+  position: relative;
+  height: 100rpx;
+  border-bottom: 1rpx solid #F0F5FA;
+  font-size: 24rpx;
+  padding: 20rpx 0;
+}
+
+.list-title text {
+  color: #666;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-abstract text {
+  color: #666;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

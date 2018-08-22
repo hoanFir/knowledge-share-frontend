@@ -17,7 +17,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    activityDetail: null
+    activityDetail: null,
+    ksId: null
   },
 
   /**
@@ -25,7 +26,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      activityDetail: wx.getStorageSync("activityDetail")
+      activityDetail: wx.getStorageSync("activityDetail"),
+      ksId: wx.getStorageSync("activityDetail").ksId
     })
   },
 

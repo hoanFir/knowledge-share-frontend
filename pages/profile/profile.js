@@ -1,4 +1,14 @@
 // pages/profile/profile.js
+import activityService from '../../service/ActivityService';
+const util = require('../../utils/util.js')
+
+// 用于下拉刷新再申请，以及token
+import userService from '../../service/UserService';
+import Activity from '../../model/Activity';
+import URL from '../../utils/URL';
+import StatusCode from '../../model/StatusCode';
+import config from '../../config';
+const serverAddr = config.serverAddr;
 
 Page({
 
@@ -23,6 +33,110 @@ Page({
     this.setData({
       userInfo: getApp().globalData.userInfo
     })
+
+    // TODO：暂时只获取第一页，初期一般活动不超过12个，可以轻松获取到活动数目
+    let url1 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'author');
+    wx.request({
+      url: url1.toString(),
+      method: 'GET',
+      header: {
+        'Authorization': 'Bearer ' + userService.getSid()
+      },
+      success: ({ data: result, statusCode }) => {
+        switch (statusCode) {
+          case 200:
+            wx.setStorageSync('myDeliverPageData', result);
+            console.log("myDeliverPageData:", wx.getStorageSync('myDeliverPageData'))
+            let myList = [];
+            for (let item of result.array) {
+              item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
+              let activity = new Activity(item);
+              myList.push(activity);
+            }
+            wx.setStorageSync('myDeliverList', myList);
+            this.setData({ deliverCount: wx.getStorageSync('myDeliverList').length })
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
+        }
+      },
+      fail: (e) => console.error(e)
+    });
+
+    // TODO：暂时只获取第一页，初期一般活动不超过12个，可以轻松获取到活动数目
+    let url2 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'applicant');
+    wx.request({
+      url: url2.toString(),
+      method: 'GET',
+      header: {
+        'Authorization': 'Bearer ' + userService.getSid()
+      },
+      success: ({ data: result, statusCode }) => {
+        switch (statusCode) {
+          case 200:
+            wx.setStorageSync('myEnrollPageData', result);
+            console.log("myEnrollPageData:", wx.getStorageSync('myEnrollPageData'))
+            let myList = [];
+            for (let item of result.array) {
+              item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
+              let activity = new Activity(item);
+              myList.push(activity);
+            }
+            wx.setStorageSync('myEnrollList', myList);
+            this.setData({ listenCount: wx.getStorageSync('myEnrollList').length })
+
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
+        }
+      },
+      fail: (e) => console.error(e)
+    });
+
+    // TODO：暂时只获取第一页，初期一般活动不超过12个，可以轻松获取到活动数目
+    let url3 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'participant');
+    wx.request({
+      url: url3.toString(),
+      method: 'GET',
+      header: {
+        'Authorization': 'Bearer ' + userService.getSid()
+      },
+      success: ({ data: result, statusCode }) => {
+        switch (statusCode) {
+          case 200:
+            wx.setStorageSync('myPartakePageData', result);
+            console.log("myPartakePageData:", wx.getStorageSync('myPartakePageData'))
+            let myList = [];
+            for (let item of result.array) {
+              item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
+              let activity = new Activity(item);
+              myList.push(activity);
+            }
+            wx.setStorageSync('myPartakeList', myList);
+            console.log("myPartakeList:", wx.getStorageSync('myPartakeList'))
+            this.setData({ partakeCount: wx.getStorageSync('myPartakeList').length })
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
+        }
+      },
+      fail: (e) => console.error(e)
+    });
+
+
+
   },
 
   toMyListen: function () {
