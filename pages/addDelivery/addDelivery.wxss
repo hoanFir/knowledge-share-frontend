@@ -1,0 +1,12 @@
+/* pages/addDelivery/addDelivery.wxss */
+.button-sp-area {
+  margin-top: 40rpx;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.button-sp-area button {
+  margin: 0rpx 5rpx;
+}

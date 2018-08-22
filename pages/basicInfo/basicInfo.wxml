@@ -1,0 +1,55 @@
+<!--pages/basicInfo/basicInfo.wxml-->
+<form class="info" bindsubmit="formSubmit" bindreset="formReset">
+
+  <view class="weui-cells weui-cells_after-title">
+
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+          <view class="weui-label">手机号</view>
+      </view>
+      <view class="weui-cell__bd">
+          <input bindinput='onPhoneChange' class="weui-input" placeholder="请输入手机号"/>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">职业</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker bindchange="bindIndustryAccountChange" value="{{accountIndexI}}" range="{{accounts_industry}}">
+                <view class="weui-select weui-select_in-select-after">{{accounts_industry[accountIndexI]}}</view>
+            </picker>
+        </view>
+    </view>
+
+    <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__hd weui-cell__hd_in-select-after">
+            <view class="weui-label">受教育水平</view>
+        </view>
+        <view class="weui-cell__bd">
+            <picker bindchange="bindEducationAccountChange" value="{{accountIndexE}}" range="{{accounts_education}}">
+                <view class="weui-select weui-select_in-select-after">{{accounts_education[accountIndexE]}}</view>
+            </picker>
+        </view>
+    </view>
+
+    <view class="weui-cell">
+        <view class="weui-cell__hd">
+            <view class="weui-label">个人简介</view>
+        </view>
+        <view class="weui-cell__bd">
+            <textarea bindinput='onIntroChange' class="weui-textarea" placeholder="请包括兴趣爱好" style="height: 3.3em" />
+            <view class="weui-textarea-counter">0/200</view>
+        </view>
+    </view>
+
+  </view>
+
+  <view class="weui-btn-area">
+      <button class="weui-btn" type="primary" bindtap="saveUpdate">保存修改</button>
+      <button formType="reset" class="resume" style='margin-top: 24rpx'>重新输入</button>
+      <button class="weui-btn" type="default" bindtap="toMoreInfo">个人高级资料(选填)</button>
+  </view>
+  
+</form>

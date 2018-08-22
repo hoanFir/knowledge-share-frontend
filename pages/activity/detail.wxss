@@ -1,0 +1,25 @@
+/* pages/activity/detail.wxss */
+
+.weui-cells_after-title {
+  margin: 0 auto;
+  width: 100%;
+  border-radius: 7px;
+  padding: 30rpx 20rpx;
+}
+
+/* 底部按钮 */
+.flex-wrp {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  height: 100rpx;
+  width: 100%;
+}
+
+.flex-item {
+  background: #40586d;
+  color: #fff;
+  text-align: center;
+  width: 50%;
+  border-radius: 0px;
+}

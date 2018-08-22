@@ -1,0 +1,62 @@
+<!--pages/detailForAuthor/detailForAuthor.wxml-->
+<view class="page">
+
+    <!-- 一个全屏模态对话框开始 -->
+  <view class="modal" style="{{modalShowStyle}}">
+    <view class="dialog">
+      <view class="modal-item" style="display:flex;justify-content:center;align-items:center;">
+        确定删除活动
+      </view>
+      <view class="modal-button" style="width:100%">
+        <view style="color:#7da4ff;border-right:1px solid #E5E7ED;" bindtap="onTapDelete">确定</view>
+        <view bindtap="touchCancel">取消</view>
+      </view>
+    </view>
+  </view>
+  <!-- 一个全屏模态对话框结束 -->
+
+  <view class="page__hd">
+      <view class="page__title">讲座主题</view>
+      <view class="page__desc">{{activityDetail.ksTitle}}</view>
+  </view>
+  
+  <view class='page__bd'>
+    <view class='weui-cells__title'>讲座时间</view>
+    <view class='weui-cells weui-cells_after-title'>{{activityDetail.ksStartTime}} - {{activityDetail.ksEndTime}}</view>
+    
+    <view class='weui-cells__title'>讲座地点</view>
+    <view class='weui-cells weui-cells_after-title'>{{activityDetail.ksBusiness.kbName}}</view>
+
+    <view class='weui-cells__title'>讲座摘要</view>
+    <view class='weui-cells weui-cells_after-title'>{{activityDetail.ksAbstract}}</view>
+  
+    <view class='weui-cells__title'>主讲人</view>
+    <view class='weui-cells weui-cells_after-title'>
+      <!-- TODO:加上头像 -->
+      <!-- <view>{{activityDetail.ksUser.kuHeadImgUrl}}</view> -->
+      <view>{{activityDetail.ksUser.kuName}}: {{activityDetail.ksUSer.kuIntro}}</view>
+    </view>
+
+    <view class='weui-cells__title'>主讲人联系方式</view>
+    <view class='weui-cells weui-cells_after-title'>
+      <view>{{activityDetail.ksUser.kuPhone}}</view>
+    </view>
+  
+    <view class='weui-cells__title'>当前预约人数</view>
+    <view class='weui-cells weui-cells_after-title'>
+      <view>{{activityDetail.ksEnrollNum}}/{{activityDetail.ksEnrollLimit}}</view>
+    </view>
+
+    <view class='weui-cells__title'>当前参讲人数，名额有限</view>
+    <view class='weui-cells weui-cells_after-title'>
+      <view>{{activityDetail.ksPartNum}}/{{activityDetail.ksPartLimit}}</view>
+    </view>
+
+  </view>
+
+  <view class="flex-wrp" style="flex-direction:row;">
+    <button class="flex-item" bindtap='touchDelete'>删除主题</button>
+    <button open-type='share' class="flex-item">分享</button>
+  </view>
+  
+</view>

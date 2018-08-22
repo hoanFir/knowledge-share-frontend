@@ -1,0 +1,64 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/activity/activity",
+    "pages/message/message",
+    "pages/other/other",
+    "pages/profile/profile",
+    "pages/userinfo/userinfo",
+    "pages/myDeliverList/myDeliverList",
+    "pages/myListenList/myListenList",
+    "pages/activity/detail",
+    "pages/detailForAuthor/detailForAuthor",
+    "pages/detailForEnroll/detailForEnroll",
+    "pages/detailForPartake/detailForPartake",
+    "pages/addDelivery/addDelivery",
+    "pages/basicInfo/basicInfo",
+    "pages/MoreInfo/MoreInfo"
+  ],
+  "window":{
+    "navigationBarBackgroundColor": "#40586d",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "微言",
+    "backgroundColor": "#f8f9fb",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#000000",
+    "borderStyle": "white",
+    "backgroundColor": "#f8f9fb",
+    "list": [
+      {
+        "text": "场次",
+        "pagePath": "pages/activity/activity",
+        "iconPath": "images/activity.png",
+        "selectedIconPath": "images/activity-actived.png"
+      },
+      {
+        "text": "消息",
+        "pagePath": "pages/message/message",
+        "iconPath": "images/message.png",
+        "selectedIconPath": "images/message-actived.png"
+      },
+      {
+        "text": "其他",
+        "pagePath": "pages/other/other",
+        "iconPath": "images/other.png",
+        "selectedIconPath": "images/other-actived.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/profile/profile",
+        "iconPath": "images/profile.png",
+        "selectedIconPath": "images/profile-actived.png"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 20000,
+    "downloadFile": 20000
+  }
+}

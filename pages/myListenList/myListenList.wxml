@@ -1,0 +1,7 @@
+<!--pages/myListenList/myListenList.wxml-->
+<view class="page">
+  <view class="page__hd">
+      <view class="page__title">暂未开放</view>
+      <view class="page__desc">提供我的听讲记录等功能，按时间排序、筛选</view>
+  </view>
+</view>

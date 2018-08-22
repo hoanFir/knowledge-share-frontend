@@ -1,0 +1,38 @@
+/* pages/profile/profile.wxss */
+.profile-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 300rpx;
+  background-color: #fbf9fe;
+  justify-content: center;
+}
+
+.header-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.header-nickname {
+  color: #40586d;
+  font-size: 30rpx;
+}
+
+.placeholder{
+    margin: 5px;
+    padding: 0 10px;
+    text-align: center;
+    background-color: #EBEBEB;
+    height: 2.3em;
+    line-height: 2.3em;
+}
