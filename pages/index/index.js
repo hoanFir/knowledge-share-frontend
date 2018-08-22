@@ -51,24 +51,29 @@ Page({
 
   },
 
-  // 点击头像时的操作
+  // 点击头像时的操作，open-type=getUserInfo
   getUserInfo: function(e) {
     
-    // 读取前面已经获取的用户信息
+    // 获取用户信息
     app.globalData.userInfo = e.detail.userInfo
-    // 存储到data的userInfo用于index.wxml的显示
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
+    if(app.globalData.userInfo) {
+      // 存储到data的userInfo用于index.wxml的显示
+      this.setData({
+        userInfo: e.detail.userInfo,
+        hasUserInfo: true
+      })
 
-    // 在此处顺便obtain sid
-    let userdata = this.data.userInfo;
-    let code = wx.getStorageSync('code');
-    userService.validate(code || '', userdata, () => {
-      console.log("fetchToken ends")
-    });
-
+      // 在此处顺便obtain sid
+      let userdata = this.data.userInfo;
+      let code = wx.getStorageSync('code');
+      userService.validate(code || '', userdata, () => {
+        console.log("fetchToken ends")
+      });
+    } else {
+      this.setData({
+        hasUserInfo: false,
+      })
+    }
   },
 
   handleStart: function () {

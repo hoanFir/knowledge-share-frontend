@@ -17,7 +17,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    ksId: null,
     activityDetail: null
   },
 
@@ -25,57 +24,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    // 获取对应活动的ksId
-    activityService.fetchAllActivitys((activityList) => {
-      
-      let activity = activityList[options.itemId];
-      console.log("获取到活动详情页面的ksId" + activity.ksId)
-
-      this.setData({ ksId: activity.ksId })
-    });
-
-
-    // 根据ksId获取主题详情
-    let url = new URL('http', serverAddr).path('subjects' + '/' + this.data.ksId);
-    wx.request({
-      url: url.toString(),
-      method: 'GET',
-      header: {
-        'Authorization': 'Bearer ' + userService.getSid(),
-        'content-type': 'application/json'
-      },
-      success: ({ data: result, statusCode }) => {
-        console.log("点击获取详情statuscode: " + statusCode)
-        console.log(result)
-
-        // TODO 状态码判断
-        switch (statusCode) {
-          case 200:
-            let activityDetail = new ActivityDetail(result)
-            // 时间戳转换
-            activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));
-            activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
-            // 获取到详情，存储到本地缓存
-            wx.setStorageSync('activityDetail', activityDetail);
-            // 存储到this.data.activityDetial里面，进行wxml的数据获取
-            this.setData({
-              activityDetail: wx.getStorageSync("activityDetail")
-            })
-            // 控制台输出详情数据
-            console.log("该主题详情", this.data.activityDetail)
-            break;
-          case StatusCode.FOUND_NOTHING:
-            console.warn('found nothing');
-            break;
-          case StatusCode.INVALID_SID:
-            console.error('invalid sid');
-            break;
-        }
-
-      },
-      fail: (e) => console.error(e)
-    });
+    this.setData({
+      activityDetail: wx.getStorageSync("activityDetail")
+    })
   },
 
   // 处理点击报名

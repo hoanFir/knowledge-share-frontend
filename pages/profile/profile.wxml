@@ -7,19 +7,18 @@
   </view>
 
   <view class="weui-flex">
-      <view class="weui-flex__item"><view class="placeholder" bindtap="toMyListen">我的听讲次数 {{listenCount}}</view></view>
-      <view class="weui-flex__item"><view class="placeholder" bindtap="toMyDeliver">我的主讲次数 {{deliverCount}}</view></view>
+      <view class="weui-flex__item"><view class="placeholder" bindtap="toMyListen">我的听讲 {{listenCount}}</view></view>
+      <view class="weui-flex__item"><view class="placeholder" bindtap="toMyDeliver">我的主讲 {{deliverCount}}</view></view>
+      <view class="weui-flex__item"><view class="placeholder" bindtap="toMyPartake">我的参讲 {{partakeCount}}</view></view>
   </view>
 
   <view class="page__hd">
-    <!-- TODO：需要判断活动列表的状态，最近安排为未结束的活动 -->
     <view class="page__title">最近安排</view>
+
     <view class='mySpeaker'>
       <view class="page__desc">我的主讲</view>
-      <!-- <view wx:if="{{活动列表中发起人id有我==true 或者我的发起活动列表>0的}}"> -->
-      <view wx:if="{{myDeliverNum}}">
 
-        <!-- TODO：我的主讲-活动列表，修改内容 -->
+      <view wx:if="{{myCurDeliverNum}}">
         <scroll-view scroll-y="true" class='activities'>
           <view class='activity' bindtap='showDetail' wx:key="activities"  wx:for="{{activityList}}" wx:for-index="idx" id='{{idx}}'>
               <view class="activity-header">
@@ -47,18 +46,18 @@
               </view>
           </view>
         </scroll-view>
-
       </view>
+
       <view wx:else>
         <view class="weui-flex__item"><view class="placeholder">暂无</view></view>
       </view>
+
     </view>
+
     <view class='myParticipation'>
       <view class="page__desc">我的参讲</view>
-      <!-- <view wx:if="{{活动列表中参与者id有我==true 或者我的参讲活动列表>0的}}"> -->
-      <view wx:if="{{myParticiptionNum}}">
 
-        <!-- TODO：我的参讲-活动列表，修改内容 -->
+      <view wx:if="{{myCurParticipationNum}}">
         <scroll-view scroll-y="true" class='activities'>
           <view class='activity' bindtap='showDetail' wx:key="activities"  wx:for="{{activityList}}" wx:for-index="idx" id='{{idx}}'>
               <view class="activity-header">
@@ -86,18 +85,18 @@
               </view>
           </view>
         </scroll-view>
-
       </view>
+
       <view wx:else>
         <view class="weui-flex__item"><view class="placeholder">暂无</view></view>
       </view>
+
     </view>
-        <view class='myEnrollment'>
+
+    <view class='myEnrollment'>
       <view class="page__desc">我的报名</view>
-      <!-- <view wx:if="{{活动列表中报名者id有我==true 或者我的报名活动列表>0的}}"> -->
-      <view wx:if="{{myenrollmentNum}}">
 
-        <!-- TODO：我的报名-活动列表，修改内容 -->
+      <view wx:if="{{myCurEnrollmentNum}}">
         <scroll-view scroll-y="true" class='activities'>
           <view class='activity' bindtap='showDetail' wx:key="activities"  wx:for="{{activityList}}" wx:for-index="idx" id='{{idx}}'>
               <view class="activity-header">
@@ -127,9 +126,12 @@
         </scroll-view>
 
       </view>
+
       <view wx:else>
         <view class="weui-flex__item"><view class="placeholder">暂无</view></view>
       </view>
+
     </view>
+    
   </view>
 </view>

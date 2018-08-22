@@ -119,18 +119,26 @@ Page({
 
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
 
-    // 使用解构赋值，将this.data中的addTime赋值给{ addTime }
-    // let { addTime } = this.data;
+    // 获取该活动的kpId
+    for (let item of wx.getStorageSync('activityDetail').participations) {
+      if (item.kuId == wx.getStorageSync('userDetail').kuId) {
+        this.setData({
+          kpId: item.kpId
+        })
+      }
+    }
 
+    // 使用解构赋值
+    // let { ksId, kpId } = this.data;
     // 下面的data是传给enrollmentActivity的参数
-    // let data = { addTime };
+    // let data = { ksId, kpId };
 
-    activityService.enrollActivity(this.data.ksId, (successed) => {
+    activityService.cancelPartakeActivity(this.data.ksId, this.data.kpId, (successed) => {
       if (successed) {
-        notify('报名成功');
+        notify('取消成功');
         wx.navigateBack();
       }
-      else notify('报名失败');
+      else notify('取消失败');
     });
 
   },

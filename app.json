@@ -9,6 +9,7 @@
     "pages/userinfo/userinfo",
     "pages/myDeliverList/myDeliverList",
     "pages/myListenList/myListenList",
+    "pages/myPartakeList/myPartakeList",    
     "pages/activity/detail",
     "pages/detailForAuthor/detailForAuthor",
     "pages/detailForEnroll/detailForEnroll",

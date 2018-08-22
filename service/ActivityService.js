@@ -127,15 +127,13 @@ class ActivityService {
   /**
    * 从服务器中拿取数据
    */
-  fetchAllActivitys(callback) {
+  fetchAllActivitys(pageNum, callback) {
     let activityList = wx.getStorageSync('activityList');
-
     // 如果本地缓存有数据
     if (activityList) callback(activityList);
     
     else {
-      // params = { 'page': 1, 'queryType':'browser'};
-      let url = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'browser');
+      let url = new URL('http', serverAddr).path('subjects').param('page', pageNum).param('queryType', 'browser');
       wx.request({
         url: url.toString(),
         method: 'GET',
@@ -143,13 +141,15 @@ class ActivityService {
           'Authorization': 'Bearer ' + userService.getSid()
         },
         success: ({ data: result, statusCode }) => {
-          console.log("ActivityService.js运行了", statusCode)
-          console.log("ActivityService.js运行了", result.array)
+          console.log("fetchAllActivitys方法运行了:", statusCode)
+          console.log(" fetchAllActivitys方法运行了:", result)
 
           // TODO 状态码判断
           switch (statusCode) {
             case 200:
-              console.debug(result.array);
+              // 缓存页面数据，包括arrSize、array、pageNum
+              wx.setStorageSync('pageData', result);
+
               let activityList = [];
               for (let item of result.array) {
                 // 转换时间戳
@@ -249,6 +249,58 @@ class ActivityService {
           callback(true);
         }
         else console.error('删除失败');
+      },
+      fail: (e) => console.error(e)
+    });
+  }
+
+  /**
+   * 点击取消报名
+   */
+  cancelEnrollActivity(ksId, keId, callback) {
+    console.log("活动Id", ksId)
+    console.log("参与用户Id", keId)
+
+    let url = new URL('http', serverAddr).path('subjects/' + ksId + '/enrollments/' + keId);
+    wx.request({
+      url: url.toString(),
+      method: 'DELETE',
+      header: {
+        'Authorization': 'Bearer ' + userService.getSid(),
+        'content-type': 'application/json',
+      },
+      success: (rep) => {
+        console.log("取消成功", rep)
+        if (rep.data) {
+          callback(true);
+        }
+        else console.error('取消失败');
+      },
+      fail: (e) => console.error(e)
+    });
+  }
+
+  /**
+  * 点击取消参讲
+  */
+  cancelEnrollActivity(ksId, kpId, callback) {
+    console.log("活动Id", ksId)
+    console.log("参讲用户Id", kpId)
+
+    let url = new URL('http', serverAddr).path('subjects/' + ksId + '/participations/' + kpId);
+    wx.request({
+      url: url.toString(),
+      method: 'DELETE',
+      header: {
+        'Authorization': 'Bearer ' + userService.getSid(),
+        'content-type': 'application/json',
+      },
+      success: (rep) => {
+        console.log("取消成功", rep)
+        if (rep.data) {
+          callback(true);
+        }
+        else console.error('取消失败');
       },
       fail: (e) => console.error(e)
     });

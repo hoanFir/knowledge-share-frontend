@@ -61,15 +61,24 @@
         <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
     </view>
 
+
     <view class="weui-tab__panel">
+        <!-- 最新瀑布流 -->
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-          
+
+          <!-- 暂无数据 -->
+          <view wx:if="{{activityList.length == 0}}" class='record_loadmore'>
+            <view class="weui-loadmore weui-loadmore_line">
+                <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无</view>
+            </view>
+          </view>
+
           <!-- activityList -->
           <scroll-view scroll-y="true" class='activities'>
             <view class='activity' bindtap='showDetail' wx:key="activities"  wx:for="{{activityList}}" wx:for-index="idx" id='{{idx}}'>
               	<view class="activity-header">
                   <view class="start">
-                    <image class="header-avatar" src="{{item.kuHeadImgUrl}}" background-size="cover" bindtap="getBasicInfo"></image>
+                    <image class="header-avatar" src="{{item.ksUser.kuHeadImgUrl}}" background-size="cover" bindtap="getBasicInfo"></image>
                     <text class="header-nickname">{{item.ksUser.kuName}}</text>
                   </view>
                   <view class="distance">
@@ -94,19 +103,30 @@
           </scroll-view>
         </view>
         
+        <!-- 最热瀑布流 -->
         <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-          <!-- activityList2 -->
-          <view class='activities'>
-            <view class='activity'></view>
-            <view class='activity'></view>
+        
+          <!-- 暂无数据 -->
+          <!-- <view wx:if="{{activityList.length == 0}}" class='record_loadmore'> -->
+          <view class='record_loadmore'>
+            <view class="weui-loadmore weui-loadmore_line">
+                <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无</view>
+            </view>
           </view>
+
         </view>
         
+        <!-- 最优瀑布流 -->
         <view class="weui-tab__content" hidden="{{activeIndex != 2}}">
-          <!-- activityList3 -->
-          <view class='activities'>
-            <view class='activity'></view>
+
+          <!-- 暂无数据 -->
+          <!-- <view wx:if="{{activityList.length == 0}}" class='record_loadmore'> -->
+          <view class='record_loadmore'>
+            <view class="weui-loadmore weui-loadmore_line">
+                <view class="weui-loadmore__tips weui-loadmore__tips_in-line">暂无</view>
+            </view>
           </view>
+          
         </view>
     </view>
   </view>

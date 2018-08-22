@@ -29,36 +29,36 @@ Page({
       userInfo: getApp().globalData.userInfo
     })
     
-    this.initData();
+    // 用户手动添加的信息
     console.log(wx.getStorageSync('userDetail'))
+    this.initData();
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    // 当修改信息后跳转回该userinfo页面时
-    this.initData();
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 重新请求新数据,不读取缓存中的数据
 
+    // 用户手动添加的信息
+    this.initData();
   },
 
   initData: function () {
 
-      // 用户手动添加的信息
-      var userDetail = wx.getStorageSync('userDetail');
-      if (!userDetail) {
+      // 用户手动添加的信息，这里的userDetail是在第一次登录时候获取缓存的
+    if (!wx.getStorageSync('userDetail')) {
         const notify = (content) => wx.showToast({ title: content, icon: 'none' });
         notify('获取用户信息失败');
       } else {
         this.setData({
-          userDetail: userDetail
+          userDetail: wx.getStorageSync('userDetail')
         })
       }
     

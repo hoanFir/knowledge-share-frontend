@@ -14,19 +14,6 @@ Page({
   // 当公司名称输入
   onCompanyChange(e) { this.setData({ kuCompany: e.detail.value }); },
 
-  // 当工作职位输入
-  // onCareerChange(e) { this.setData({ kuCareer: e.detail.value }); },
-
-  // 当工作经历输入
-  // onIntroChange(e) {
-  //   const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-  //   var maxChars = 200;
-  //   if (e.detail.value.length > maxChars) notify("字数不能超过200字")
-  //   else {
-  //     this.setData({ kuExperience: e.detail.value });
-  //   }
-  // },
-
   // 保存修改
   saveUpdate() {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
@@ -36,16 +23,12 @@ Page({
     kuId = wx.getStorageSync('userDetail').kuId;
 
     if (!kuCompany) notify('请输入单位名称');
-    // if (!kuCareer) notify('请输入职位');
-    // if (!kuCompany) notify('请输入单位名称');
-
     else {
       let data = { kuId, kuCompany };
-
       userService.updateMoreInfo(data, (successed) => {
         if (successed) {
           notify('保存成功');
-          wx.navigateBack();
+          wx.navigateBack(2);
         }
         else notify('保存失败');
       });

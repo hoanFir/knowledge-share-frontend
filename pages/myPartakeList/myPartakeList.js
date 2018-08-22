@@ -1,53 +1,18 @@
-// pages/profile/profile.js
-
+// pages/myPartakeList/myPartakeList.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    // 微信用户信息
-    userInfo: {},
-
-    // 参讲次数、听讲次数和主讲次数
-    partakeCount: 0,
-    listenCount: 0,
-    deliverCount: 0
+  
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
-    console.log(getApp().globalData)
-    this.setData({
-      userInfo: getApp().globalData.userInfo
-    })
-  },
-
-  toMyListen: function () {
-    wx.navigateTo({
-      url: '../myListenList/myListenList'
-    })
-  },
-
-  toMyDeliver: function () {
-    wx.navigateTo({
-      url: '../myDeliverList/myDeliverList'
-    })
-  },
-
-  toMyPartake: function () {
-    wx.navigateTo({
-      url: '../myPartakeList/myPartakeList'
-    })
-  },
-
-  // 点击头像getbasicinfo
-  getBasicInfo: function () {
-    wx.navigateTo({
-      url: '../userinfo/userinfo'
-    })
+  onLoad: function (options) {
+  
   },
 
   /**

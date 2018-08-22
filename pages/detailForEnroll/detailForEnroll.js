@@ -69,8 +69,6 @@ Page({
       this.setData({ ksId: activity.ksId })
     });
 
-    // TODO: 获取该活动的kpid
-
     // 根据ksId获取主题详情
     let url = new URL('http', serverAddr).path('subjects' + '/' + this.data.ksId);
     wx.request({
@@ -113,17 +111,31 @@ Page({
     });
   },
 
-  // 处理点击报名
+  // 处理点击取消报名
   onTapCancelEnrollment: function () {
 
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
 
-    activityService.enrollActivity(this.data.ksId, (successed) => {
+    // 获取该活动的keId
+    for (let item of wx.getStorageSync('activityDetail').enrollments) {
+      if (item.kuId == wx.getStorageSync('userDetail').kuId) {
+        this.setData({
+          keId: item.keId
+        })
+      }
+    }
+
+    // 使用解构赋值
+    // let { ksId, keId } = this.data;
+    // 下面的data是传给enrollmentActivity的参数
+    // let data = { ksId, keId };
+
+    activityService.cancelEnrollActivity(this.data.ksId, this.data.keId, (successed) => {
       if (successed) {
-        notify('报名成功');
+        notify('取消成功');
         wx.navigateBack();
       }
-      else notify('报名失败');
+      else notify('取消失败');
     });
 
   },

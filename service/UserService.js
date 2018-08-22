@@ -11,9 +11,9 @@ class UserService {
    */
   validate(code, userdata, callback) {
     // 参数code是在index.wxml中传过来的
-    console.log("code for validate:" + code)
+    console.log("code for validate方法:" + code)
     // 参数userdata是在index.wxml中获取的用户信息并传过来
-    console.log("userInfo for validate:" + userdata.nickName)
+    console.log("userInfo for validate方法:" + userdata)
 
     let url = new URL('http', serverAddr).path('tokens/'+code);
     wx.request({
@@ -29,13 +29,13 @@ class UserService {
         "nickName": userdata.nickName,
         "province": userdata.province
       },
-      success: (rep) => {
-        console.log(rep)
-        console.log("sid&token: " + rep.data.token)
+      success: ({ data: result, statusCode }) => {
+        console.log("validate方法运行后", statusCode)
+        console.log("sid&token: " + result.token)
         
-        if (rep.data.token) {
-          wx.setStorageSync('sid', rep.data.token);
-          wx.setStorageSync('userDetail', rep.data.user)
+        if (result.token) {
+          wx.setStorageSync('sid', result.token);
+          wx.setStorageSync('userDetail', result.user)
           callback();
         }
         else console.error('failed to fetch sid');
@@ -71,8 +71,8 @@ class UserService {
         kuIntro: data.kuIntro,
       },
       success: (res) => {
-        // TODO: 更新本地缓存
-        console.log("修改信息成功", res.data);
+        console.log("修改信息成功", res);
+        wx.setStorageSync('userDetail', res.data.user)
         callback(true);
       },
       fail: (e) => {
@@ -99,8 +99,8 @@ class UserService {
         kuCompany: data.kuCompany
       },
       success: (res) => {
-        // TODO: 更新本地缓存
-        console.log("修改信息成功", res.data);
+        console.log("修改信息成功", res);
+        wx.setStorageSync('userDetail', res.data.user)
         callback(true);
       },
       fail: (e) => {

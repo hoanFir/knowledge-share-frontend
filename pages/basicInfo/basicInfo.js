@@ -73,14 +73,11 @@ Page({
     kuId = wx.getStorageSync('userDetail').kuId;
     console.log("用户kuId: ", kuId)
 
-    if (!kuIntro) notify('请输入个人简介');
-    if (!kuEducation) notify('请选择受教育水平');
-    if (!kuIndustry) notify('请选择职业');
+    // if (!kuEducation) notify('请选择受教育水平');
+    // if (!kuIndustry) notify('请选择职业');
     if (!kuPhone) notify('请输入手机号');
-
     else {
       let data = { kuId, kuEducation, kuIndustry, kuIntro, kuPhone };
-
       userService.updateBasicInfo(data, (successed) => {
         if (successed) {
           notify('保存成功');

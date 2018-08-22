@@ -14,6 +14,7 @@
   height: 300rpx;
   background-color: #fbf9fe;
   justify-content: center;
+  margin-bottom: 5px;
 }
 
 .header-avatar {
@@ -29,10 +30,18 @@
 }
 
 .placeholder{
-    margin: 5px;
-    padding: 0 10px;
-    text-align: center;
-    background-color: #EBEBEB;
-    height: 2.3em;
-    line-height: 2.3em;
+  color: white;
+  margin: 0 5px;
+  padding: 0 8px;
+  text-align: center;
+  background-color: #40586d;
+  height: 2.3em;
+  line-height: 2.3em;
+
+  border-radius:3px;
+  box-shadow: 0 5px 4px -4px gray;
+}
+
+.mySpeaker .myParticipation .myEnrollment {
+  margin-bottom: 20px;
 }
