@@ -89,8 +89,20 @@
     </view>
   </view>
 
+  <!-- 参讲人列表 -->
+  <view wx:if="{{activityDetail.ksPartNum}}" wx:key="participations" wx:for="{{activityDetail.participations}}" wx:for-index="idx" id='{{idx}}'>
+    <view url="" class="weui-cell weui-cell_access">
+      <view class="weui-cell__hd"><image src="{{item.ksUser.kuHeadImgUrl}}" style="width: 20px;height: 20px;margin-right: 5px;border-radius: 50%" /></view>
+      <view class="weui-cell__bd weui-cell_primary">
+        <view>{{item.ksUser.kuName}}</view>
+      </view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+
   <view class="flex-wrp" style="flex-direction:row;">
     <button class="flex-item" bindtap='touchDelete'>删除主题</button>
-    <button open-type='share' class="flex-item">分享</button>
+    <!-- <button open-type='share' class="flex-item">分享</button> -->
+    <button class="flex-item" bindtap='touchUpdate'>修改主题</button>
   </view>
 </view>

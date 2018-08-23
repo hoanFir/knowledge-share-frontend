@@ -1,0 +1,25 @@
+/* pages/endedActivity/endedActivity.wxss */
+.page {
+  padding-bottom: 50px;
+}
+
+.page__hd {
+  box-shadow: 0 .05em .25em rgba(0,0,0,.5);
+}
+
+/* 底部按钮 */
+.flex-wrp {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  height: 100rpx;
+  width: 100%;
+}
+
+.flex-item {
+  /* background: #40586d;
+  color: #fff; */
+  text-align: center;
+  width: 100%;
+  border-radius: 0px;
+}

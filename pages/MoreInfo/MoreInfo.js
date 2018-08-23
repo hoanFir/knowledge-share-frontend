@@ -22,19 +22,22 @@ Page({
     let { kuId, kuCompany } = this.data;
     kuId = wx.getStorageSync('userDetail').kuId;
 
-    if (!kuCompany) notify('请输入单位名称');
-    else {
-      let data = { kuId, kuCompany };
-      userService.updateMoreInfo(data, (successed) => {
-        if (successed) {
-          notify('保存成功');
-          wx.navigateTo({
-            url: '../userinfo/userinfo'
-          })
-        }
-        else notify('保存失败');
-      });
+    // 如果未作修改
+    if (!kuCompany) {
+      this.data.kuCompany = wx.getStorageSync('userDetail').kuCompany
     }
+    
+    let data = { kuId, kuCompany };
+    userService.updateMoreInfo(data, (successed) => {
+      if (successed) {
+        notify('保存成功');
+        wx.navigateTo({
+          url: '../userinfo/userinfo'
+        })
+      }
+      else notify('保存失败');
+    });
+
   },
 
   /**

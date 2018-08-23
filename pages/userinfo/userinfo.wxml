@@ -14,7 +14,7 @@
           <view class=' flex msg-info-company flex-msg-info'>
             <image class='company-image icon-12px' src="../../images/industry.png" mode='aspectFit' />
             <text class="company-text text-info">行业&职业</text>
-            <text class="company-text text-info">{{userDetail.kuIndustry}}</text>
+            <text class="company-text text-info">{{userDetail.kuIndustry.kddDataName}}</text>
           </view>
           <view class='msg-info-location flex-msg-info'>
             <image class='location-image icon-12px' src="../../images/hobby.png" mode='aspectFit' />
@@ -29,7 +29,7 @@
           <view class='msg-info-link flex-msg-info'>
             <image class='link-image icon-12px' src="../../images/education.png" mode='aspectFit' />
             <text class="link-text text-info">受教育水平</text>
-            <text class="link-text text-info">{{userDetail.kuEducation}}</text>
+            <text class="link-text text-info">{{userDetail.kuEducation.kddDataName}}</text>
           </view>
         </view>
       </view>

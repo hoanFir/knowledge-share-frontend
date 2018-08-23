@@ -18,7 +18,9 @@
     "pages/basicInfo/basicInfo",
     "pages/MoreInfo/MoreInfo",
     "pages/UserCenter/UserCenter",
-    "pages/activityProfile/activityProfile"
+    "pages/activityProfile/activityProfile",
+    "pages/updateActivity/updateActivity",
+    "pages/endedActivity/endedActivity"
   ],
   "window":{
     "navigationBarBackgroundColor": "#40586d",

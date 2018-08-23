@@ -1,4 +1,4 @@
-<!--pages/addDelivery/addDelivery.wxml-->
+<!--pages/updateActivity/updateActivity.wxml-->
 <view class='pageHere'>
   <form class="info" bindsubmit="formSubmit" bindreset="formReset">
 
@@ -9,7 +9,7 @@
           <view class="weui-label">讲座标题</view>
         </view>
         <view class="weui-cell__bd">
-          <input bindinput='onTitleChange' class="weui-input" placeholder="请输入标题,如: 微积分分享"/>
+          <input bindinput='onTitleChange' class="weui-input" placeholder="{{oldActivityDetail.ksTitle}}"/>
         </view>
       </view>
 
@@ -18,7 +18,7 @@
           <view class="weui-label">讲座摘要</view>
         </view>
         <view class="weui-cell__bd">
-          <textarea bindinput='onAbstractChange' class="weui-textarea" placeholder="与讲座相关的个人简介" style="height: 3.3em" />
+          <textarea bindinput='onAbstractChange' class="weui-textarea" placeholder="{{oldActivityDetail.ksAbstract}}" style="height: 3.3em" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
       </view>
@@ -28,7 +28,7 @@
           <view class="weui-label">讲座内容</view>
         </view>
         <view class="weui-cell__bd">
-          <textarea bindinput='onContentChange' class="weui-textarea" placeholder="请输入讲座内容" style="height: 3.3em" />
+          <textarea bindinput='onContentChange' class="weui-textarea" placeholder="{{oldActivityDetail.ksContent}}" style="height: 3.3em" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
       </view>
@@ -93,7 +93,7 @@
           <view class="weui-label">最多人数</view>
         </view>
         <view class="weui-cell__bd">
-          <input bindinput='onEnrollLimitMaxChange' class="weui-input" placeholder="如: 30人"/>
+          <input bindinput='onEnrollLimitMaxChange' class="weui-input" placeholder="{{oldActivityDetail.ksEnrollLimit}}"/>
         </view>
       </view>
 
@@ -102,7 +102,7 @@
           <view class="weui-label">最少人数</view>
         </view>
         <view class="weui-cell__bd">
-          <input bindinput='onEnrollLimitMinChange' class="weui-input" placeholder="如: 10人"/>
+          <input bindinput='onEnrollLimitMinChange' class="weui-input" placeholder="{{oldActivityDetail.ksEnrollMinLimit}}"/>
         </view>
       </view>
 
@@ -111,7 +111,7 @@
           <view class="weui-label">允许合讲人数</view>
         </view>
         <view class="weui-cell__bd">
-          <input bindinput='onPartLimitChange' class="weui-input" placeholder="如: 3人"/>
+          <input bindinput='onPartLimitChange' class="weui-input" placeholder="{{oldActivityDetail.ksPartLimit}}"/>
         </view>
       </view>
 
@@ -126,9 +126,9 @@
     </view>
     
     <view class='button-sp-area'>
-      <button class="weui-btn mini-btn" type="primary" size="mini" bindtap="onTapSure">确认发起</button>
+      <button class="weui-btn mini-btn" type="primary" size="mini" bindtap="onTapSure">确认修改</button>
       <button class="weui-btn mini-btn" form-type='reset' class='resume' size="mini">重置内容</button>
-      <button class="weui-btn mini-btn" type="normal" size="mini" bindtap="onTapCancel">取消发起</button>
+      <button class="weui-btn mini-btn" type="normal" size="mini" bindtap="onTapCancel">取消发起</button>      
     </view>
 
   </form>

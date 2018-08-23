@@ -1,4 +1,4 @@
-/* pages/addDelivery/addDelivery.wxss */
+/* pages/updateActivity/updateActivity.wxss */
 .pageHere {
   padding-bottom: 50px;
 }

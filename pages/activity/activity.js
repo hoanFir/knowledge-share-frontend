@@ -185,11 +185,6 @@ Page({
 
     // 需要先在此发起请求获取讲座详情，才能判断用户是否报名者、发起者、参讲者
     // 获取对应讲座的ksId
-    // activityService.fetchAllActivitys(this.pageNum, (activityList) => {
-    //   let activity = activityList[event.currentTarget.id];
-    //   console.log("获取到讲座详情页面的ksId" + activity.ksId)
-    //   this.setData({ ksId: activity.ksId })
-    // });
     let activity = this.data.activityList[event.currentTarget.id];
     console.log("获取到讲座详情页面的ksId" + activity.ksId)
     this.setData({ ksId: activity.ksId })
@@ -232,6 +227,13 @@ Page({
             } else {
               wx.navigateTo({ url: '../detailForPartake/detailForPartake' });
             }
+
+            // TODO：判断是否已经结束，进入已结束状态的页面
+            // let isEnded = false
+            if (wx.getStorageSync('activityDetail').isEnded) {
+              wx.navigateTo({ url: '../endedActivity/endedActivity' });
+            }
+
             break;
           case StatusCode.FOUND_NOTHING:
             console.warn('found nothing');

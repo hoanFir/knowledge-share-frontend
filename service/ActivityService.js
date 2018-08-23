@@ -111,22 +111,55 @@ class ActivityService {
    * 更新讲座
    */
   updateActivity(data, callback) {
-    let url = new URL('http', serverAddr).path('view/activity/updateActivity').param(data).param('sid', sid);
+    let url = new URL('http', serverAddr).path('subjects/' + data.ksId);
     wx.request({
       url: url.toString(),
-      method: 'GET',
-      success: ({ data: result }) => {
+      method: 'PUT',
+      header: {
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
+        'content-type': 'application/json',
+      },
+      data: {
+        kbId: data.kbId,
+        ksAbstract: data.ksAbstract,
+        ksContent: data.ksContent,
+        ksEndTime: data.ksEndTime,
+        ksEnrollLimit: data.ksEnrollLimit,
+        ksEnrollMinLimit: data.ksEnrollMinLimit,
+        ksPartLimit: data.ksPartLimit,
+        ksRemark: data.ksRemark,
+        ksStartTime: data.ksStartTime,
+        ksTitle: data.ksTitle,
+        ksType: data.ksType
+      },
+      success: ({ data: result, statusCode }) => {
+        console.log("修改主题运行了", StatusCode)
         console.log(result);
-        // 更新本地缓存
-        let activity = new Activity(result.data);
-        activity.picPath = getPicPath(activity.picName);
-        let activityList = wx.getStorageSync('activityList');
-        for (let index = 0; index < activityList.length; index++) {
-          if (activityList[index].id == activity.id) activityList[index] = activity;
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            let activityDetail = new ActivityDetail(result)
+            // 时间戳转换
+            activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));
+            activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
+            // 获取详情，存储到本地缓存
+            wx.setStorageSync('activityDetail', activityDetail);
+            // 获取主题类型ksType，存储到本地缓存
+            wx.setStorageSync('activityType', activityDetail.ksType);
+
+            // 控制台输出详情数据
+            console.log("修改主题之后的详情", wx.getStorageSync("activityDetail"))
+            callback(true);
+
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
         }
-        wx.setStorageSync('activityList', activityList);
-        
-        callback(true);
       },
       fail: (e) => {
         console.error(e);
@@ -390,6 +423,7 @@ class ActivityService {
         method: 'GET',
         success: ({ data: result }) => {
           console.log("获取职业", result);
+          
           wx.setStorageSync('IndustryMap', result.ksDictDataMap);
           console.log("获取职业Map", result.ksDictDataMap);
           callback(result.ksDictDataMap);

@@ -72,17 +72,29 @@ Page({
     kuId = wx.getStorageSync('userDetail').kuId;
     console.log("用户kuId: ", kuId)
 
-    if (!kuPhone) notify('请输入手机号');
-    else {
-      let data = { kuId, kuEducation, kuIndustry, kuIntro, kuPhone };
-      userService.updateBasicInfo(data, (successed) => {
-        if (successed) {
-          notify('保存成功');
-          wx.navigateBack();
-        }
-        else notify('保存失败');
-      });
+    // 如果未作修改
+    if (!kuPhone) {
+      this.data.kuPhone = wx.getStorageSync('userDetail').kuPhone
     }
+    if (!kuIndustry) {
+      this.data.kuIndustry = wx.getStorageSync('userDetail').kuIndustry.kddDataValue
+    }
+    if (!kuEducation) {
+      this.data.kuEducation = wx.getStorageSync('userDetail').kuEducation.kddDataValue
+    }
+    if (!kuIntro) {
+      this.data.kuIntro = wx.getStorageSync('userDetail').kuIntro
+    }
+
+    let data = { kuId, kuEducation, kuIndustry, kuIntro, kuPhone };
+    userService.updateBasicInfo(data, (successed) => {
+      if (successed) {
+        notify('保存成功');
+        wx.navigateBack();
+      }
+      else notify('保存失败');
+    });
+    
   },
 
   /**

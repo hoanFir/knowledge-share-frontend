@@ -56,7 +56,6 @@ Page({
     // 获取用户信息
     app.globalData.userInfo = e.detail.userInfo
     if(app.globalData.userInfo) {
-      // 存储到data的userInfo用于index.wxml的显示
       this.setData({
         userInfo: e.detail.userInfo,
         hasUserInfo: true

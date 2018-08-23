@@ -1,4 +1,4 @@
-// pages/addDelivery/addDelivery.js
+// pages/updateActivity/updateActivity.js
 import activityService from '../../service/ActivityService';
 const util = require('../../utils/util.js')
 
@@ -8,6 +8,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 原主题详情
+    oldActivityDetail: null,
+
     // 可选商家列表
     accounts_industry: [],
     accountIndexI: 0,
@@ -28,23 +31,18 @@ Page({
     text: '',
 
     // post的参数，即需要填写的讲座信息
-    kbId: 0,  // 商家id
-    ksAbstract: null,
-    ksAudit: true,  // 讲座审核
-    ksConfirm: true,  // 商家确认，暂时为true
-    ksContent: null,
-    ksDeleted: false,  // 讲座删除标志
+    ksId: 0,  // 讲座Id
+    kbId: 0,
+    ksAbstract: "",
+    ksContent: "",
     ksEndTime: "2018-08-01T14:00",
     ksEnrollLimit: 0,
     ksEnrollMinLimit: 0,
-    ksEnrollNum: 0, // 讲座报名人数
-    ksId: 0,  // 讲座Id，由后台生成
     ksPartLimit: 0,
-    ksPartNum: 0, // 讲座合讲人数
     ksRemark: "",
     ksStartTime: "2018-08-01T12:00",
-    ksTitle: null,
-    ksType: 0,  // 讲座类型
+    ksTitle: "",
+    ksType: 0,
   },
 
   // 当讲座标题输入
@@ -145,38 +143,106 @@ Page({
     }
   },
 
-  // 点击确认发起讲座
+  // 点击确认修改讲座
   onTapSure() {
+
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    
+    // 如果未作修改
+    if (this.data.ksTitle == "") {
+      console.log(this.data.oldActivityDetail.ksTitle)
+      this.setData({
+        ksTitle: this.data.oldActivityDetail.ksTitle
+      })
+      console.log(this.data.ksTitle)
+    }
+    if (this.data.ksAbstract == "") {
+      this.setData({
+        ksAbstract: this.data.oldActivityDetail.ksAbstract
+      })
+    }
+    if (this.data.ksContent == "") {
+      this.setData({
+        ksContent: this.data.oldActivityDetail.ksContent
+      })
+    }
+    if (this.data.ksType == 0) {
+      this.setData({
+        ksType: this.data.oldActivityDetail.ksType.kddDataValue
+      })
+    }
+    if (this.data.ksStartTime == "2018-08-01T12:00") {
+      // 将2018-08-01 12:00改成2018-08-01T12:00
+      let temp6 = this.data.oldActivityDetail.ksStartTime.substring(0, this.data.oldActivityDetail.ksStartTime.length - 6)
+      let temp7 = this.data.oldActivityDetail.ksStartTime.substring(11, this.data.oldActivityDetail.ksStartTime.length)
+      this.setData({
+        ksStartTime: temp6 + 'T' + temp7
+      })
+      console.log("修改后的开始时间", this.data.ksStartTime)      
+    }
+    if (this.data.ksEndTime == "2018-08-01T14:00") {
+      // 将2018-08-01 12:00改成2018-08-01T12:00
+      let temp8 = this.data.oldActivityDetail.ksEndTime.substring(0, this.data.oldActivityDetail.ksEndTime.length - 6)
+      let temp9 = this.data.oldActivityDetail.ksEndTime.substring(11, this.data.oldActivityDetail.ksEndTime.length)
+      this.setData({
+        ksEndTime: temp8 + 'T' + temp9
+      })
+      console.log("修改后的结束时间", this.data.ksEndTime)
+    }
+    if (this.data.ksEnrollLimit == 0) {
+      this.setData({
+        ksEnrollLimit: this.data.oldActivityDetail.ksEnrollLimit
+      })
+    }
+    if (this.data.ksEnrollMinLimit == 0) {
+      this.setData({
+        ksEnrollLimit: this.data.oldActivityDetail.ksEnrollMinLimit
+      })
+    }
+    if (this.data.ksPartLimit == 0) {
+      this.setData({
+        ksPartLimit: this.data.oldActivityDetail.ksPartLimit
+      })
+    }
+    if (this.data.ksRemark == "") {
+      this.setData({
+        ksRemark: this.data.oldActivityDetail.ksRemark
+      })
+    }
+    if (this.data.kbId == this.data.oldActivityDetail.kbId) {
+      this.setData({
+        kbId: this.data.oldActivityDetail.kbId
+      })
+    }
 
     // 使用解构赋值
-    let { kbId, ksTitle, ksAbstract, ksAudit, ksConfirm, ksContent, ksDeleted, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksEnrollNum, ksId, ksPartLimit, ksPartNum, ksRemark, ksStartTime, ksType} = this.data;
+    let { ksId, kbId, ksTitle, ksAbstract, ksContent, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksPartLimit, ksRemark, ksStartTime, ksType } = this.data;
 
-    if (!ksEnrollMinLimit) notify('请输入最少参与人数');
-    if (!ksEnrollLimit) notify('请输入最多参与人数');
-    if (!ksAbstract) notify('请输入讲座内容');
-    if (!ksTitle) notify('请输入讲座主题');
+    let data = { ksId, kbId, ksTitle, ksAbstract, ksContent, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksPartLimit, ksRemark, ksStartTime, ksType };
 
-    else {
-      // Map用于选择内容的抽取
-      // let strain = this.strainMap[strainIndex].key;
-
-      let data = { kbId, ksTitle, ksAbstract, ksAudit, ksConfirm, ksContent, ksDeleted, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksEnrollNum, ksId, ksPartLimit, ksPartNum, ksRemark, ksStartTime, ksType };
-      
-      activityService.addActivity(data, (successed) => {
-        if (successed) {
-          notify('发起成功');
-          wx.navigateBack();
-        }
-        else notify('发起失败');
-      });
-    }
+    activityService.updateActivity(data, (successed) => {
+      if (successed) {
+        notify('修改成功');
+        wx.navigateTo({ url: '../detailForAuthor/detailForAuthor' });                
+      }
+      else notify('修改失败');
+    });
+    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      ksId: wx.getStorageSync('activityDetail').ksId
+    })
+
+    // 获取原主题详情
+    this.setData({
+      oldActivityDetail: wx.getStorageSync('activityDetail')
+    })
+    console.log("原主题详情", this.data.oldActivityDetail)
 
     // 获取商家列表
     activityService.getBusinessMap(this.setIndustry);
@@ -224,13 +290,13 @@ Page({
   },
 
   // 重置内容
-  formReset: function() {
+  formReset: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     notify("重置成功");
   },
 
   // 点击取消发起
-  onTapCancel: function() {
+  onTapCancel: function () {
     wx.navigateBack();
   },
 
@@ -238,6 +304,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

@@ -41,6 +41,20 @@ Page({
     this.hideModal();
   }, 
 
+  // 点击修改主题
+  touchUpdate: function () {
+    wx.navigateTo({ url: '../updateActivity/updateActivity' });
+
+    // const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    // activityService.updateActivity(data, (successed) => {
+    //   if (successed) {
+    //     notify('修改成功');
+    //     wx.navigateBack();
+    //   }
+    //   else notify('修改失败');
+    // });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -99,6 +113,13 @@ Page({
   toActivityProfile: function(event) {
     console.log(event)
     wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });    
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    this.data.activityDetail = wx.getStorageSync('activityDetail')
   },
 
   /**
