@@ -8,9 +8,7 @@ const util = require('../../utils/util.js')
 import config from '../../config';
 const serverAddr = config.serverAddr;
 import URL from '../../utils/URL';
-import StatusCode from '../../model/StatusCode';
 import ActivityDetail from '../../model/ActivityDetail';
-
 
 Page({
   /**
@@ -23,6 +21,9 @@ Page({
 
     // 点击取消参讲
     modalShowStyle: "",
+
+    // 讲座类型
+    ksType: null,
   },
 
   // 点击取消参讲
@@ -45,7 +46,8 @@ Page({
 
     this.setData({
       activityDetail: wx.getStorageSync("activityDetail"),
-      ksId: wx.getStorageSync("activityDetail").ksId
+      ksId: wx.getStorageSync("activityDetail").ksId,
+      ksType: wx.getStorageSync("activityType").kddDataName
     })
 
     // 实现转发
@@ -72,7 +74,7 @@ Page({
 
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
 
-    // 获取该活动的kpId
+    // 获取该讲座的kpId
     for (let item of wx.getStorageSync('activityDetail').participations) {
       if (item.kuId == wx.getStorageSync('userDetail').kuId) {
         this.setData({
@@ -93,48 +95,6 @@ Page({
       }
       else notify('取消失败');
     });
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
 
   },
 

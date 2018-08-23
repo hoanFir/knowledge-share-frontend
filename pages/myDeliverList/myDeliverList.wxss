@@ -1,10 +1,14 @@
 /* pages/myDeliverList/myDeliverList.wxss */
+.page {
+    text-align: center;
+}
+
 /* activityList */
 .activities {
   background: #f9f9f9;
   /* padding: 30rpx 30rpx 0 30rpx; */
 }
-.activity { 
+.activity {
   margin-bottom: 30rpx;
   background: #fff;padding: 0 60rpx;
   height: 440rpx;

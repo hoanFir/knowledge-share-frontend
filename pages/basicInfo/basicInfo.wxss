@@ -1,1 +1,6 @@
 /* pages/basicInfo/basicInfo.wxss */
+
+.industry {
+  overflow: hidden;
+}
+    

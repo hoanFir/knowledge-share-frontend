@@ -10,3 +10,7 @@
 .button-sp-area button {
   margin: 0rpx 5rpx;
 }
+
+.industry {
+  overflow: hidden;
+}

@@ -8,7 +8,6 @@ const util = require('../../utils/util.js')
 import config from '../../config';
 const serverAddr = config.serverAddr;
 import URL from '../../utils/URL';
-import StatusCode from '../../model/StatusCode';
 import ActivityDetail from '../../model/ActivityDetail';
 
 Page({
@@ -21,6 +20,12 @@ Page({
 
     // 点击删除主题
     modalShowStyle: "",
+
+    // ksRemark设备提供
+    ksRemark: "",
+
+    // 讲座类型
+    ksType: null
   },
 
   // 点击删除主题
@@ -43,7 +48,17 @@ Page({
 
     this.setData({
       activityDetail: wx.getStorageSync("activityDetail"),
-      ksId: wx.getStorageSync("activityDetail").ksId
+      ksId: wx.getStorageSync("activityDetail").ksId,
+      ksType: wx.getStorageSync("activityType").kddDataName
+    })
+
+    // 去掉ksRemark最后一个逗号
+    let temp = ""
+    temp = wx.getStorageSync("activityDetail").ksRemark
+    console.log("备注", temp)
+    temp = temp.substring(0, temp.length-1)
+    this.setData({
+      ksRemark: temp
     })
 
     // 实现转发
@@ -80,46 +95,10 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+  // 点击头像跳转到个人页面
+  toActivityProfile: function(event) {
+    console.log(event)
+    wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });    
   },
 
   /**

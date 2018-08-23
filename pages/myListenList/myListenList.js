@@ -24,7 +24,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // 活动列表
+    // 讲座列表
     myEnrollList: null,
     // 点击页面详情
     ksId: null
@@ -46,6 +46,8 @@ Page({
           'Authorization': 'Bearer ' + userService.getSid()
         },
         success: ({ data: result, statusCode }) => {
+          console.log("加载我的听讲:", statusCode)
+
           // TODO 状态码判断
           switch (statusCode) {
             case 200:
@@ -99,6 +101,8 @@ Page({
         'Authorization': 'Bearer ' + userService.getSid()
       },
       success: ({ data: result, statusCode }) => {
+        console.log("加载我的主讲:", statusCode)
+        
         // TODO 状态码判断
         switch (statusCode) {
           case 200:
@@ -134,9 +138,9 @@ Page({
 
   // 点击查看详情
   showDetail(event) {
-    // 获取活动Id：ksid
+    // 获取讲座Id：ksid
     let activity = this.data.myEnrollList[event.currentTarget.id];
-    console.log("获取到活动详情页面的ksId" + activity.ksId)
+    console.log("获取到讲座详情页面的ksId" + activity.ksId)
     this.setData({ ksId: activity.ksId })
 
     // 根据ksId获取主题详情
@@ -190,27 +194,6 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
@@ -231,6 +214,8 @@ Page({
           'Authorization': 'Bearer ' + userService.getSid()
         },
         success: ({ data: result, statusCode }) => {
+          console.log("触底刷新运行了:", statusCode)
+          
           switch (statusCode) {
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum

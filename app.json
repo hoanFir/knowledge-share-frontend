@@ -9,14 +9,16 @@
     "pages/userinfo/userinfo",
     "pages/myDeliverList/myDeliverList",
     "pages/myListenList/myListenList",
-    "pages/myPartakeList/myPartakeList",    
+    "pages/myPartakeList/myPartakeList",
     "pages/activity/detail",
     "pages/detailForAuthor/detailForAuthor",
     "pages/detailForEnroll/detailForEnroll",
     "pages/detailForPartake/detailForPartake",
     "pages/addDelivery/addDelivery",
     "pages/basicInfo/basicInfo",
-    "pages/MoreInfo/MoreInfo"
+    "pages/MoreInfo/MoreInfo",
+    "pages/UserCenter/UserCenter",
+    "pages/activityProfile/activityProfile"
   ],
   "window":{
     "navigationBarBackgroundColor": "#40586d",

@@ -22,7 +22,68 @@ Page({
     // 参讲次数、听讲次数和主讲次数
     partakeCount: 0,
     listenCount: 0,
-    deliverCount: 0
+    deliverCount: 0,
+
+    // 用户中心
+		icons: [
+      [
+        {
+          id: 1,
+          img: '/images/userinfo/icon_1.jpg',
+          name: '个人中心',
+          url: ''
+        },
+        {
+          id: 2,
+          img: '/images/userinfo/icon_2.jpg',
+          name: '积分中心',
+          url: ''
+        },
+        {
+          id: 3,
+          img: '/images/userinfo/icon_3.jpg',
+          name: '讲座群',
+          url: ''
+        },
+        {
+          id: 4,
+          img: '/images/userinfo/icon_4.jpg',
+          name: '资源',
+          url: ''
+        }
+      ],
+      [
+        {
+          id: 5,
+          img: '/images/userinfo/icon_9.jpg',
+          name: '新商家',
+          url: ''
+        },
+        {
+          id: 6,
+          img: '/images/userinfo/icon_10.jpg',
+          name: '校园',
+          url: ''
+        },
+        {
+          id: 7,
+          img: '/images/userinfo/icon_12.jpg',
+          name: '咖啡厅',
+          url: ''
+        },
+      ]
+    ],
+  },
+
+  toNearby: function(e) {
+    if (e.currentTarget.id == 1) {
+      wx.navigateTo({
+        url: '../UserCenter/UserCenter'
+      })
+    } else {
+      const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+      notify("暂未开放")
+    }
   },
 
   /**
@@ -34,7 +95,7 @@ Page({
       userInfo: getApp().globalData.userInfo
     })
 
-    // TODO：暂时只获取第一页，初期一般活动不超过12个，可以轻松获取到活动数目
+    // TODO：暂时只获取第一页，初期一般讲座不超过12个，可以轻松获取到讲座数目
     let url1 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'author');
     wx.request({
       url: url1.toString(),
@@ -43,6 +104,8 @@ Page({
         'Authorization': 'Bearer ' + userService.getSid()
       },
       success: ({ data: result, statusCode }) => {
+        console.log("加载我的主讲:", statusCode)
+        
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myDeliverPageData', result);
@@ -67,7 +130,7 @@ Page({
       fail: (e) => console.error(e)
     });
 
-    // TODO：暂时只获取第一页，初期一般活动不超过12个，可以轻松获取到活动数目
+    // TODO：暂时只获取第一页，初期一般讲座不超过12个，可以轻松获取到讲座数目
     let url2 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'applicant');
     wx.request({
       url: url2.toString(),
@@ -76,6 +139,8 @@ Page({
         'Authorization': 'Bearer ' + userService.getSid()
       },
       success: ({ data: result, statusCode }) => {
+        console.log("加载我的听讲:", statusCode)
+        
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myEnrollPageData', result);
@@ -101,7 +166,7 @@ Page({
       fail: (e) => console.error(e)
     });
 
-    // TODO：暂时只获取第一页，初期一般活动不超过12个，可以轻松获取到活动数目
+    // TODO：暂时只获取第一页，初期一般讲座不超过12个，可以轻松获取到讲座数目
     let url3 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'participant');
     wx.request({
       url: url3.toString(),
@@ -110,6 +175,8 @@ Page({
         'Authorization': 'Bearer ' + userService.getSid()
       },
       success: ({ data: result, statusCode }) => {
+        console.log("加载我的参讲:", statusCode)
+        
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myPartakePageData', result);
@@ -134,8 +201,6 @@ Page({
       },
       fail: (e) => console.error(e)
     });
-
-
 
   },
 
@@ -162,48 +227,6 @@ Page({
     wx.navigateTo({
       url: '../userinfo/userinfo'
     })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
   },
 
   /**

@@ -1,4 +1,8 @@
 /* pages/myListenList/myListenList.wxss */
+.page {
+    text-align: center;
+}
+
 /* activityList */
 .activities {
   background: #f9f9f9;

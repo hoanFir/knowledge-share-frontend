@@ -3,15 +3,6 @@
 
   <view class="weui-cells weui-cells_after-title">
 
-    <!-- <view class="weui-cell weui-cell_input">
-      <view class="weui-cell__hd">
-          <view class="weui-label">工作职位</view>
-      </view>
-      <view class="weui-cell__bd">
-          <input bindinput='onCareerChange' class="weui-input" placeholder="请输入职位,如: 经理"/>
-      </view>
-    </view> -->
-
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__hd">
           <view class="weui-label">单位名称</view>
@@ -20,25 +11,6 @@
           <input bindinput='onCompanyChange' class="weui-input" placeholder="请输入名称,如: xx科技有限公司"/>
       </view>
     </view>
-
-    <!-- <view class="weui-cell weui-cell_input">
-      <view class="weui-cell__hd">
-          <view class="weui-label">公司类型</view>
-      </view>
-      <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入类型,如: 科创"/>
-      </view>
-    </view> -->
-
-    <!-- <view class="weui-cell">
-        <view class="weui-cell__hd">
-            <view class="weui-label">工作经历(选填)</view>
-        </view>
-        <view class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="请输入文本" style="height: 3.3em" />
-            <view bindinput='onExperienceChange' class="weui-textarea-counter">0/200</view>
-        </view>
-    </view> -->
     
   </view>
 

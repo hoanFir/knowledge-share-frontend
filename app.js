@@ -11,7 +11,7 @@ App({
     // 登录
     wx.login({
       success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        // 发送 res.code 到后台换取 token等值
         console.log("wx.login获取到code:" + res.code)
         wx.setStorageSync('code', res.code)
       },

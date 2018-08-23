@@ -5,7 +5,7 @@
   <view class="modal" style="{{modalShowStyle}}">
     <view class="dialog">
       <view class="modal-item" style="display:flex;justify-content:center;align-items:center;">
-        确定删除活动
+        确定删除讲座
       </view>
       <view class="modal-button" style="width:100%">
         <view style="color:#7da4ff;border-right:1px solid #E5E7ED;" bindtap="onTapDelete">确定</view>
@@ -16,31 +16,40 @@
   <!-- 一个全屏模态对话框结束 -->
 
   <view class="page__hd">
-      <view class="page__title">讲座主题</view>
+      <view class="page__title">讲座主题 #类型 {{ksType}}#</view>
       <view class="page__desc">{{activityDetail.ksTitle}}</view>
   </view>
   
+  <view class="weui-media-box weui-media-box_text">
+      <view class="weui-media-box__title weui-media-box__title_in-text">摘要</view>
+      <view class="weui-media-box__desc">{{activityDetail.ksAbstract}}</view>
+  </view>
+  <view class="weui-media-box weui-media-box_text">
+      <view class="weui-media-box__title weui-media-box__title_in-text">主讲内容</view>
+      <view class="weui-media-box__desc">{{activityDetail.ksContent}}</view>
+  </view>
+
   <view class="weui-form-preview__bd">
+
     <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">讲座开始时间</view>
+      <view class="weui-form-preview__label">开始时间</view>
       <view class="weui-form-preview__value">{{activityDetail.ksStartTime}}</view>
     </view>
     <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">讲座结束时间</view>
+      <view class="weui-form-preview__label">结束时间</view>
       <view class="weui-form-preview__value">{{activityDetail.ksEndTime}}</view>
     </view>
     <view class="weui-form-preview__item">
       <view class="weui-form-preview__label">讲座地点</view>
       <view class="weui-form-preview__value">{{activityDetail.ksBusiness.kbName}}</view>
     </view>
+
     <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">主讲人</view>
-      <view class="weui-form-preview__value">{{activityDetail.ksUser.kuName}}: {{activityDetail.ksUSer.kuIntro}}</view>
+      <view class="weui-form-preview__label">设备提供</view>
+      <view wx:if="{{ksRemark}}" class="weui-form-preview__value">{{ksRemark}}</view>
+      <view wx:else class="weui-form-preview__value">无</view>
     </view>
-    <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">主讲人联系方式</view>
-      <view class="weui-form-preview__value">{{activityDetail.ksUser.kuPhone}}</view>
-    </view>
+
     <view class="weui-form-preview__item">
       <view class="weui-form-preview__label">当前预约人数</view>
       <view class="weui-form-preview__value">{{activityDetail.ksEnrollNum}}/{{activityDetail.ksEnrollLimit}}</view>
@@ -49,21 +58,29 @@
       <view class="weui-form-preview__label">当前参讲人数，名额有限</view>
       <view class="weui-form-preview__value">{{activityDetail.ksPartNum}}/{{activityDetail.ksPartLimit}}</view>
     </view>
-  </view>
 
-  <view class="flex-wrp" style="flex-direction:row;">
-    <button class="flex-item" bindtap='touchDelete'>删除主题</button>
-    <button open-type='share' class="flex-item">分享</button>
+    <view class="weui-media-box weui-media-box_appmsg">
+      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+        <image bindtap='toActivityProfile' id='{{activityDetail.ksUser.kuId}}' style='border-radius: 50%;' class="weui-media-box__thumb" src="{{activityDetail.ksUser.kuHeadImgUrl}}" />
+      </view>
+      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+        <view class="weui-media-box__title">{{activityDetail.ksUser.kuName}} {{activityDetail.ksUser.kuPhone}}</view>
+        <view class="weui-media-box__desc">{{activityDetail.ksUser.kuIntro}}</view>
+      </view>
+    </view>
+    
   </view>
 
   <view class="weui-cells__title">审核参讲</view>
   <view class="weui-cells weui-cells_after-title">
+
     <view class="weui-cell weui-cell_access">
       <view class="weui-cell__bd">参讲者1</view>
       <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
       <view class="weui-badge weui-badge_dot" style="margin-left: 5px;margin-right: 5px;"></view>
       </view>
     </view>
+
     <view class="weui-cell weui-cell_access">
       <view class="weui-cell__bd">参讲者2</view>
       <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
@@ -72,4 +89,8 @@
     </view>
   </view>
 
+  <view class="flex-wrp" style="flex-direction:row;">
+    <button class="flex-item" bindtap='touchDelete'>删除主题</button>
+    <button open-type='share' class="flex-item">分享</button>
+  </view>
 </view>

@@ -8,9 +8,7 @@ const util = require('../../utils/util.js')
 import config from '../../config';
 const serverAddr = config.serverAddr;
 import URL from '../../utils/URL';
-import StatusCode from '../../model/StatusCode';
 import ActivityDetail from '../../model/ActivityDetail';
-
 
 Page({
   /**
@@ -18,7 +16,10 @@ Page({
    */
   data: {
     activityDetail: null,
-    ksId: null
+    ksId: null,
+
+    // 讲座类型
+    ksType: null
   },
 
   /**
@@ -27,7 +28,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       activityDetail: wx.getStorageSync("activityDetail"),
-      ksId: wx.getStorageSync("activityDetail").ksId
+      ksId: wx.getStorageSync("activityDetail").ksId,
+      ksType: wx.getStorageSync("activityType").kddDataName
     })
   },
 
@@ -52,7 +54,7 @@ Page({
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
 
     if (this.data.activityDetail.ksPartLimit == 0) {
-      notify("本次活动不提供参讲")
+      notify("本次讲座不提供参讲")
     }
 
     activityService.partakeActivity(this.data.ksId, (successed) => {
@@ -63,48 +65,6 @@ Page({
       else notify('参讲失败');
     });
 
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    
   },
 
   /**
@@ -136,8 +96,7 @@ Page({
           }
         })
         // 转发到微信群组成功之后，群成员打开小程序，通过shareTicket，开发者就能将群成员和群组绑定起来(openId+openGid)，基于群组关系，小程序有更多的应用场景，例如：群排行，摩拜单车。
-
-
+        
       },
       fail: function(res) {
         const notify = (content) => wx.showToast({ title: content, icon: 'none' });

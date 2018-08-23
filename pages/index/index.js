@@ -1,5 +1,4 @@
-//index.js
-//获取应用实例
+// pages/index/index.js
 import userService from '../../service/UserService';
 const app = getApp()
 

@@ -32,14 +32,23 @@ class UserService {
       success: ({ data: result, statusCode }) => {
         console.log("validate方法运行后", statusCode)
         console.log("sid&token: " + result.token)
-        
-        if (result.token) {
-          wx.setStorageSync('sid', result.token);
-          wx.setStorageSync('userDetail', result.user)
-          callback();
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            wx.setStorageSync('sid', result.token);
+            wx.setStorageSync('userDetail', result.user)
+            callback();
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
         }
-        else console.error('failed to fetch sid');
-      }
+      },
+      fail: (e) => console.error(e)
     });
   }
 
@@ -134,6 +143,42 @@ class UserService {
     });
   }
 
+  /**
+   * 点击讲座页面里的头像获取用户信息
+   */
+  getActivityUserDetail(kuId, callback) {
+
+    let url = new URL('http', serverAddr).path('users' + '/' + kuId);
+    wx.request({
+      url: url.toString(),
+      method: 'GET',
+      header: {
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
+      },
+      success: ({ data: result, statusCode }) => {
+        console.log("获取讲座用户的信息", statusCode);
+        console.log("获取讲座用户的信息", result);
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            wx.setStorageSync('activityUserDetail', result)
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
+        }
+      },
+      fail: (e) => {
+        console.error("err" + e);
+        callback(false);
+      }
+    });
+  }
 }
 
 export default new UserService();

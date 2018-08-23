@@ -28,7 +28,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // 活动列表
+    // 讲座列表
     activityList: null,
 
     // search
@@ -95,7 +95,7 @@ Page({
    */
   onLoad: function (options) {
 
-    // 活动列表
+    // 讲座列表
     this.loadActivityList();
 
     // navbar
@@ -110,7 +110,7 @@ Page({
     });
   },
 
-  // 活动列表
+  // 讲座列表
   loadActivityList() {
     activityService.fetchAllActivitys(this.pageNum, (activityList) => this.setData({ activityList })); 
   },
@@ -144,6 +144,8 @@ Page({
         'Authorization': 'Bearer ' + userService.getSid()
       },
       success: ({ data: result, statusCode }) => {
+        console.log("onShow运行了:", statusCode)
+
         // TODO 状态码判断
         switch (statusCode) {
           case 200:
@@ -181,15 +183,15 @@ Page({
   // 点击查看详情
   showDetail(event) {
 
-    // 需要先在此发起请求获取活动详情，才能判断用户是否报名者、发起者、参讲者
-    // 获取对应活动的ksId
+    // 需要先在此发起请求获取讲座详情，才能判断用户是否报名者、发起者、参讲者
+    // 获取对应讲座的ksId
     // activityService.fetchAllActivitys(this.pageNum, (activityList) => {
     //   let activity = activityList[event.currentTarget.id];
-    //   console.log("获取到活动详情页面的ksId" + activity.ksId)
+    //   console.log("获取到讲座详情页面的ksId" + activity.ksId)
     //   this.setData({ ksId: activity.ksId })
     // });
     let activity = this.data.activityList[event.currentTarget.id];
-    console.log("获取到活动详情页面的ksId" + activity.ksId)
+    console.log("获取到讲座详情页面的ksId" + activity.ksId)
     this.setData({ ksId: activity.ksId })
 
     // 根据ksId获取主题详情
@@ -211,22 +213,24 @@ Page({
             // 时间戳转换
             activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));
             activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
-            // 获取到详情，存储到本地缓存
+            // 获取详情，存储到本地缓存
             wx.setStorageSync('activityDetail', activityDetail);
-
+            // 获取主题类型ksType，存储到本地缓存
+            wx.setStorageSync('activityType', activityDetail.ksType);
+            
             // 控制台输出详情数据
             console.log("该主题详情", wx.getStorageSync("activityDetail"))
 
             // 判断用户是否报名者、发起者、参讲者，进入不同的页面
             let whichEnter = wx.getStorageSync('activityDetail')
             if (!whichEnter.isAuthor && !whichEnter.isEnroll && !whichEnter.isPartake) {
-              wx.navigateTo({ url: '../activity/detail?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../activity/detail' });
             } else if (whichEnter.isAuthor) {
-              wx.navigateTo({ url: '../detailForAuthor/detailForAuthor?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../detailForAuthor/detailForAuthor' });
             } else if (whichEnter.isEnroll) {
-              wx.navigateTo({ url: '../detailForEnroll/detailForEnroll?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../detailForEnroll/detailForEnroll' });
             } else {
-              wx.navigateTo({ url: '../detailForPartake/detailForPartake?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../detailForPartake/detailForPartake' });
             }
             break;
           case StatusCode.FOUND_NOTHING:
@@ -329,6 +333,8 @@ Page({
           'Authorization': 'Bearer ' + userService.getSid()
         },
         success: ({ data: result, statusCode }) => {
+          console.log("触底刷新运行了:", statusCode)
+
           switch (statusCode) {
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
@@ -366,7 +372,6 @@ Page({
         },
         fail: (e) => console.error(e)
       });
-
     }
   },
 

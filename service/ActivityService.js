@@ -8,7 +8,6 @@ import Activity from '../model/Activity';
 const util = require('../utils/util.js')
 
 const serverAddr = config.serverAddr;
-const sid = userService.getSid();
 
 /**
  * 字符长相似度算法，编辑距离算法，用于搜索实现
@@ -53,7 +52,7 @@ class ActivityService {
   }
   
   /**
-   * 发起活动
+   * 发起讲座
    */
   addActivity(data, callback) {
     let url = new URL('http', serverAddr).path('subjects');
@@ -61,7 +60,7 @@ class ActivityService {
       url: url.toString(),
       method: 'POST',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid(),
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json'
       },
       data: {
@@ -82,12 +81,24 @@ class ActivityService {
         ksStartTime: data.ksStartTime,
         ksTitle: data.ksTitle,
         ksType: data.ksType
-        // 后期添加：最少参与人数、商家信息（地点）
       },
-      success: (data) => {
+      success: ({ statusCode }) => {
         // 此处无须加新增的添加入缓存，因为首页需要重新请求
-        console.log(data);
-        callback(true);
+        console.log("发起讲座运行了", statusCode);
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
+        }
+
       },
       fail: (e) => {
         console.error("err" + e);
@@ -97,7 +108,7 @@ class ActivityService {
   }
 
   /**
-   * 更新活动
+   * 更新讲座
    */
   updateActivity(data, callback) {
     let url = new URL('http', serverAddr).path('view/activity/updateActivity').param(data).param('sid', sid);
@@ -168,7 +179,6 @@ class ActivityService {
               console.error('invalid sid');
               break;
           }
-
         },
         fail: (e) => console.error(e)
       });
@@ -181,25 +191,36 @@ class ActivityService {
    */
   enrollActivity (ksId, callback) {
     // 参数ksId是在detail.wxml中传过来的
-    console.log("活动Id", ksId)
+    console.log("讲座Id", ksId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId + '/enrollments');
     wx.request({
       url: url.toString(),
       method: 'POST',
       header: { 
-        'Authorization': 'Bearer ' + userService.getSid(),
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json',
       },
-      success: (rep) => {
-        console.log("报名成功", rep)
-        
-        if (rep.data) {
-          callback(true);
+      success: ({ statusCode }) => {
+        console.log("点击报名运行了", statusCode)
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
         }
-        else console.error('报名失败');
       },
-      fail: (e) => console.error(e)
+      fail: (e) => {
+        console.error("err" + e);
+        callback(false);
+      }
     });
   }
 
@@ -207,25 +228,37 @@ class ActivityService {
    * 点击参讲
    */
   partakeActivity(ksId, callback) {
-    console.log("活动Id", ksId)
+    console.log("讲座Id", ksId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId + '/participations');
     wx.request({
       url: url.toString(),
       method: 'POST',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid(),
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json',
       },
-      success: (rep) => {
-        console.log("参讲成功", rep)
+      success: ({ statusCode }) => {
+        console.log("点击参讲运行了", statusCode)
 
-        if (rep.data) {
-          callback(true);
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
         }
-        else console.error('参讲失败');
       },
-      fail: (e) => console.error(e)
+      fail: (e) => {
+        console.error("err" + e);
+        callback(false);
+      }
+
     });
   }
 
@@ -233,24 +266,36 @@ class ActivityService {
    * 点击删除主题
    */
   deleteActivity(ksId, callback) {
-    console.log("活动Id", ksId)
+    console.log("讲座Id", ksId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId);
     wx.request({
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid(),
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json',
       },
-      success: (rep) => {
-        console.log("删除成功", rep)
-        if (rep.data) {
-          callback(true);
+      success: ({ statusCode }) => {
+        console.log("点击删除运行了", statusCode)
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
         }
-        else console.error('删除失败');
       },
-      fail: (e) => console.error(e)
+      fail: (e) => {
+        console.error("err" + e);
+        callback(false);
+      }
     });
   }
 
@@ -258,7 +303,7 @@ class ActivityService {
    * 点击取消报名
    */
   cancelEnrollActivity(ksId, keId, callback) {
-    console.log("活动Id", ksId)
+    console.log("讲座Id", ksId)
     console.log("参与用户Id", keId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId + '/enrollments/' + keId);
@@ -266,17 +311,29 @@ class ActivityService {
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid(),
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json',
       },
-      success: (rep) => {
-        console.log("取消成功", rep)
-        if (rep.data) {
-          callback(true);
+      success: ({ statusCode }) => {
+        console.log("点击取消报名运行了", statusCode)
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
         }
-        else console.error('取消失败');
       },
-      fail: (e) => console.error(e)
+      fail: (e) => {
+        console.error("err" + e);
+        callback(false);
+      }
     });
   }
 
@@ -284,7 +341,7 @@ class ActivityService {
   * 点击取消参讲
   */
   cancelPartakeActivity(ksId, kpId, callback) {
-    console.log("活动Id", ksId)
+    console.log("讲座Id", ksId)
     console.log("参讲用户Id", kpId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId + '/participations/' + kpId);
@@ -292,17 +349,29 @@ class ActivityService {
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid(),
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json',
       },
-      success: (rep) => {
-        console.log("取消成功", rep)
-        if (rep.data) {
-          callback(true);
+      success: ({ statusCode }) => {
+        console.log("点击取消参讲运行了", statusCode)
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
         }
-        else console.error('取消失败');
       },
-      fail: (e) => console.error(e)
+      fail: (e) => {
+        console.error("err" + e);
+        callback(false);
+      }
     });
   }
 
@@ -329,6 +398,60 @@ class ActivityService {
       });
     }
   }
+
+  /**
+   * 获取商家
+   */
+  getBusinessMap(callback) {
+    // 假如本地有缓存的数据
+    let BusinessMap = wx.getStorageSync('BusinessMap');
+    if (BusinessMap) callback(BusinessMap);
+    // 若没有则从服务器拉取
+    else {
+      let url = new URL('http', serverAddr).path('businesses');
+      wx.request({
+        url: url.toString(),
+        method: 'GET',
+        header: {
+          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
+        },
+        success: ({ data: result }) => {
+          console.log("获取商家", result);
+
+          wx.setStorageSync('BusinessMap', result.ksBusinessList);
+          callback(result.ksBusinessList);
+        },
+        fail: (e) => console.error(e)
+      });
+    }
+  }
+
+  /**
+   * 获取讲座类型
+   */
+  getKstypeMap(callback) {
+    // 假如本地有缓存的数据
+    let KstypeMap = wx.getStorageSync('KstypeMap');
+    if (KstypeMap) callback(KstypeMap);
+    // 若没有则从服务器拉取
+    else {
+      let url = new URL('http', serverAddr).path('dictionaries/ksType');
+      wx.request({
+        url: url.toString(),
+        method: 'GET',
+        header: {
+          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
+        },
+        success: ({ data: result }) => {
+          console.log("获取讲座类型", result);
+
+          wx.setStorageSync('KstypeMap', result.ksDictDataMap);
+          callback(result.ksDictDataMap);
+        },
+        fail: (e) => console.error(e)
+      });
+    }
+  }  
 }
 
 export default new ActivityService();

@@ -15,29 +15,29 @@
   <!-- activityList -->
   <scroll-view scroll-y="true" class='activities'>
     <view class='activity' bindtap='showDetail' wx:key="activities"  wx:for="{{myDeliverList}}" wx:for-index="idx" id='{{idx}}'>
-        <view class="activity-header">
-          <view class="start">
-            <image class="header-avatar" src="{{item.ksUser.kuHeadImgUrl}}" background-size="cover" bindtap="getBasicInfo"></image>
-            <text class="header-nickname">{{item.ksUser.kuName}}</text>
-          </view>
-          <view class="distance">
-            <view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
-            <text>{{item.ksStartTime}}\n{{item.ksBusiness.kbName}}</text>
-          </view>
-          <view class="end">
-            <text class="city">报名中{{item.ksStatus}}</text>
-            <text class="province">已报名{{item.ksEnrollNum}}人</text>
-          </view>
+      <view class="activity-header">
+        <view class="start">
+          <image class="header-avatar" src="{{item.ksUser.kuHeadImgUrl}}" background-size="cover" bindtap="getBasicInfo"></image>
+          <text class="header-nickname">{{item.ksUser.kuName}}</text>
         </view>
-        <view class='activity-main'>
-          <view class='list-title'>
-            <text class="list-item-title">{{item.ksTitle}}</text>
-          </view>
-          <view class='list-abstract'>
-            摘要
-            <text class="list-item-abstract">{{item.ksAbstract}}</text>
-          </view>
+        <view class="distance">
+          <view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
+          <text>{{item.ksStartTime}}\n{{item.ksBusiness.kbName}}</text>
         </view>
+        <view class="end">
+          <text class="city">报名中{{item.ksStatus}}</text>
+          <text class="province">已报名{{item.ksEnrollNum}}人</text>
+        </view>
+      </view>
+      <view class='activity-main'>
+        <view class='list-title'>
+          <text class="list-item-title">{{item.ksTitle}}</text>
+        </view>
+        <view class='list-abstract'>
+          摘要
+          <text class="list-item-abstract">{{item.ksAbstract}}</text>
+        </view>
+      </view>
     </view>
   </scroll-view>
   

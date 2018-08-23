@@ -1,6 +1,7 @@
 // pages/basicInfo/basicInfo.js
 import userService from '../../service/UserService';
 const util = require('../../utils/util.js')
+
 // 用于获取职业
 import activityService from '../../service/ActivityService';
 
@@ -16,11 +17,11 @@ Page({
 
     // 可选教育水平列表
     accounts_education: ["无", "小学", "专科", "初中", "高中", "大专", "本科", "研究生", "其他"],
-    accountIndexE: 5,
+    accountIndexE: 6,
 
     kuPhone: "",  // 联系方式
     kuIndustry: 0,  // 职业
-    kuEducation: 5,  // 教育水平
+    kuEducation: 6,  // 教育水平
     kuIntro: "",  // 个人简介
   },
 
@@ -89,9 +90,9 @@ Page({
    */
   onLoad: function (options) {
     console.log(wx.getStorageSync('userDetail'))
-      // (accounts_industry) => this.setData({ accounts_industry })
-    activityService.getIndustryMap(this.setIndustry);
 
+    // 获取职业列表
+    activityService.getIndustryMap(this.setIndustry);
     console.log(wx.getStorageSync('IndustryMap'))
   },
 
@@ -105,47 +106,10 @@ Page({
     this.setData({ accounts_industry: industryList });
   },
   
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
+  // 重置内容
+  formReset: function () {
+    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    notify("重置成功");
   },
 
   /**

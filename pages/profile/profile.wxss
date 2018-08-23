@@ -45,3 +45,48 @@
 .mySpeaker .myParticipation .myEnrollment {
   margin-bottom: 20px;
 }
+
+/* weui-flex */
+.weui-flex {
+  
+	margin-bottom: 20rpx;
+}
+
+/* 用户中心 */
+.icons {
+  width: 100%;
+  background-color: white;
+	height: 450rpx;
+	padding: 20rpx 10rpx;
+	padding-bottom: 0;
+}
+.icons .title {
+	position: relative;
+	text-align: center;
+	font-size: 32rpx;
+	font-weight: bold;
+	line-height: 2;
+	margin-bottom: 20rpx;
+}
+.icons swiper-item {
+	width: 100%;
+}
+.icons .icon {
+	float: left;
+	display: -webkit-flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	width: 33%;
+	text-align: center;
+	margin: 10rpx 0;
+}
+.icons .icon image {
+	margin: 0 auto;
+	width: 100rpx;
+	height: 100rpx;
+}
+.icons .icon text {
+	color: #000;
+	font-size: 24rpx;
+	line-height: 2;
+}

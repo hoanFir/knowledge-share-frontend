@@ -1,4 +1,8 @@
 /* pages/myPartakeList/myPartakeList.wxss */
+.page {
+    text-align: center;
+}
+
 /* activityList */
 .activities {
   background: #f9f9f9;
