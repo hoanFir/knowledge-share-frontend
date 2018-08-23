@@ -11,7 +11,6 @@ Page({
 
     // 用户手动添加的信息
     userDetail: {},
-
   },
 
   toBaiscInfo: function () {
@@ -46,22 +45,22 @@ Page({
    */
   onShow: function () {
 
-    // 用户手动添加的信息
-    this.initData();
+    this.setData({
+      userDetail: wx.getStorageSync('userDetail')
+    })
   },
 
   initData: function () {
 
-      // 用户手动添加的信息，这里的userDetail是在第一次登录时候获取缓存的
+    // 用户手动添加的信息，这里的userDetail是在第一次登录时候获取缓存的
     if (!wx.getStorageSync('userDetail')) {
-        const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-        notify('获取用户信息失败');
-        
-      } else {
-        this.setData({
-          userDetail: wx.getStorageSync('userDetail')
-        })
-      }
+      const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+      notify('获取用户信息失败');
+    } else {
+      this.setData({
+        userDetail: wx.getStorageSync('userDetail')
+      })
+    }
     
   },
 

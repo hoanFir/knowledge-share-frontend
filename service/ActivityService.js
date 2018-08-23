@@ -138,7 +138,7 @@ class ActivityService {
         url: url.toString(),
         method: 'GET',
         header: {
-          'Authorization': 'Bearer ' + userService.getSid()
+          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
         },
         success: ({ data: result, statusCode }) => {
           console.log("fetchAllActivitys方法运行了:", statusCode)
@@ -306,6 +306,29 @@ class ActivityService {
     });
   }
 
+  /**
+   * 获取职业
+   */
+  getIndustryMap(callback) {
+    // 假如本地有缓存的数据
+    let IndustryMap = wx.getStorageSync('IndustryMap');
+    if (IndustryMap) callback(IndustryMap);
+    // 若没有则从服务器拉取
+    else {
+      let url = new URL('http', serverAddr).path('dictionaries/kuIndustry');
+      wx.request({
+        url: url.toString(),
+        method: 'GET',
+        success: ({ data: result }) => {
+          console.log("获取职业", result);
+          wx.setStorageSync('IndustryMap', result.ksDictDataMap);
+          console.log("获取职业Map", result.ksDictDataMap);
+          callback(result.ksDictDataMap);
+        },
+        fail: (e) => console.error(e)
+      });
+    }
+  }
 }
 
 export default new ActivityService();

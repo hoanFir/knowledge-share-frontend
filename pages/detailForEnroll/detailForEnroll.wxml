@@ -19,44 +19,43 @@
       <view class="page__title">讲座主题</view>
       <view class="page__desc">{{activityDetail.ksTitle}}</view>
   </view>
-  
-  <view class='page__bd'>
-    <view class='weui-cells__title'>讲座时间</view>
-    <view class='weui-cells weui-cells_after-title'>{{activityDetail.ksStartTime}} - {{activityDetail.ksEndTime}}</view>
-    
-    <view class='weui-cells__title'>讲座地点</view>
-    <view class='weui-cells weui-cells_after-title'>{{activityDetail.ksBusiness.kbName}}</view>
 
-    <view class='weui-cells__title'>讲座摘要</view>
-    <view class='weui-cells weui-cells_after-title'>{{activityDetail.ksAbstract}}</view>
-  
-    <view class='weui-cells__title'>主讲人</view>
-    <view class='weui-cells weui-cells_after-title'>
-      <!-- TODO:加上头像 -->
-      <!-- <view>{{activityDetail.ksUser.kuHeadImgUrl}}</view> -->
-      <view>{{activityDetail.ksUser.kuName}}: {{activityDetail.ksUSer.kuIntro}}</view>
+  <view class="weui-form-preview__bd">
+    <view class="weui-form-preview__item">
+      <view class="weui-form-preview__label">讲座开始时间</view>
+      <view class="weui-form-preview__value">{{activityDetail.ksStartTime}}</view>
     </view>
-
-    <view class='weui-cells__title'>主讲人联系方式</view>
-    <view class='weui-cells weui-cells_after-title'>
-      <view>{{activityDetail.ksUser.kuPhone}}</view>
+    <view class="weui-form-preview__item">
+      <view class="weui-form-preview__label">讲座结束时间</view>
+      <view class="weui-form-preview__value">{{activityDetail.ksEndTime}}</view>
     </view>
-  
-    <view class='weui-cells__title'>当前预约人数</view>
-    <view class='weui-cells weui-cells_after-title'>
-      <view>{{activityDetail.ksEnrollNum}}/{{activityDetail.ksEnrollLimit}}</view>
+    <view class="weui-form-preview__item">
+      <view class="weui-form-preview__label">讲座地点</view>
+      <view class="weui-form-preview__value">{{activityDetail.ksBusiness.kbName}}</view>
     </view>
-
-    <view class='weui-cells__title'>当前参讲人数，名额有限</view>
-    <view class='weui-cells weui-cells_after-title'>
-      <view>{{activityDetail.ksPartNum}}/{{activityDetail.ksPartLimit}}</view>
+    <view class="weui-form-preview__item">
+      <view class="weui-form-preview__label">主讲人</view>
+      <view class="weui-form-preview__value">{{activityDetail.ksUser.kuName}}: {{activityDetail.ksUSer.kuIntro}}</view>
     </view>
-
+    <view class="weui-form-preview__item">
+      <view class="weui-form-preview__label">主讲人联系方式</view>
+      <view class="weui-form-preview__value">{{activityDetail.ksUser.kuPhone}}</view>
+    </view>
+    <view class="weui-form-preview__item">
+      <view class="weui-form-preview__label">当前预约人数</view>
+      <view class="weui-form-preview__value">{{activityDetail.ksEnrollNum}}/{{activityDetail.ksEnrollLimit}}</view>
+    </view>
+    <view class="weui-form-preview__item">
+      <view class="weui-form-preview__label">当前参讲人数，名额有限</view>
+      <view class="weui-form-preview__value">{{activityDetail.ksPartNum}}/{{activityDetail.ksPartLimit}}</view>
+    </view>
   </view>
 
   <view class="flex-wrp" style="flex-direction:row;">
     <button class="flex-item" bindtap='touchCancelEnroll'>取消报名</button>
     <button open-type='share' class="flex-item">分享</button>
   </view>
-  
+
 </view>
+
+

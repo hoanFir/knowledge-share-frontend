@@ -13,19 +13,23 @@
               <view class=' flex flex-warp-right-item msg-info-other'>
                   <view class=' flex msg-info-company flex-msg-info'>
                       <image class='company-image icon-12px' src="../../images/industry.png" mode='aspectFit' />
-                      <text class="company-text text-info">行业&职业  {{userDetail.kuIndustry}}</text>
+                      <text class="company-text text-info">行业&职业</text>
+                      <text class="company-text text-info">{{userDetail.kuIndustry}}</text>
                   </view>
                   <view class='msg-info-location flex-msg-info'>
                       <image class='location-image icon-12px' src="../../images/hobby.png" mode='aspectFit' />
-                      <text class="location-text text-info">个人简介  {{userDetail.kuIntro}}</text>
+                      <text class="location-text text-info">个人简介</text>
+                      <text class="location-text text-info">{{userDetail.kuIntro}}</text>
                   </view>
                   <view class='msg-info-email flex-msg-info'>
                       <image class='email-image icon-12px' src="../../images/phone.png" mode='aspectFit' />
-                      <text class="email-text text-info">联系方式  {{userDetail.kuPhone}}</text>
+                      <text class="email-text text-info">联系方式</text>
+                      <text class="email-text text-info">{{userDetail.kuPhone}}</text>
                   </view>
                   <view class='msg-info-link flex-msg-info'>
                       <image class='link-image icon-12px' src="../../images/education.png" mode='aspectFit' />
-                      <text class="link-text text-info">受教育水平  {{userDetail.kuEducation}}</text>
+                      <text class="link-text text-info">受教育水平</text>
+                      <text class="link-text text-info">{{userDetail.kuEducation}}</text>
                   </view>
               </view>
           </view>
@@ -39,7 +43,8 @@
               <view class=' flex flex-warp-right-item msg-info-other'>
                   <view class=' flex msg-info-company flex-msg-info'>
                       <image class='company-image icon-12px' src="../../images/company.png" mode='aspectFit' />
-                      <text class="company-text text-info">公司单位名&学校单位名{{userDetail.kuCompany}}</text>
+                      <text class="company-text text-info">公司单位名&学校单位名</text>
+                      <text class="company-text text-info">{{userDetail.kuCompany}}</text>
                   </view>
                   <!-- <view class='msg-info-location flex-msg-info'>
                       <image class='location-image icon-12px' src="../../images/companytype.png" mode='aspectFit' />

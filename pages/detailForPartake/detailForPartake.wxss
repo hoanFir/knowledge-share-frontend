@@ -1,5 +1,9 @@
 /* pages/detailForPartake/detailForPartake.wxss */
 
+.page__hd {
+  box-shadow: 0 .05em .25em rgba(0,0,0,.5);
+}
+
 .weui-cells_after-title {
   margin: 0 auto;
   width: 100%;

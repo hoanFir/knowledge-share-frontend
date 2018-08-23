@@ -67,13 +67,25 @@ class UserService {
       data: {
         kuPhone: data.kuPhone,
         kuIndustry: data.kuIndustry,
-        kuCompany: data.kuCompany,
+        kuEducation: data.kuEducation,
         kuIntro: data.kuIntro,
       },
-      success: (res) => {
-        console.log("修改信息成功", res);
-        wx.setStorageSync('userDetail', res.data.user)
-        callback(true);
+      success: ({ data: result, statusCode }) => {
+        console.log("修改基本信息", statusCode);
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            wx.setStorageSync('userDetail', result.user)
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
+        }
       },
       fail: (e) => {
         console.error("err" + e);
@@ -98,10 +110,22 @@ class UserService {
       data: {
         kuCompany: data.kuCompany
       },
-      success: (res) => {
-        console.log("修改信息成功", res);
-        wx.setStorageSync('userDetail', res.data.user)
-        callback(true);
+      success: ({ data: result, statusCode }) => {
+        console.log("修改高级信息", statusCode);
+
+        // TODO 状态码判断
+        switch (statusCode) {
+          case 200:
+            wx.setStorageSync('userDetail', result.user)
+            callback(true);
+            break;
+          case StatusCode.FOUND_NOTHING:
+            console.warn('found nothing');
+            break;
+          case StatusCode.INVALID_SID:
+            console.error('invalid sid');
+            break;
+        }
       },
       fail: (e) => {
         console.error("err" + e);

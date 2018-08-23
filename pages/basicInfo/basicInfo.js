@@ -1,6 +1,8 @@
 // pages/basicInfo/basicInfo.js
 import userService from '../../service/UserService';
 const util = require('../../utils/util.js')
+// 用于获取职业
+import activityService from '../../service/ActivityService';
 
 Page({
 
@@ -9,16 +11,16 @@ Page({
    */
   data: {
     // 可选职业列表
-    accounts_industry: ["本科生", "研究生", "教授"],
+    accounts_industry: [],
     accountIndexI: 0,
 
     // 可选教育水平列表
-    accounts_education: ["本科", "研究生", "专科", "小学", "初中", "高中"],
-    accountIndexE: 0,
+    accounts_education: ["无", "小学", "专科", "初中", "高中", "大专", "本科", "研究生", "其他"],
+    accountIndexE: 5,
 
     kuPhone: "",  // 联系方式
     kuIndustry: 0,  // 职业
-    kuEducation: 0,  // 教育水平
+    kuEducation: 5,  // 教育水平
     kuIntro: "",  // 个人简介
   },
 
@@ -34,16 +36,19 @@ Page({
   // 当职业输入
   bindIndustryAccountChange: function (e) {
     this.setData({
-      accountIndexI: e.detail.value
+      accountIndexI: e.detail.value,
+      kuIndustry: e.detail.value
     })
+    console.log("获取到职业值为", this.data.accountIndexI)
   },
-
 
   // 当教育水平输入
   bindEducationAccountChange: function (e) {
     this.setData({
-      accountIndexE: e.detail.value
+      accountIndexE: e.detail.value,
+      kuEducation: e.detail.value
     })
+    console.log("获取到教育值为", this.data.accountIndexE)
   },
 
   // 当个人简介输入
@@ -59,13 +64,6 @@ Page({
   // 保存修改
   saveUpdate() {
 
-    this.setData({
-      kuIndustry: this.data.accountIndexI
-    })
-    this.setData({
-      kuEducation: this.data.accountIndexE
-    })
-
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     
     // 使用解构赋值
@@ -73,8 +71,6 @@ Page({
     kuId = wx.getStorageSync('userDetail').kuId;
     console.log("用户kuId: ", kuId)
 
-    // if (!kuEducation) notify('请选择受教育水平');
-    // if (!kuIndustry) notify('请选择职业');
     if (!kuPhone) notify('请输入手机号');
     else {
       let data = { kuId, kuEducation, kuIndustry, kuIntro, kuPhone };
@@ -93,6 +89,20 @@ Page({
    */
   onLoad: function (options) {
     console.log(wx.getStorageSync('userDetail'))
+      // (accounts_industry) => this.setData({ accounts_industry })
+    activityService.getIndustryMap(this.setIndustry);
+
+    console.log(wx.getStorageSync('IndustryMap'))
+  },
+
+  // 获取职业Map
+  setIndustry(map) {
+    let industryList = [];
+    for (let key in map) {
+      industryList.push(map[key].kddDataName);
+    }
+    console.log(industryList)
+    this.setData({ accounts_industry: industryList });
   },
   
 

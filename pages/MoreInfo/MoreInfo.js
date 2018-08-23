@@ -28,7 +28,9 @@ Page({
       userService.updateMoreInfo(data, (successed) => {
         if (successed) {
           notify('保存成功');
-          wx.navigateBack(2);
+          wx.navigateTo({
+            url: '../userinfo/userinfo'
+          })
         }
         else notify('保存失败');
       });
