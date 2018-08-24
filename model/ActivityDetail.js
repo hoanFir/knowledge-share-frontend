@@ -20,14 +20,15 @@ class ActivityDetail {
     this.ksTitle = json.ksTitle;  // 主题标题
     this.ksType = json.ksType;  // 主题类别，字典值
     this.ksUser = json.ksUser;  // 主题发起人信息
-    this.kuId = json.kuId // 主题发起人id
+    this.kuId = json.kuId; // 主题发起人id
 
     // 新增
     this.enrollments = json.enrollments;  // 所有预约用户
     this.isAuthor = json.isAuthor;  // 是否为发起者
     this.isEnroll = json.isEnroll;  // 是否为听者
     this.isPartake = json.isPartake;  // 是否为参讲者
-    this.participations = json.participations // 所有参讲用户
+    this.participations = json.participations; // 所有参讲用户
+    this.serverTime = json.serverTime;  // 服务器时间，用于计算活动结束状态
   }
 }
 

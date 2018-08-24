@@ -3,6 +3,7 @@ import URL from '../utils/URL';
 import StatusCode from '../model/StatusCode';
 import config from '../config';
 import Activity from '../model/Activity';
+import ActivityDetail from '../model/ActivityDetail';
 
 // 用于时间戳转换
 const util = require('../utils/util.js')
@@ -139,7 +140,8 @@ class ActivityService {
         // TODO 状态码判断
         switch (statusCode) {
           case 200:
-            let activityDetail = new ActivityDetail(result)
+            // 缓存获取的新数据
+            let activityDetail = new ActivityDetail(result.subject)
             // 时间戳转换
             activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));
             activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
@@ -172,10 +174,9 @@ class ActivityService {
    * 从服务器中拿取数据
    */
   fetchAllActivitys(pageNum, callback) {
-    let activityList = wx.getStorageSync('activityList');
     // 如果本地缓存有数据
+    let activityList = wx.getStorageSync('activityList');
     if (activityList) callback(activityList);
-    
     else {
       let url = new URL('http', serverAddr).path('subjects').param('page', pageNum).param('queryType', 'browser');
       wx.request({
@@ -194,15 +195,16 @@ class ActivityService {
               // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('pageData', result);
 
+              // 获取最新数据并缓存
               let activityList = [];
               for (let item of result.array) {
                 // 转换时间戳
                 item.ksStartTime =  util.formatTime(new Date(item.ksStartTime));
-                // item.ksStartTime = new Date(item.ksStartTime).toLocaleString();
                 let activity = new Activity(item);
                 activityList.push(activity);
               }
               wx.setStorageSync('activityList', activityList);
+              
               callback(activityList);
               break;
             case StatusCode.FOUND_NOTHING:

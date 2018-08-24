@@ -15,6 +15,8 @@ import ActivityDetail from '../../model/ActivityDetail';
 
 Page({
 
+  neverShow: true,
+
   // 当前页数
   pageNum: 1,
   // 是否没有数据了
@@ -93,45 +95,48 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'participant');
-    wx.request({
-      url: url.toString(),
-      method: 'GET',
-      header: {
-        'Authorization': 'Bearer ' + userService.getSid()
-      },
-      success: ({ data: result, statusCode }) => {
-        // TODO 状态码判断
-        switch (statusCode) {
-          case 200:
-            // 缓存页面数据，包括arrSize、array、pageNum
-            wx.setStorageSync('myPartakePageData', result);
-            console.log("myPartakePageData:", wx.getStorageSync('myPartakePageData'))
+    if (this.neverShow) this.neverShow = false;
+    else {
+      let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'participant');
+      wx.request({
+        url: url.toString(),
+        method: 'GET',
+        header: {
+          'Authorization': 'Bearer ' + userService.getSid()
+        },
+        success: ({ data: result, statusCode }) => {
+          // TODO 状态码判断
+          switch (statusCode) {
+            case 200:
+              // 缓存页面数据，包括arrSize、array、pageNum
+              wx.setStorageSync('myPartakePageData', result);
+              console.log("myPartakePageData:", wx.getStorageSync('myPartakePageData'))
 
-            // 获取最新数据并缓存
-            let myList = [];
-            for (let item of result.array) {
-              // 转换时间戳
-              item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
-              let activity = new Activity(item);
-              myList.push(activity);
-            }
-            wx.setStorageSync('myPartakeList', myList);
+              // 获取最新数据并缓存
+              let myList = [];
+              for (let item of result.array) {
+                // 转换时间戳
+                item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
+                let activity = new Activity(item);
+                myList.push(activity);
+              }
+              wx.setStorageSync('myPartakeList', myList);
 
-            console.log("myPartakeList:", wx.getStorageSync('myPartakeList'))
-            this.setData({ myPartakeList: wx.getStorageSync('myPartakeList') })
+              console.log("myPartakeList:", wx.getStorageSync('myPartakeList'))
+              this.setData({ myPartakeList: wx.getStorageSync('myPartakeList') })
 
-            break;
-          case StatusCode.FOUND_NOTHING:
-            console.warn('found nothing');
-            break;
-          case StatusCode.INVALID_SID:
-            console.error('invalid sid');
-            break;
-        }
-      },
-      fail: (e) => console.error(e)
-    });
+              break;
+            case StatusCode.FOUND_NOTHING:
+              console.warn('found nothing');
+              break;
+            case StatusCode.INVALID_SID:
+              console.error('invalid sid');
+              break;
+          }
+        },
+        fail: (e) => console.error(e)
+      });
+    }
   },
 
   // 点击查看详情
@@ -156,6 +161,7 @@ Page({
         // TODO 状态码判断
         switch (statusCode) {
           case 200:
+            // 缓存获取的新数据
             let activityDetail = new ActivityDetail(result)
             // 时间戳转换
             activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));

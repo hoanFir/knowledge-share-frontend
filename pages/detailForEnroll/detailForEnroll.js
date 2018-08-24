@@ -1,14 +1,6 @@
 // pages/detailForEnroll/detailForEnroll.js
-import userService from '../../service/UserService';
-const sid = userService.getSid();
-
 // 用于请求查看详情所需依赖
 import activityService from '../../service/ActivityService';
-const util = require('../../utils/util.js')
-import config from '../../config';
-const serverAddr = config.serverAddr;
-import URL from '../../utils/URL';
-import ActivityDetail from '../../model/ActivityDetail';
 
 Page({
   /**

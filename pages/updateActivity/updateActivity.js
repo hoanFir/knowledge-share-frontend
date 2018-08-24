@@ -218,12 +218,13 @@ Page({
     // 使用解构赋值
     let { ksId, kbId, ksTitle, ksAbstract, ksContent, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksPartLimit, ksRemark, ksStartTime, ksType } = this.data;
 
+    kbId = kbId + 1;
     let data = { ksId, kbId, ksTitle, ksAbstract, ksContent, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksPartLimit, ksRemark, ksStartTime, ksType };
 
     activityService.updateActivity(data, (successed) => {
       if (successed) {
         notify('修改成功');
-        wx.navigateTo({ url: '../detailForAuthor/detailForAuthor' });                
+        wx.redirectTo({ url: '../detailForAuthor/detailForAuthor' });                
       }
       else notify('修改失败');
     });
@@ -246,7 +247,6 @@ Page({
 
     // 获取商家列表
     activityService.getBusinessMap(this.setIndustry);
-
     // 获取讲座类型列表
     activityService.getKstypeMap(this.setKstype);
   },
@@ -260,7 +260,6 @@ Page({
     console.log(industryList)
     this.setData({ accounts_industry: industryList });
   },
-
   // 获取讲座类型Map
   setKstype(map) {
     let industryList = [];
@@ -279,7 +278,6 @@ Page({
     })
     console.log("获取到商家值为", this.data.accountIndexI)
   },
-
   // 当讲座类型输入
   bindKstypeAccountChange: function (e) {
     this.setData({

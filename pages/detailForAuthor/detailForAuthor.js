@@ -1,14 +1,6 @@
 // pages/detailForAuthor/detailForAuthor.js
-import userService from '../../service/UserService';
-const sid = userService.getSid();
-
 // 用于请求查看详情所需依赖
 import activityService from '../../service/ActivityService';
-const util = require('../../utils/util.js')
-import config from '../../config';
-const serverAddr = config.serverAddr;
-import URL from '../../utils/URL';
-import ActivityDetail from '../../model/ActivityDetail';
 
 Page({
   /**
@@ -43,16 +35,7 @@ Page({
 
   // 点击修改主题
   touchUpdate: function () {
-    wx.navigateTo({ url: '../updateActivity/updateActivity' });
-
-    // const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    // activityService.updateActivity(data, (successed) => {
-    //   if (successed) {
-    //     notify('修改成功');
-    //     wx.navigateBack();
-    //   }
-    //   else notify('修改失败');
-    // });
+    wx.redirectTo({ url: '../updateActivity/updateActivity' });
   },
 
   /**

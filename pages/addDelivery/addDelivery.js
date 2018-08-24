@@ -152,15 +152,13 @@ Page({
     // 使用解构赋值
     let { kbId, ksTitle, ksAbstract, ksAudit, ksConfirm, ksContent, ksDeleted, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksEnrollNum, ksId, ksPartLimit, ksPartNum, ksRemark, ksStartTime, ksType} = this.data;
 
-    if (!ksEnrollMinLimit) notify('请输入最少参与人数');
     if (!ksEnrollLimit) notify('请输入最多参与人数');
-    if (!ksAbstract) notify('请输入讲座内容');
+    if (!ksContent) notify('请输入讲座内容');
+    if (!ksAbstract) notify('请输入讲座摘要');
     if (!ksTitle) notify('请输入讲座主题');
 
     else {
-      // Map用于选择内容的抽取
-      // let strain = this.strainMap[strainIndex].key;
-
+      kbId = kbId+1;
       let data = { kbId, ksTitle, ksAbstract, ksAudit, ksConfirm, ksContent, ksDeleted, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksEnrollNum, ksId, ksPartLimit, ksPartNum, ksRemark, ksStartTime, ksType };
       
       activityService.addActivity(data, (successed) => {

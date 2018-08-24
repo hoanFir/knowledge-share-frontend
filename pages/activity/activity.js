@@ -18,6 +18,7 @@ import ActivityDetail from '../../model/ActivityDetail';
 var sliderWidth = 96;
 
 Page({
+  neverShow: true,
 
   // 当前页数
   pageNum: 1,
@@ -108,6 +109,7 @@ Page({
         });
       }
     });
+
   },
 
   // 讲座列表
@@ -134,50 +136,52 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 每次再显示时
-    // 需要重新请求，因为loadActivityList会先判断本地缓存有无，假如有则不向服务器请求新数据
-    let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'browser');
-    wx.request({
-      url: url.toString(),
-      method: 'GET',
-      header: {
-        'Authorization': 'Bearer ' + userService.getSid()
-      },
-      success: ({ data: result, statusCode }) => {
-        console.log("onShow运行了:", statusCode)
+    if (this.neverShow) this.neverShow = false;
+    else {
+      // 每次再显示时
+      // 需要重新请求，因为loadActivityList会先判断本地缓存有无，假如有则不向服务器请求新数据
+      let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'browser');
+      wx.request({
+        url: url.toString(),
+        method: 'GET',
+        header: {
+          'Authorization': 'Bearer ' + userService.getSid()
+        },
+        success: ({ data: result, statusCode }) => {
+          console.log("onShow运行了:", statusCode)
 
-        // TODO 状态码判断
-        switch (statusCode) {
-          case 200:
-            // 缓存页面数据，包括arrSize、array、pageNum 
-            wx.setStorageSync('pageData', result);
-            console.log("onShow运行了:", wx.getStorageSync('pageData'))
+          // TODO 状态码判断
+          switch (statusCode) {
+            case 200:
+              // 缓存页面数据，包括arrSize、array、pageNum 
+              wx.setStorageSync('pageData', result);
+              console.log("onShow运行了:", wx.getStorageSync('pageData'))
 
-            // 获取最新数据并缓存
-            let activityList = [];
-            for (let item of result.array) {
-              // 转换时间戳
-              item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
-              let activity = new Activity(item);
-              activityList.push(activity);
-            }
-            wx.setStorageSync('activityList', activityList);
+              // 获取最新数据并缓存
+              let activityList = [];
+              for (let item of result.array) {
+                // 转换时间戳
+                item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
+                let activity = new Activity(item);
+                activityList.push(activity);
+              }
+              wx.setStorageSync('activityList', activityList);
 
-            console.log("onShow运行了:", wx.getStorageSync('activityList'))
-            this.setData({ activityList: wx.getStorageSync('activityList') })
+              console.log("onShow运行了:", wx.getStorageSync('activityList'))
+              this.setData({ activityList: wx.getStorageSync('activityList') })
 
-            break;
-          case StatusCode.FOUND_NOTHING:
-            console.warn('found nothing');
-            break;
-          case StatusCode.INVALID_SID:
-            console.error('invalid sid');
-            break;
-        }
-      },
-      fail: (e) => console.error(e)
-    });
-
+              break;
+            case StatusCode.FOUND_NOTHING:
+              console.warn('found nothing');
+              break;
+            case StatusCode.INVALID_SID:
+              console.error('invalid sid');
+              break;
+          }
+        },
+        fail: (e) => console.error(e)
+      });
+    }
   },
 
   // 点击查看详情
@@ -204,6 +208,7 @@ Page({
         // TODO 状态码判断
         switch (statusCode) {
           case 200:
+          
             let activityDetail = new ActivityDetail(result)
             // 时间戳转换
             activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));
@@ -212,6 +217,8 @@ Page({
             wx.setStorageSync('activityDetail', activityDetail);
             // 获取主题类型ksType，存储到本地缓存
             wx.setStorageSync('activityType', activityDetail.ksType);
+            // 获取服务器时间
+            wx.setStorageSync('serverTime', activityDetail.serverTime);
             
             // 控制台输出详情数据
             console.log("该主题详情", wx.getStorageSync("activityDetail"))
@@ -230,9 +237,9 @@ Page({
 
             // TODO：判断是否已经结束，进入已结束状态的页面
             // let isEnded = false
-            if (wx.getStorageSync('activityDetail').isEnded) {
-              wx.navigateTo({ url: '../endedActivity/endedActivity' });
-            }
+            // if (wx.getStorageSync('activityDetail').isEnded) {
+            //   wx.navigateTo({ url: '../endedActivity/endedActivity' });
+            // }
 
             break;
           case StatusCode.FOUND_NOTHING:
