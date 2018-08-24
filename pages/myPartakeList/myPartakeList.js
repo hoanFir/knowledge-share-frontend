@@ -55,7 +55,6 @@ Page({
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('myPartakePageData', result);
-              console.log("myPartakePageData:", wx.getStorageSync('myPartakePageData'))
 
               // 获取最新数据并缓存
               let myList = [];
@@ -66,8 +65,6 @@ Page({
                 myList.push(activity);
               }
               wx.setStorageSync('myPartakeList', myList);
-
-              console.log("myPartakeList:", wx.getStorageSync('myPartakeList'))
               this.setData({ myPartakeList: wx.getStorageSync('myPartakeList') })
 
               break;
@@ -110,7 +107,6 @@ Page({
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('myPartakePageData', result);
-              console.log("myPartakePageData:", wx.getStorageSync('myPartakePageData'))
 
               // 获取最新数据并缓存
               let myList = [];
@@ -121,8 +117,6 @@ Page({
                 myList.push(activity);
               }
               wx.setStorageSync('myPartakeList', myList);
-
-              console.log("myPartakeList:", wx.getStorageSync('myPartakeList'))
               this.setData({ myPartakeList: wx.getStorageSync('myPartakeList') })
 
               break;
@@ -198,7 +192,7 @@ Page({
   },
 
   /**
-   * 页面上拉触底事件的处理函数
+   * 页面触底事件的处理函数
    */
   onReachBottom: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });

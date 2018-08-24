@@ -143,24 +143,27 @@
   color: #666;
 }
 
+/* 标题和摘要 */
 .list-title {
   position: relative;
   height: 40rpx;
   border-bottom: 1rpx solid #F0F5FA;
-  font-size: 24rpx;
+  font-size: 34rpx;
   padding: 20rpx 0;
+  color: black;
 }
 
 .list-abstract {
+  text-align: left;
   position: relative;
-  height: 100rpx;
+  height: 120rpx;
   border-bottom: 1rpx solid #F0F5FA;
   font-size: 24rpx;
   padding: 20rpx 0;
+  color: #666;
 }
 
 .list-title text {
-  color: #666;
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -168,7 +171,8 @@
 }
 
 .list-abstract text {
-  color: #666;
+  font-size: 28rpx;
+  color: black;
   display: -webkit-box;
   word-break: break-all;
   -webkit-box-orient: vertical;

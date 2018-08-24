@@ -89,15 +89,17 @@
                   <text class="province">已报名{{item.ksEnrollNum}}人</text>
                 </view>
               </view>
+
               <view class='activity-main'>
                 <view class='list-title'>
-                  <text class="list-item-title">{{item.ksTitle}}</text>
+                  <text class="list-item-title ksTitle">{{item.ksTitle}}</text>
                 </view>
                 <view class='list-abstract'>
                   摘要
                   <text class="list-item-abstract">{{item.ksAbstract}}</text>
                 </view>
               </view>
+              
           </view>
         </scroll-view>
 

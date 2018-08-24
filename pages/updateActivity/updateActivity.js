@@ -31,7 +31,7 @@ Page({
     text: '',
 
     // post的参数，即需要填写的讲座信息
-    ksId: 0,  // 讲座Id
+    ksId: 0,
     kbId: 0,
     ksAbstract: "",
     ksContent: "",
@@ -46,7 +46,13 @@ Page({
   },
 
   // 当讲座标题输入
-  onTitleChange(e) { this.setData({ ksTitle: e.detail.value }); },
+  onTitleChange(e) { 
+    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    if (e.detail.value.length > 15) notify("标题长度不超过15字")
+    else {
+      thhis.setData({ ksTitle: e.detail.value });
+    }
+  },
   // 当讲座摘要输入
   onAbstractChange(e) {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
@@ -82,7 +88,6 @@ Page({
 
     // 由于后台需要，需要post转换时间格式空格为T格式
     this.setData({
-      // ksStartTime: this.data.ksStartTime + ' ' + e.detail.value
       ksStartTime: this.data.date + 'T' + e.detail.value
     })
     console.log('讲座开始时间值为', this.data.ksStartTime);
@@ -145,7 +150,6 @@ Page({
 
   // 点击确认修改讲座
   onTapSure() {
-
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     
     // 如果未作修改
@@ -224,7 +228,7 @@ Page({
     activityService.updateActivity(data, (successed) => {
       if (successed) {
         notify('修改成功');
-        wx.redirectTo({ url: '../detailForAuthor/detailForAuthor' });                
+        wx.redirectTo({ url: '../detailForAuthor/detailForAuthor' });        
       }
       else notify('修改失败');
     });

@@ -27,28 +27,35 @@ Page({
     // 多选
     text: '',
 
-    // post的参数，即需要填写的讲座信息
-    kbId: 0,  // 商家id
+    // post的参数
+    kbId: 0,
     ksAbstract: null,
-    ksAudit: true,  // 讲座审核
-    ksConfirm: true,  // 商家确认，暂时为true
+    ksAudit: true,
+    ksConfirm: true,
     ksContent: null,
-    ksDeleted: false,  // 讲座删除标志
+    ksDeleted: false,
     ksEndTime: "2018-08-01T14:00",
     ksEnrollLimit: 0,
     ksEnrollMinLimit: 0,
-    ksEnrollNum: 0, // 讲座报名人数
-    ksId: 0,  // 讲座Id，由后台生成
+    ksEnrollNum: 0,
+    ksId: 0,
     ksPartLimit: 0,
-    ksPartNum: 0, // 讲座合讲人数
+    ksPartNum: 0,
     ksRemark: "",
     ksStartTime: "2018-08-01T12:00",
     ksTitle: null,
-    ksType: 0,  // 讲座类型
+    ksType: 0,
   },
 
   // 当讲座标题输入
-  onTitleChange(e) { this.setData({ ksTitle: e.detail.value }); },
+  onTitleChange(e) { 
+    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    
+    if (e.detail.value.length > 15) notify("标题长度不超过15字")
+    else {
+      thhis.setData({ ksTitle: e.detail.value }); 
+    }
+  },
   // 当讲座摘要输入
   onAbstractChange(e) {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
@@ -84,7 +91,6 @@ Page({
 
     // 由于后台需要，需要post转换时间格式空格为T格式
     this.setData({
-      // ksStartTime: this.data.ksStartTime + ' ' + e.detail.value
       ksStartTime: this.data.date + 'T' + e.detail.value
     })
     console.log('讲座开始时间值为', this.data.ksStartTime);
@@ -175,10 +181,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     // 获取商家列表
     activityService.getBusinessMap(this.setIndustry);
-
     // 获取讲座类型列表
     activityService.getKstypeMap(this.setKstype);
   },
@@ -192,7 +196,6 @@ Page({
     console.log(industryList)
     this.setData({ accounts_industry: industryList });
   },
-
   // 获取讲座类型Map
   setKstype(map) {
     let industryList = [];
@@ -211,7 +214,6 @@ Page({
     })
     console.log("获取到商家值为", this.data.accountIndexI)
   },
-
   // 当讲座类型输入
   bindKstypeAccountChange: function (e) {
     this.setData({

@@ -13,7 +13,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      userInfo: getApp().globalData.userInfo
+      userInfo: wx.getStorageSync('wxUserInfo')
     })
   },
 

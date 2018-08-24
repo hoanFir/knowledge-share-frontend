@@ -9,7 +9,7 @@
           <view class="weui-label">讲座标题</view>
         </view>
         <view class="weui-cell__bd">
-          <input bindinput='onTitleChange' class="weui-input" placeholder="{{oldActivityDetail.ksTitle}}"/>
+          <input bindinput='onTitleChange' class="weui-input industry" placeholder="{{oldActivityDetail.ksTitle}}"/>
         </view>
       </view>
 
@@ -18,7 +18,7 @@
           <view class="weui-label">讲座摘要</view>
         </view>
         <view class="weui-cell__bd">
-          <textarea bindinput='onAbstractChange' class="weui-textarea" placeholder="{{oldActivityDetail.ksAbstract}}" style="height: 3.3em" />
+          <textarea bindinput='onAbstractChange' class="weui-textarea industry" placeholder="{{oldActivityDetail.ksAbstract}}" style="height: 3.3em" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
       </view>
@@ -28,7 +28,7 @@
           <view class="weui-label">讲座内容</view>
         </view>
         <view class="weui-cell__bd">
-          <textarea bindinput='onContentChange' class="weui-textarea" placeholder="{{oldActivityDetail.ksContent}}" style="height: 3.3em" />
+          <textarea bindinput='onContentChange' class="weui-textarea industry" placeholder="{{oldActivityDetail.ksContent}}" style="height: 3.3em" />
           <view class="weui-textarea-counter">0/200</view>
         </view>
       </view>
@@ -57,7 +57,7 @@
 
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">日期</view>
+          <view class="weui-label">开讲日期</view>
         </view>
         <view class="weui-cell__bd">
           <picker mode="date" value="{{date}}" start="2018-08-01" end="2010-09-01" bindchange="bindDateChange">
@@ -68,7 +68,7 @@
 
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">时间</view>
+          <view class="weui-label">开讲时间</view>
         </view>
         <view class="weui-cell__bd">
           <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange">
@@ -79,7 +79,7 @@
 
       <view class="weui-cell weui-cell_select">
         <view class="weui-cell__hd weui-cell__hd_in-select-after">
-            <view class="weui-label">预计用时</view>
+            <view class="weui-label">讲座总长</view>
         </view>
         <view class="weui-cell__bd">
           <picker bindchange="bindAccountChange" value="{{accountIndex}}" range="{{accounts}}">

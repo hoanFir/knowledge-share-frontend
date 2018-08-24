@@ -23,7 +23,7 @@ Page({
   onLoad: function (options) {
     // 微信用户自带信息
     this.setData({
-      userInfo: getApp().globalData.userInfo
+      userInfo: gwx.getStorageSync('wxUserInfo')
     })
     
     // 用户手动添加的信息

@@ -10,10 +10,6 @@ class UserService {
    * 使用code和userdata获取token和user信息
    */
   validate(code, userdata, callback) {
-    // 参数code是在index.wxml中传过来的
-    console.log("code for validate方法:" + code)
-    // 参数userdata是在index.wxml中获取的用户信息并传过来
-    console.log("userInfo for validate方法:" + userdata)
 
     let url = new URL('http', serverAddr).path('tokens/' + code);
     wx.request({
@@ -31,7 +27,6 @@ class UserService {
       },
       success: ({ data: result, statusCode }) => {
         console.log("validate方法运行后", statusCode)
-        console.log("sid&token: " + result.token)
 
         // TODO 状态码判断
         switch (statusCode) {

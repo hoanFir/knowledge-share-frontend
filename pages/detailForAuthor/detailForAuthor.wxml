@@ -16,18 +16,21 @@
   <!-- 一个全屏模态对话框结束 -->
 
   <view class="page__hd">
-      <view class="page__title">讲座主题 #类型 {{ksType}}#</view>
-      <view class="page__desc">{{activityDetail.ksTitle}}</view>
+      <view class="page__title">{{activityDetail.ksTitle}}</view>
+      <view class="page__desc">讲座主题 #类型 {{ksType}}#</view>
   </view>
-  
-  <view class="weui-media-box weui-media-box_text">
-      <view class="weui-media-box__title weui-media-box__title_in-text">摘要</view>
-      <view class="weui-media-box__desc">{{activityDetail.ksAbstract}}</view>
+
+  <view class="weui-panel__bd">
+    <view class="weui-media-box weui-media-box_text">
+        <view class="weui-media-box__title weui-media-box__title_in-text">摘要</view>
+        <view class="weui-media-box__desc">{{activityDetail.ksAbstract}}</view>
+    </view>
+    <view class="weui-media-box weui-media-box_text">
+        <view class="weui-media-box__title weui-media-box__title_in-text">主讲内容</view>
+        <view class="weui-media-box__desc">{{activityDetail.ksContent}}</view>
+    </view>
   </view>
-  <view class="weui-media-box weui-media-box_text">
-      <view class="weui-media-box__title weui-media-box__title_in-text">主讲内容</view>
-      <view class="weui-media-box__desc">{{activityDetail.ksContent}}</view>
-  </view>
+
 
   <view class="weui-form-preview__bd">
 

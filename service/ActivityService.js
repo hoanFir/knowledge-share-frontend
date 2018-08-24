@@ -135,7 +135,6 @@ class ActivityService {
       },
       success: ({ data: result, statusCode }) => {
         console.log("修改主题运行了", StatusCode)
-        console.log(result);
 
         // TODO 状态码判断
         switch (statusCode) {
@@ -149,11 +148,7 @@ class ActivityService {
             wx.setStorageSync('activityDetail', activityDetail);
             // 获取主题类型ksType，存储到本地缓存
             wx.setStorageSync('activityType', activityDetail.ksType);
-
-            // 控制台输出详情数据
-            console.log("修改主题之后的详情", wx.getStorageSync("activityDetail"))
             callback(true);
-
             break;
           case StatusCode.FOUND_NOTHING:
             console.warn('found nothing');
@@ -194,6 +189,7 @@ class ActivityService {
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('pageData', result);
+              console.log("fetchAllActivity方法运行了", wx.getStorageSync('pageData'))
 
               // 获取最新数据并缓存
               let activityList = [];
@@ -452,8 +448,6 @@ class ActivityService {
           'Authorization': 'Bearer ' + wx.getStorageSync('sid')
         },
         success: ({ data: result }) => {
-          console.log("获取商家", result);
-
           wx.setStorageSync('BusinessMap', result.ksBusinessList);
           callback(result.ksBusinessList);
         },
@@ -479,8 +473,6 @@ class ActivityService {
           'Authorization': 'Bearer ' + wx.getStorageSync('sid')
         },
         success: ({ data: result }) => {
-          console.log("获取讲座类型", result);
-
           wx.setStorageSync('KstypeMap', result.ksDictDataMap);
           callback(result.ksDictDataMap);
         },

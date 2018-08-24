@@ -54,7 +54,6 @@ Page({
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('myEnrollPageData', result);
-              console.log("myEnrollPageData:", wx.getStorageSync('myEnrollPageData'))
 
               // 获取最新数据并缓存
               let myList = [];
@@ -199,7 +198,7 @@ Page({
   },
 
   /**
-   * 页面上拉触底事件的处理函数
+   * 页面触底事件的处理函数
    */
   onReachBottom: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
@@ -225,7 +224,6 @@ Page({
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('myEnrollPageData', result);
-              console.log("触底刷新运行了:", wx.getStorageSync('myEnrollPageData'))
 
               let addList = [];
               for (let item of result.array) {

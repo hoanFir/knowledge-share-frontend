@@ -90,9 +90,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-    console.log(getApp().globalData)
     this.setData({
-      userInfo: getApp().globalData.userInfo
+      userInfo: wx.getStorageSync('wxUserInfo')
     })
 
     // TODO：暂时只获取第一页，初期一般讲座不超过12个，可以轻松获取到讲座数目
@@ -109,7 +108,8 @@ Page({
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myDeliverPageData', result);
-            console.log("myDeliverPageData:", wx.getStorageSync('myDeliverPageData'))
+
+            console.log("触底刷新运行了:", wx.getStorageSync('myDeliverPageData'))
             let myList = [];
             for (let item of result.array) {
               item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
@@ -144,7 +144,6 @@ Page({
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myEnrollPageData', result);
-            console.log("myEnrollPageData:", wx.getStorageSync('myEnrollPageData'))
             let myList = [];
             for (let item of result.array) {
               item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
@@ -180,7 +179,6 @@ Page({
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myPartakePageData', result);
-            console.log("myPartakePageData:", wx.getStorageSync('myPartakePageData'))
             let myList = [];
             for (let item of result.array) {
               item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
@@ -188,7 +186,6 @@ Page({
               myList.push(activity);
             }
             wx.setStorageSync('myPartakeList', myList);
-            console.log("myPartakeList:", wx.getStorageSync('myPartakeList'))
             this.setData({ partakeCount: wx.getStorageSync('myPartakeList').length })
             break;
           case StatusCode.FOUND_NOTHING:

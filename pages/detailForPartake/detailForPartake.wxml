@@ -16,8 +16,8 @@
   <!-- 一个全屏模态对话框结束 -->
 
   <view class="page__hd">
-    <view class="page__title">讲座主题 #类型 {{ksType}}#</view>
-    <view class="page__desc">{{activityDetail.ksTitle}}</view>
+    <view class="page__title">{{activityDetail.ksTitle}}</view>
+    <view class="page__desc">讲座主题 #类型 {{ksType}}#</view>
   </view>
 
   <view class="weui-media-box weui-media-box_text">
