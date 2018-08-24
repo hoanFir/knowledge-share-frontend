@@ -82,7 +82,7 @@ Page({
       })
     } else {
       const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-      notify("暂未开放")
+      notify("即将开放")
     }
   },
 

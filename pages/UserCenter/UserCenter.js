@@ -20,31 +20,31 @@ Page({
   // 点击其他功能
   commentTap: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    notify("暂未开放")
+    notify("即将开放")
   },
   collectionTap: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    notify("暂未开放")
+    notify("即将开放")
   },
   moneyTap: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    notify("暂未开放")
+    notify("即将开放")
   },
   shareTap: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    notify("暂未开放")
+    notify("即将开放")
   },
   merchantTap: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    notify("暂未开放")
+    notify("即将开放")
   },
   helpTap: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    notify("暂未开放")
+    notify("即将开放")
   },
   customerServiceTap: function () {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    notify("暂未开放")
+    notify("即将开放")
   },
 
   /**

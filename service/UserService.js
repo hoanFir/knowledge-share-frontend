@@ -15,7 +15,7 @@ class UserService {
     // 参数userdata是在index.wxml中获取的用户信息并传过来
     console.log("userInfo for validate方法:" + userdata)
 
-    let url = new URL('http', serverAddr).path('tokens/'+code);
+    let url = new URL('http', serverAddr).path('tokens/' + code);
     wx.request({
       url: url.toString(),
       method: 'POST',

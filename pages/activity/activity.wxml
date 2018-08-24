@@ -23,7 +23,7 @@
     <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
       <navigator url="" class="weui-cell" hover-class="weui-cell_active">
         <view class="weui-cell__bd">
-          <view>暂未开放</view>
+          <view>即将开放</view>
         </view>
       </navigator>
     </view>
