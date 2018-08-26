@@ -1,8 +1,6 @@
 // pages/myListenList/myListenList.js
 import activityService from '../../service/ActivityService';
 const util = require('../../utils/util.js')
-
-// 用于下拉刷新再申请，以及token
 import userService from '../../service/UserService';
 import Activity from '../../model/Activity';
 import URL from '../../utils/URL';
@@ -52,13 +50,10 @@ Page({
           // TODO 状态码判断
           switch (statusCode) {
             case 200:
-              // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('myEnrollPageData', result);
-
               // 获取最新数据并缓存
               let myList = [];
               for (let item of result.array) {
-                // 转换时间戳
                 item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
                 let activity = new Activity(item);
                 myList.push(activity);
@@ -115,7 +110,6 @@ Page({
               // 获取最新数据并缓存
               let myList = [];
               for (let item of result.array) {
-                // 转换时间戳
                 item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
                 let activity = new Activity(item);
                 myList.push(activity);
@@ -205,12 +199,11 @@ Page({
    * 页面触底事件的处理函数
    */
   onReachBottom: function () {
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
 
     // 判断还有无数据
     console.log("触底刷新isEnd:", wx.getStorageSync('myEnrollPageData').isEnd)
     this.isEnd = wx.getStorageSync('myEnrollPageData').isEnd;
-    if (this.isEnd) notify("没有更多");
+    if (this.isEnd) wx.showToast({ title: "没有更多", icon: 'none' });
 
     else {
       let url = new URL('http', serverAddr).path('subjects').param('page', ++this.pageNum).param('queryType', 'applicant');
@@ -231,7 +224,6 @@ Page({
 
               let addList = [];
               for (let item of result.array) {
-                // 转换时间戳
                 item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
                 let activity = new Activity(item);
                 addList.push(activity);

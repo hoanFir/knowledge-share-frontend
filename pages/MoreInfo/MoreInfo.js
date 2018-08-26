@@ -31,7 +31,9 @@ Page({
     userService.updateMoreInfo(data, (successed) => {
       if (successed) {
         notify('保存成功');
-        wx.redirectTo({ url: '../userinfo/userinfo' });
+        wx.navigateBack({
+          delta: 2
+        })
       }
       else notify('保存失败');
     });

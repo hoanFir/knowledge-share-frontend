@@ -1,20 +1,6 @@
 <!--pages/detailForEnroll/detailForEnroll.wxml-->
 <view class="page">
 
-  <!-- 一个全屏模态对话框开始 -->
-  <view class="modal" style="{{modalShowStyle}}">
-    <view class="dialog">
-      <view class="modal-item" style="display:flex;justify-content:center;align-items:center;">
-        确定取消报名
-      </view>
-      <view class="modal-button" style="width:100%">
-        <view style="color:#7da4ff;border-right:1px solid #E5E7ED;" bindtap="onTapCancelEnrollment">确定</view>
-        <view bindtap="touchCancel">取消</view>
-      </view>
-    </view>
-  </view>
-  <!-- 一个全屏模态对话框结束 -->
-
   <view class="page__hd">
     <view class="page__title">{{activityDetail.ksTitle}}</view>
     <view class="page__desc">讲座主题 #类型 {{ksType}}#</view>

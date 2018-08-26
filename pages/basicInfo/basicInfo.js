@@ -90,7 +90,7 @@ Page({
     userService.updateBasicInfo(data, (successed) => {
       if (successed) {
         notify('保存成功');
-        wx.redirectTo({ url: '../userInfo/userInfo' });
+        wx.navigateBack();
       }
       else notify('保存失败');
     });

@@ -1,135 +1,141 @@
 <!--pages/updateActivity/updateActivity.wxml-->
-<view class='pageHere'>
-  <form class="info" bindsubmit="formSubmit" bindreset="formReset">
+<form class="info" bindsubmit="formSubmit" bindreset="formReset">
 
-    <view class="weui-cells weui-cells_after-title">
+  <view class="weui-cells weui-cells_after-title">
 
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">讲座标题</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input bindinput='onTitleChange' class="weui-input industry" placeholder="{{oldActivityDetail.ksTitle}}"/>
-        </view>
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">讲座标题</view>
       </view>
-
-      <view class="weui-cell">
-        <view class="weui-cell__hd">
-          <view class="weui-label">讲座摘要</view>
-        </view>
-        <view class="weui-cell__bd">
-          <textarea bindinput='onAbstractChange' class="weui-textarea industry" placeholder="{{oldActivityDetail.ksAbstract}}" style="height: 3.3em" />
-          <view class="weui-textarea-counter">0/200</view>
-        </view>
+      <view class="weui-cell__bd">
+        <input bindinput='onTitleChange' class="weui-input industry" value="{{oldActivityDetail.ksTitle}}"/>
       </view>
-
-      <view class="weui-cell">
-        <view class="weui-cell__hd">
-          <view class="weui-label">讲座内容</view>
-        </view>
-        <view class="weui-cell__bd">
-          <textarea bindinput='onContentChange' class="weui-textarea industry" placeholder="{{oldActivityDetail.ksContent}}" style="height: 3.3em" />
-          <view class="weui-textarea-counter">0/200</view>
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
-          <view class="weui-label">讲座地点</view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker bindchange="bindIndustryAccountChange" value="{{accountIndexI}}" range="{{accounts_industry}}">
-            <view class="weui-select weui-select_in-select-after industry">{{accounts_industry[accountIndexI]}}</view>
-          </picker>
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
-          <view class="weui-label">讲座类型</view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker bindchange="bindKstypeAccountChange" value="{{accountIndexK}}" range="{{accounts_kstype}}">
-            <view class="weui-select weui-select_in-select-after industry">{{accounts_kstype[accountIndexK]}}</view>
-          </picker>
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">开讲日期</view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker mode="date" value="{{date}}" start="2018-08-01" end="2010-09-01" bindchange="bindDateChange">
-              <view class="weui-input">{{date}}</view>
-          </picker>
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">开讲时间</view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange">
-            <view class="weui-input">{{time}}</view>
-          </picker>
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_select">
-        <view class="weui-cell__hd weui-cell__hd_in-select-after">
-            <view class="weui-label">讲座总长</view>
-        </view>
-        <view class="weui-cell__bd">
-          <picker bindchange="bindAccountChange" value="{{accountIndex}}" range="{{accounts}}">
-            <view class="weui-select weui-select_in-select-after">{{accounts[accountIndex]}}</view>
-          </picker>
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">最多人数</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input bindinput='onEnrollLimitMaxChange' class="weui-input" placeholder="{{oldActivityDetail.ksEnrollLimit}}"/>
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">最少人数</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input bindinput='onEnrollLimitMinChange' class="weui-input" placeholder="{{oldActivityDetail.ksEnrollMinLimit}}"/>
-        </view>
-      </view>
-
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">允许合讲人数</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input bindinput='onPartLimitChange' class="weui-input" placeholder="{{oldActivityDetail.ksPartLimit}}"/>
-        </view>
-      </view>
-
     </view>
 
-    <view class="weui-cells__title">有无其他要求</view>
-    <view class='fuli' style='margin:5px 30px;'>
-      <checkbox-group bindchange="checkboxgroupBindchange" name="fl">
-        <checkbox value="投影仪" style='margin-right: 15rpx'>投影仪</checkbox>
-        <checkbox value="主持">主 持</checkbox>
-      </checkbox-group>
-    </view>
-    
-    <view class='button-sp-area'>
-      <button class="weui-btn mini-btn" type="primary" size="mini" bindtap="onTapSure">确认修改</button>
-      <button class="weui-btn mini-btn" form-type='reset' class='resume' size="mini">重置内容</button>
-      <button class="weui-btn mini-btn" type="normal" size="mini" bindtap="onTapCancel">取消发起</button>      
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label">讲座摘要</view>
+      </view>
+      <view class="weui-cell__bd">
+        <textarea bindinput='onAbstractChange' class="weui-textarea industry" value="{{oldActivityDetail.ksAbstract}}" style="height: 4.3em" />
+        <view class="weui-textarea-counter">0/200</view>
+      </view>
     </view>
 
-  </form>
-</view>
+    <view class="weui-cell">
+      <view class="weui-cell__hd">
+        <view class="weui-label">讲座内容</view>
+      </view>
+      <view class="weui-cell__bd">
+        <textarea bindinput='onContentChange' class="weui-textarea industry" value="{{oldActivityDetail.ksContent}}" style="height: 4.3em" />
+        <view class="weui-textarea-counter">0/200</view>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_select">
+      <view class="weui-cell__hd weui-cell__hd_in-select-after">
+        <view class="weui-label">讲座地点</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker bindchange="bindIndustryAccountChange" value="{{accountIndexI}}" range="{{accounts_industry}}">
+          <view class="weui-select weui-select_in-select-after industry">{{accounts_industry[accountIndexI]}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_select">
+      <view class="weui-cell__hd weui-cell__hd_in-select-after">
+        <view class="weui-label">讲座类型</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker bindchange="bindKstypeAccountChange" value="{{accountIndexK}}" range="{{accounts_kstype}}">
+          <view class="weui-select weui-select_in-select-after industry">{{accounts_kstype[accountIndexK]}}</view>
+        </picker>
+      </view>
+    </view>
+
+  </view>
+
+  <view class="weui-cells__title">发起讲座要求开讲至少于六小时之后</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">开讲日期</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker mode="date" value="{{date}}" start="2018-08-01" end="2010-09-01" bindchange="bindDateChange">
+            <view class="weui-input">{{date}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">开讲时间</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange">
+          <view class="weui-input">{{time}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_select">
+      <view class="weui-cell__hd weui-cell__hd_in-select-after">
+          <view class="weui-label">讲座总长</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker bindchange="bindAccountChange" value="{{accountIndex}}" range="{{accounts}}">
+          <view class="weui-select weui-select_in-select-after">{{accounts[accountIndex]}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <view class="weui-cells__title">参与人数少于最少人数讲座将自动取消</view>
+  <view class="weui-cells weui-cells_after-title">
+  
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">最多人数</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput='onEnrollLimitMaxChange' class="weui-input" value="{{oldActivityDetail.ksEnrollLimit}}"/>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">最少人数</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput='onEnrollLimitMinChange' class="weui-input" value="{{oldActivityDetail.ksEnrollMinLimit}}"/>
+      </view>
+    </view>
+
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__hd">
+        <view class="weui-label">允许合讲人数</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input bindinput='onPartLimitChange' class="weui-input" value="{{oldActivityDetail.ksPartLimit}}"/>
+      </view>
+    </view>
+
+  </view>
+
+  <view class="weui-cells__title">有无其他要求</view>
+  <view class='fuli' style='margin:5px 30px;'>
+    <checkbox-group bindchange="checkboxgroupBindchange" name="fl">
+      <checkbox value="投影仪" style='margin-right: 15rpx'>投影仪</checkbox>
+      <checkbox value="主持">主 持</checkbox>
+    </checkbox-group>
+  </view>
+  
+  <view class='button-sp-area'>
+    <button class="weui-btn mini-btn" type="primary" size="mini" bindtap="onTapSure">确认修改</button>
+    <button class="weui-btn mini-btn" form-type='reset' class='resume' size="mini">重置内容</button>
+    <button class="weui-btn mini-btn" type="normal" size="mini" bindtap="onTapCancel">取消发起</button>      
+  </view>
+
+</form>

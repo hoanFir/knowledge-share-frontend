@@ -1,5 +1,4 @@
 // pages/detailForAuthor/detailForAuthor.js
-// 用于请求查看详情所需依赖
 import activityService from '../../service/ActivityService';
 
 Page({
@@ -7,39 +6,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 方便用于主题操作，不用于页面数据显示
     ksId: null,
+    // 用于页面数据显示
     activityDetail: null,
-
     // ksRemark设备提供
     ksRemark: "",
-
     // 讲座类型
     ksType: null
-  },
-
-  // 删除警示
-  onTapDelete() {
-    wx.showModal({
-      title: '警告',
-      content: '删除操作将无法撤销',
-      success: (res) => {
-        if (res.confirm) {
-          activityService.deleteActivity(this.data.ksId, (successed) => {
-            if (successed) {
-              wx.showToast({ title: '删除成功', icon: 'none' });
-              wx.navigateBack();
-            }
-            else wx.showToast({ title: '删除失败', icon: 'none' });
-          });
-        }
-      },
-      fail: () => { }
-    })
-  },
-
-  // 点击修改主题
-  touchUpdate: function () {
-    wx.redirectTo({ url: '../updateActivity/updateActivity' });
   },
 
   /**
@@ -79,6 +53,31 @@ Page({
       })
     }
 
+  },
+
+  // 删除警示
+  onTapDelete() {
+    wx.showModal({
+      title: '警告',
+      content: '删除操作将无法撤销',
+      success: (res) => {
+        if (res.confirm) {
+          activityService.deleteActivity(this.data.ksId, (successed) => {
+            if (successed) {
+              wx.showToast({ title: '删除成功', icon: 'none' });
+              wx.navigateBack();
+            }
+            else wx.showToast({ title: '删除失败', icon: 'none' });
+          });
+        }
+      },
+      fail: () => { }
+    })
+  },
+
+  // 点击修改主题
+  touchUpdate: function () {
+    wx.redirectTo({ url: '../updateActivity/updateActivity' });
   },
 
   // 点击头像跳转到个人页面
@@ -141,8 +140,7 @@ Page({
 
       },
       fail: function (res) {
-        const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-        notify('分享失败');
+        wx.showToast({ title: "分享失败", icon: 'none' });
       }
 
     }

@@ -2,7 +2,7 @@
 <view class='profile-container'>
 
   <view class="header-container">
-    <image class="header-avatar" src="{{activityUserDetail.kuHeadImgUrl}}" background-size="cover" bindtap="getBasicInfo"></image>
+    <image class="header-avatar" src="{{activityUserDetail.kuHeadImgUrl}}" background-size="cover"></image>
     <text class="header-nickname">{{activityUserDetail.kuName}}</text>
     <view class='header-activtiy'>
       <text class="text-info">开讲数</text><text class="text-info">1</text>

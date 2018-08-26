@@ -22,14 +22,13 @@ Page({
     console.log("获取到用户Id", this.data.kuId)
 
     // TODO：通过kuId获取用户信息
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     userService.getActivityUserDetail(this.data.kuId, (successed) => {
       if (successed) {
         this.setData({
           activityUserDetail: wx.getStorageSync('activityUserDetail')
         })
       }
-      else notify('获取用户信息失败');
+      else wx.showToast({ title: "获取信息失败", icon: 'none' });
     });
   },
 

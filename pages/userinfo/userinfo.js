@@ -14,7 +14,11 @@ Page({
   },
 
   toBaiscInfo: function () {
-    wx.redirectTo({ url: '../basicInfo/basicInfo' });    
+    wx.navigateTo({ url: '../basicInfo/basicInfo' });    
+  },
+
+  toBack: function () {
+    wx.navigateBack()
   },
 
   /**
@@ -51,8 +55,7 @@ Page({
 
     // 用户手动添加的信息，这里的userDetail是在第一次登录时候获取缓存的
     if (!wx.getStorageSync('userDetail')) {
-      const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-      notify('获取用户信息失败');
+      wx.showToast({ title: "获取用户信息失败", icon: 'none' });
     } else {
       this.setData({
         userDetail: wx.getStorageSync('userDetail')

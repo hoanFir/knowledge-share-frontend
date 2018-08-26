@@ -1,5 +1,4 @@
 // pages/detailForEnroll/detailForEnroll.js
-// 用于请求查看详情所需依赖
 import activityService from '../../service/ActivityService';
 
 Page({
@@ -7,29 +6,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 方便用于主题操作，不用于页面数据显示
     ksId: null,
     keId: null,
+    // 用于页面数据显示
     activityDetail: null,
-
-    // 点击取消报名
-    modalShowStyle: "",
-
     // 讲座类型
     ksType: null
   },
-
-  // 点击取消报名
-  touchCancelEnroll: function (event) {
-    this.setData({
-      modalShowStyle: "opacity:1;pointer-events:auto;"
-    })
-  },
-  hideModal() {
-    this.setData({ modalShowStyle: "" });
-  },
-  touchCancel: function (event) {
-    this.hideModal();
-  }, 
 
   /**
    * 生命周期函数--监听页面加载
@@ -60,33 +44,36 @@ Page({
     }
   },
 
-  // 处理点击取消报名
-  onTapCancelEnrollment: function () {
 
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+  // 取消报名
+  touchCancelEnroll() {
+    wx.showModal({
+      title: '警告',
+      content: '确定取消报名',
+      success: (res) => {
+        if (res.confirm) {
 
-    // 获取该讲座的keId
-    for (let item of wx.getStorageSync('activityDetail').enrollments) {
-      if (item.kuId == wx.getStorageSync('userDetail').kuId) {
-        this.setData({
-          keId: item.keId
-        })
-      }
-    }
+          const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+          // 获取该讲座的keId
+          for (let item of wx.getStorageSync('activityDetail').enrollments) {
+            if (item.kuId == wx.getStorageSync('userDetail').kuId) {
+              this.setData({
+                keId: item.keId
+              })
+            }
+          }
+          activityService.cancelEnrollActivity(this.data.ksId, this.data.keId, (successed) => {
+            if (successed) {
+              notify('取消成功');
+              wx.navigateBack();
+            }
+            else notify('取消失败');
+          });
 
-    // 使用解构赋值
-    // let { ksId, keId } = this.data;
-    // 下面的data是传给enrollmentActivity的参数
-    // let data = { ksId, keId };
-
-    activityService.cancelEnrollActivity(this.data.ksId, this.data.keId, (successed) => {
-      if (successed) {
-        notify('取消成功');
-        wx.navigateBack();
-      }
-      else notify('取消失败');
-    });
-
+        }
+      },
+      fail: () => { }
+    })
   },
 
   onReady() { },

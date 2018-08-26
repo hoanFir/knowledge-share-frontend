@@ -1,5 +1,5 @@
 /* pages/updateActivity/updateActivity.wxss */
-.pageHere {
+page {
   padding-bottom: 50px;
 }
 

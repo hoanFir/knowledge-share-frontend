@@ -27,6 +27,7 @@ class UserService {
       },
       success: ({ data: result, statusCode }) => {
         console.log("validate方法运行后", statusCode)
+        console.log("result: ", result)
 
         // TODO 状态码判断
         switch (statusCode) {

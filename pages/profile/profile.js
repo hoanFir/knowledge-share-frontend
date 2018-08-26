@@ -81,8 +81,7 @@ Page({
         url: '../UserCenter/UserCenter'
       })
     } else {
-      const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-      notify("即将开放")
+      wx.showToast({ title: "即将开放", icon: 'none' });
     }
   },
 
@@ -109,7 +108,6 @@ Page({
           case 200:
             wx.setStorageSync('myDeliverPageData', result);
 
-            console.log("触底刷新运行了:", wx.getStorageSync('myDeliverPageData'))
             let myList = [];
             for (let item of result.array) {
               item.ksStartTime = util.formatTime(new Date(item.ksStartTime));

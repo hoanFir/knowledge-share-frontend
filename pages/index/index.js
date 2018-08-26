@@ -5,7 +5,7 @@ Page({
   neverShow: true,
 
   data: {
-    userInfo: {},
+
   },
 
   onLoad: function () {
@@ -48,16 +48,14 @@ Page({
         if (res.authSetting['scope.userInfo']) {
           wx.getUserInfo({
             success: res => {
+              console.log("getUserInfo运行了")
+
               // 可以将 res 发送给后台解码出 unionId
               wx.setStorageSync('wxUserInfo', res.userInfo)
-              this.setData({
-                userInfo: res.userInfo
-              })
+
               // 在此处顺便obtain sid
-              // let userdata = wx.getStorageSync('wxUserInfo');
-              // let code = wx.getStorageSync('code');
               userService.validate(wx.getStorageSync('code') || '', wx.getStorageSync('wxUserInfo'), () => {
-                console.log("fetchToken ends")
+                console.log("获取tokens成功")
               });
               wx.switchTab({
                 url: '../activity/activity'

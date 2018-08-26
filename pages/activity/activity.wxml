@@ -23,45 +23,45 @@
 
       <!-- 搜索 -->
       <view class="weui-search-bar">
-          <view class="weui-search-bar__form">
-              <view class="weui-search-bar__box">
-                  <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                  <input type="text" class="weui-search-bar__input" placeholder="搜索" focus="{{showInput}}" bindinput="onTextChange" 
-                  bindconfirm="onConfirm" value='{{keyword}}'/>
-                  <view class="weui-icon-clear" wx:if="{{keyword.length > 0}}" bindtap="clearText">
-                      <icon type="clear" size="14"></icon>
-                  </view>
-              </view>
+        <view class="weui-search-bar__form">
+          <view class="weui-search-bar__box">
+            <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+            <input type="text" class="weui-search-bar__input" placeholder="搜索" focus="{{showInput}}" bindinput="onTextChange" 
+            bindconfirm="onConfirm" value='{{keyword}}'/>
+            <view class="weui-icon-clear" wx:if="{{keyword.length > 0}}" bindtap="clearText">
+              <icon type="clear" size="14"></icon>
+            </view>
           </view>
+        </view>
       </view>
       
-      <!-- activityList -->
+      <!-- 讲座瀑布流 -->
       <scroll-view scroll-y="true" class='activities'>
         <view class='activity' bindtap='showDetail' wx:key="activities"  wx:for="{{activityList}}" wx:for-index="idx" id='{{idx}}'>
-            <view class="activity-header">
-              <view class="start">
-                <image class="header-avatar" src="{{item.ksUser.kuHeadImgUrl}}" background-size="cover" bindtap="getBasicInfo"></image>
-                <text class="header-nickname">{{item.ksUser.kuName}}</text>
-              </view>
-              <view class="distance">
-                <view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
-                <text>{{item.ksStartTime}}\n{{item.ksBusiness.kbName}}</text>
-              </view>
-              <view class="end">
-                <text class="city">报名中{{item.ksStatus}}</text>
-                <text class="province">已报名{{item.ksEnrollNum}}人</text>
-              </view>
-            </view>
 
-            <view class='activity-main'>
-              <view class='list-title'>
-                <text class="list-item-title ksTitle">{{item.ksTitle}}</text>
-              </view>
-              <view class='list-abstract'>
-                摘要
-                <text class="list-item-abstract">{{item.ksAbstract}}</text>
-              </view>
+          <view class="activity-header">
+            <view class="start">
+              <image class="header-avatar" src="{{item.ksUser.kuHeadImgUrl}}" background-size="cover" bindtap="getBasicInfo"></image>
+              <text class="header-nickname">{{item.ksUser.kuName}}</text>
             </view>
+            <view class="distance">
+              <view class="image"><image src="../../images/truck_on_the_road.png"></image></view>
+              <text>{{item.ksStartTime}}\n{{item.ksBusiness.kbName}}</text>
+            </view>
+            <view class="end">
+              <text class="city">报名中{{item.ksStatus}}</text>
+              <text class="province">已报名{{item.ksEnrollNum}}人</text>
+            </view>
+          </view>
+          <view class='activity-main'>
+            <view class='list-title'>
+              <text class="list-item-title ksTitle">{{item.ksTitle}}</text>
+            </view>
+            <view class='list-abstract'>
+              摘要
+              <text class="list-item-abstract">{{item.ksAbstract}}</text>
+            </view>
+          </view>
             
         </view>
       </scroll-view>
@@ -69,12 +69,12 @@
       <!-- 暂无数据 -->
       <view wx:if="{{activityList.length == 0}}" class='record_loadmore'>
         <view class="weui-loadmore weui-loadmore_line">
-            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">凉凉,竟然没有了</view>
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">凉凉,竟然没有了</view>
         </view>
       </view>
       <view class='footer'>
         <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-            <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
         </view>
       </view>
     </view>
@@ -85,12 +85,12 @@
       <!-- <view wx:if="{{activityList.length == 0}}" class='record_loadmore'> -->
       <view class='record_loadmore'>
         <view class="weui-loadmore weui-loadmore_line">
-            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">凉凉,竟然没有了</view>
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">凉凉,竟然没有了</view>
         </view>
       </view>
       <view class='footer'>
         <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-            <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
         </view>
       </view>        
     </view>
@@ -101,12 +101,12 @@
       <!-- <view wx:if="{{activityList.length == 0}}" class='record_loadmore'> -->
       <view class='record_loadmore'>
         <view class="weui-loadmore weui-loadmore_line">
-            <view class="weui-loadmore__tips weui-loadmore__tips_in-line">凉凉,竟然没有了</view>
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line">凉凉,竟然没有了</view>
         </view>
       </view>
       <view class='footer'>
         <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-            <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
         </view>
       </view>
     </view>

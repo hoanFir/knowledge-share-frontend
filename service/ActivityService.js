@@ -178,23 +178,23 @@ class ActivityService {
         url: url.toString(),
         method: 'GET',
         header: {
-          'Authorization': 'Bearer ' + sid
+          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
         },
         success: ({ data: result, statusCode }) => {
           console.log("fetchAllActivitys方法运行了:", statusCode)
-          console.log(" fetchAllActivitys方法运行了:", result)
+          console.log("result: ", result)
 
           // TODO 状态码判断
           switch (statusCode) {
             case 200:
-              // 缓存页面数据，包括arrSize、array、pageNum
+              // 缓存页面数据，包括arrSize、array、isEnd、pageNum、serve_time
               wx.setStorageSync('pageData', result);
               console.log("fetchAllActivity方法运行了", wx.getStorageSync('pageData'))
 
               // 获取最新数据并缓存
               let activityList = [];
               for (let item of result.array) {
-                // 转换时间戳
+                // 转换时间戳:2018-09-27 12:00
                 item.ksStartTime =  util.formatTime(new Date(item.ksStartTime));
                 let activity = new Activity(item);
                 activityList.push(activity);

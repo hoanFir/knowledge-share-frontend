@@ -1,23 +1,15 @@
 // pages/activity/detail.js
-import userService from '../../service/UserService';
-const sid = userService.getSid();
-
-// 用于请求查看详情所需依赖
 import activityService from '../../service/ActivityService';
-const util = require('../../utils/util.js')
-import config from '../../config';
-const serverAddr = config.serverAddr;
-import URL from '../../utils/URL';
-import ActivityDetail from '../../model/ActivityDetail';
 
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    // 用于页面数据显示
     activityDetail: null,
+    // 方便用于主题操作，不用于页面数据显示
     ksId: null,
-
     // 讲座类型
     ksType: null
   },
@@ -45,7 +37,6 @@ Page({
       }
       else notify('报名失败');
     });
-    
   },
 
   // 处理点击参讲
@@ -56,7 +47,6 @@ Page({
     if (this.data.activityDetail.ksPartLimit == 0) {
       notify("本次讲座不提供参讲")
     }
-
     activityService.partakeActivity(this.data.ksId, (successed) => {
       if (successed) {
         notify('参讲成功');
@@ -64,7 +54,6 @@ Page({
       }
       else notify('参讲失败');
     });
-
   },
 
   onReady() { },
