@@ -50,7 +50,7 @@ Page({
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     if (e.detail.value.length > 15) notify("标题长度不超过15字")
     else {
-      thhis.setData({ ksTitle: e.detail.value });
+      this.setData({ ksTitle: e.detail.value });
     }
   },
   // 当讲座摘要输入

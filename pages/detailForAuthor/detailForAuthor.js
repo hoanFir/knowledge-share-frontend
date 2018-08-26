@@ -10,9 +10,6 @@ Page({
     ksId: null,
     activityDetail: null,
 
-    // 点击删除主题
-    modalShowStyle: "",
-
     // ksRemark设备提供
     ksRemark: "",
 
@@ -20,18 +17,25 @@ Page({
     ksType: null
   },
 
-  // 点击删除主题
-  touchDelete: function (event) {
-    this.setData({
-      modalShowStyle: "opacity:1;pointer-events:auto;"
+  // 删除警示
+  onTapDelete() {
+    wx.showModal({
+      title: '警告',
+      content: '删除操作将无法撤销',
+      success: (res) => {
+        if (res.confirm) {
+          activityService.deleteActivity(this.data.ksId, (successed) => {
+            if (successed) {
+              wx.showToast({ title: '删除成功', icon: 'none' });
+              wx.navigateBack();
+            }
+            else wx.showToast({ title: '删除失败', icon: 'none' });
+          });
+        }
+      },
+      fail: () => { }
     })
   },
-  hideModal() {
-    this.setData({ modalShowStyle: "" });
-  },
-  touchCancel: function (event) {
-    this.hideModal();
-  }, 
 
   // 点击修改主题
   touchUpdate: function () {
@@ -77,27 +81,17 @@ Page({
 
   },
 
-  // 删除主题
-  onTapDelete: function () {
-
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-
-    activityService.deleteActivity(this.data.ksId, (successed) => {
-      if (successed) {
-        notify('删除成功');
-        wx.navigateBack();
-      }
-      else notify('删除失败');
-    });
-
-  },
-
   // 点击头像跳转到个人页面
   toActivityProfile: function(event) {
     console.log(event)
     wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });    
   },
 
+  // 跳转到审核参讲页面
+  toAuditPartake: function(event) {
+    console.log(event)
+    wx.navigateTo({ url: '../auditPartake/auditPartake?itemId=' + event.currentTarget.id });
+  },
 
   onReady() { },
   
@@ -126,7 +120,8 @@ Page({
     // 当某个小程序被转发到群组后，开发者想获取到转发目标群组信息，需要将用户和群组做某种绑定关系(openId + openGid)
     return {
       title: '快来听讲座吧',
-      path: 'page/user?id=123',
+      desc: '微言，予你予我',
+      path: '/pages/detail/detail',
       successs: function (res) {
         // shareTickets 是一个数组，每一项是一个 shareTicket ，对应一个转发对象，转发给用户不会包含shareTicket
         var shareTickets = res.shareTickets;

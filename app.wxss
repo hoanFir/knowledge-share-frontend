@@ -13,8 +13,6 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 200rpx 0;
   box-sizing: border-box;
 }
 
@@ -28,18 +26,15 @@ page {
     padding-left: 15px;
     padding-right: 15px;
 }
-
 .page__ft{
     padding-bottom: 10px;
     text-align: center;
 }
-
 .page__title {
     text-align: left;
     font-size: 20px;
     font-weight: 400;
 }
-
 .page__desc {
     margin-top: 5px;
     color: #888888;

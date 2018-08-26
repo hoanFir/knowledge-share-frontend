@@ -63,6 +63,7 @@
 
   <view class="flex-wrp" style="flex-direction:row;">
     <button class="flex-item" bindtap='onTapEnrollment'>报名</button>
+    <button open-type='share' class="flex-item">分享</button>
     <button class="flex-item" bindtap='onTapPartake'>参讲</button>    
   </view>
   

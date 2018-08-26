@@ -1,7 +1,6 @@
 // pages/activity/activity.js
 import activityService from '../../service/ActivityService';
-const util = require('../../utils/util.js')
-
+const util = require('../../utils/util.js');
 // 用于下拉刷新再申请，以及token
 import userService from '../../service/UserService';
 import Activity from '../../model/Activity';
@@ -9,7 +8,6 @@ import URL from '../../utils/URL';
 import StatusCode from '../../model/StatusCode';
 import config from '../../config';
 const serverAddr = config.serverAddr;
-
 // 用于详情
 import ActivityDetail from '../../model/ActivityDetail';
 
@@ -32,12 +30,8 @@ Page({
     // 讲座列表
     activityList: null,
 
-    // search
-    inputShowed: false,
-    inputVal: "",
-
-    // addDeliver
-    modalShowStyle: "",
+    // 搜索
+    keyword: '',
 
     // navbar
     tabs: ["最新", "最热", "最优"],
@@ -49,48 +43,39 @@ Page({
     ksId: null
   },
 
-  // search
-  showInput: function () {
-    this.setData({
-      inputShowed: true
-    });
+  // TODO：关键字搜索，暂时只能实现全匹配搜索
+  clearText() {
+    this.setData({ keyword: '' });
+    activityService.fetchAllActivitys(this.pageNum, (activityList) => this.setData({ activityList }));
   },
-  hideInput: function () {
-    this.setData({
-      inputVal: "",
-      inputShowed: false
-    });
+  onTextChange(e) {
+    let value = e.detail.value;
+    if (value.length == 0) activityService.fetchAllActivitys(this.pageNum, (activityList) => this.setData({ activityList }));
+    this.setData({ keyword: e.detail.value });
   },
-  clearInput: function () {
-    this.setData({
-      inputVal: ""
-    });
+  onConfirm() {
+    if (this.data.keyword) {
+      let activityList = activityService.searchByName(this.data.keyword);
+      this.setData({ activityList });
+    }
   },
-  inputTyping: function (e) {
-    this.setData({
-      inputVal: e.detail.value
-    });
-  },
-  
-  // addDeliver
-  touchAdd: function (event) {
-    this.setData({
-      modalShowStyle: "opacity:1;pointer-events:auto;"
+
+  // 警示
+  touchAdd () {
+    wx.showModal({
+      title: '确认',
+      content: '我也要发布讲座',
+      success: (res) => {
+        if (res.confirm) {
+          wx.navigateTo({
+            url: "../addDelivery/addDelivery"
+          })
+        }
+      },
+      fail: () => { }
     })
   },
-  hideModal() {
-    this.setData({ modalShowStyle: "" });
-  },
-  touchAddNew: function (event) {
-    this.hideModal();
-    wx.navigateTo({
-      url: "../addDelivery/addDelivery"
-    });
-  },
-  touchCancel: function (event) {
-    this.hideModal();
-  }, 
-
+  
   /**
    * 生命周期函数--监听页面加载
    */

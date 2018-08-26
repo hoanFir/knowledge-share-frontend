@@ -1,4 +1,4 @@
-<!--pages/activityProfile/activityProfile.wxml-->
+<!--pages/auditPartake/auditPartake.wxml-->
 <view class='profile-container'>
 
   <view class="header-container">
@@ -29,7 +29,7 @@
           <view class='msg-info-email flex-msg-info'>
             <image class='email-image icon-12px' src="../../images/phone.png" mode='aspectFit' />
             <text class="email-text text-info">联系方式</text>
-            <text class="email-text text-info">  {{activityUserDetail.kuPhone}}</text>
+            <text class="email-text text-info" selectable='true'>  {{activityUserDetail.kuPhone}}</text>
           </view>
           <view class='msg-info-link flex-msg-info'>
             <image class='link-image icon-12px' src="../../images/education.png" mode='aspectFit' />
@@ -58,3 +58,8 @@
   
 </view>
 
+<view class='button-sp-area'>
+  <button class="weui-btn mini-btn" type="primary" size="mini" bindtap="onTapCopy">复制联系方式</button>
+  <button class="weui-btn mini-btn" type="primary" size="mini" bindtap="onTapOk">通过</button>
+  <button class="weui-btn mini-btn" type="warn" size="mini" bindtap="onTapDelete">删除</button>
+</view>

@@ -87,7 +87,8 @@ Page({
     // 当某个小程序被转发到群组后，开发者想获取到转发目标群组信息，需要将用户和群组做某种绑定关系(openId + openGid)
     return {
       title: '快来听讲座吧',
-      path: 'page/user?id=123',
+      desc: '微言，予你予我',
+      path: '/pages/detail/detail',
       successs: function(res) {
         // shareTickets 是一个数组，每一项是一个 shareTicket ，对应一个转发对象，转发给用户不会包含shareTicket
         var shareTickets = res.shareTickets;

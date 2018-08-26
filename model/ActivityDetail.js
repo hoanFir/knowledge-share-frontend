@@ -29,6 +29,7 @@ class ActivityDetail {
     this.isPartake = json.isPartake;  // 是否为参讲者
     this.participations = json.participations; // 所有参讲用户
     this.serverTime = json.serverTime;  // 服务器时间，用于计算活动结束状态
+    this.isEnd = json.isEnd;  // 讲座是否已经删除
   }
 }
 

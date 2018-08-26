@@ -11,8 +11,48 @@ const util = require('../utils/util.js')
 // token
 const sid = userService.getSid();
 
+/**
+ * 字符长相似度算法，编辑距离算法，用于搜索实现
+ */
+function levenshtein(a, b) {
+  if (!(typeof (a) === 'string') || !(typeof (b) === 'string')) throw new Error('param must be two string');
+  let aLen = a.length, bLen = b.length;
+  // 初始化dif数组
+  let dif = new Array(aLen + 1);
+  for (let a = 0; a <= aLen; a++) {
+    dif[a] = new Array(bLen + 1);
+    dif[a][0] = a;
+  }
+  for (let b = 0; b <= bLen; b++) dif[0][b] = b;
+  // 计算数组
+  let tmp;
+  for (let i = 1; i <= aLen; i++) {
+    for (let j = 1; j <= bLen; j++) {
+      if (a.charCodeAt(i - 1) == b.charCodeAt(j - 1)) tmp = 0;
+      else tmp = 1;
+      // 取三值最小: 左边值 + 1、上边值 + 1、左上值 + tmp
+      dif[i][j] = Math.min(dif[i - 1][j - 1] + tmp, dif[i][j - 1] + 1, dif[i - 1][j] + 1);
+    }
+  }
+  // 计算相似度
+  return 1 - dif[aLen][bLen] / Math.max(aLen, bLen);
+}
+
 class ActivityService {
   
+  /**
+   * 根据昵称搜索
+   */
+  searchByName(keyword) {
+    const threshold = 0.5;
+    let activityList = wx.getStorageSync('activityList');
+    let result = [];
+    for (let activity of activityList) {
+      if (levenshtein(keyword, activity.ksTitle) >= threshold) result.push(activity);
+    }
+    return result;
+  }
+
   /**
    * 发起讲座
    */

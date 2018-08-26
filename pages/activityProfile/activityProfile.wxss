@@ -29,13 +29,9 @@
   font-size: 30rpx;
 }
 
-.placeholder{
-    margin: 5px;
-    padding: 0 10px;
-    text-align: center;
-    background-color: #EBEBEB;
-    height: 2.3em;
-    line-height: 2.3em;
+.header-activtiy {
+  display: flex;
+  justify-content: center;
 }
 
 /* 基本信息和高级信息展示 */

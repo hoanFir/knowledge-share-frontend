@@ -20,6 +20,6 @@
   background: #40586d;
   color: #fff;
   text-align: center;
-  width: 50%;
+  width: 33%;
   border-radius: 0px;
 }

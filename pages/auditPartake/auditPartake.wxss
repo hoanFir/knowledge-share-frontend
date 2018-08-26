@@ -1,4 +1,5 @@
-/* pages/userinfo/userinfo.wxss */
+/* pages/auditPartake/auditPartake.wxss */
+/* pages/activityProfile/activityProfile.wxss */
 .profile-container {
   height: 100%;
   display: flex;
@@ -7,7 +8,7 @@
   box-sizing: border-box;
 }
 
-/* 微信头像和昵称 */
+/* 头像和昵称 */
 .header-container {
   display: flex;
   flex-direction: column;
@@ -27,6 +28,11 @@
 .header-nickname {
   color: #40586d;
   font-size: 30rpx;
+}
+
+.header-activtiy {
+  display: flex;
+  justify-content: center;
 }
 
 /* 基本信息和高级信息展示 */
@@ -82,6 +88,7 @@
     margin-right: 10px;
 }
 
+
 .text-info {
     font-size: 12px;
     margin-right: 10px;
@@ -95,4 +102,17 @@
 .kuIntro {
   display: block;
   margin-bottom: 10px;
+}
+
+/* 按钮 */
+.button-sp-area {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mini-btn {
+  margin: 4px 10rpx;
+  box-shadow: 0 .05em .25em rgba(0,0,0,.5)
 }
