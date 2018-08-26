@@ -47,6 +47,12 @@ Page({
     notify("即将开放")
   },
 
+  onReady() { },
+  onShow() { },
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  onReachBottom() { },
   /**
    * 用户点击右上角分享
    */

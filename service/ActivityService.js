@@ -5,52 +5,13 @@ import config from '../config';
 import Activity from '../model/Activity';
 import ActivityDetail from '../model/ActivityDetail';
 
+const serverAddr = config.serverAddr;
 // 用于时间戳转换
 const util = require('../utils/util.js')
-
-const serverAddr = config.serverAddr;
-
-/**
- * 字符长相似度算法，编辑距离算法，用于搜索实现
- */
-function levenshtein(a, b) {
-  if (!(typeof (a) === 'string') || !(typeof (b) === 'string')) throw new Error('param must be two string');
-  let aLen = a.length, bLen = b.length;
-  // 初始化dif数组
-  let dif = new Array(aLen + 1);
-  for (let a = 0; a <= aLen; a++) {
-    dif[a] = new Array(bLen + 1);
-    dif[a][0] = a;
-  }
-  for (let b = 0; b <= bLen; b++) dif[0][b] = b;
-  // 计算数组
-  let tmp;
-  for (let i = 1; i <= aLen; i++) {
-    for (let j = 1; j <= bLen; j++) {
-      if (a.charCodeAt(i - 1) == b.charCodeAt(j - 1)) tmp = 0;
-      else tmp = 1;
-      // 取三值最小: 左边值 + 1、上边值 + 1、左上值 + tmp
-      dif[i][j] = Math.min(dif[i - 1][j - 1] + tmp, dif[i][j - 1] + 1, dif[i - 1][j] + 1);
-    }
-  }
-  // 计算相似度
-  return 1 - dif[aLen][bLen] / Math.max(aLen, bLen);
-}
+// token
+const sid = userService.getSid();
 
 class ActivityService {
-
-  /**
-   * 根据昵称搜索
-   */
-  searchByName(keyword) {
-    const threshold = 0.5;
-    let activityList = wx.getStorageSync('activityList');
-    let result = [];
-    for (let activity of activityList) {
-      if (levenshtein(keyword, activity.name) >= threshold) result.push(activity);
-    }
-    return result;
-  }
   
   /**
    * 发起讲座
@@ -61,7 +22,7 @@ class ActivityService {
       url: url.toString(),
       method: 'POST',
       header: {
-        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
+        'Authorization': 'Bearer ' + sid,
         'content-type': 'application/json'
       },
       data: {
@@ -99,7 +60,6 @@ class ActivityService {
             console.error('invalid sid');
             break;
         }
-
       },
       fail: (e) => {
         console.error("err" + e);
@@ -117,7 +77,7 @@ class ActivityService {
       url: url.toString(),
       method: 'PUT',
       header: {
-        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
+        'Authorization': 'Bearer ' + sid,
         'content-type': 'application/json',
       },
       data: {
@@ -178,7 +138,7 @@ class ActivityService {
         url: url.toString(),
         method: 'GET',
         header: {
-          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
+          'Authorization': 'Bearer ' + sid
         },
         success: ({ data: result, statusCode }) => {
           console.log("fetchAllActivitys方法运行了:", statusCode)
@@ -229,7 +189,7 @@ class ActivityService {
       url: url.toString(),
       method: 'POST',
       header: { 
-        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
+        'Authorization': 'Bearer ' + sid,
         'content-type': 'application/json',
       },
       success: ({ statusCode }) => {
@@ -266,8 +226,8 @@ class ActivityService {
       url: url.toString(),
       method: 'POST',
       header: {
-        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
-        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + sid,
+        'content-type': 'application/json'
       },
       success: ({ statusCode }) => {
         console.log("点击参讲运行了", statusCode)
@@ -304,8 +264,8 @@ class ActivityService {
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
-        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + sid,
+        'content-type': 'application/json'
       },
       success: ({ statusCode }) => {
         console.log("点击删除运行了", statusCode)
@@ -342,7 +302,7 @@ class ActivityService {
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
+        'Authorization': 'Bearer ' + sid,
         'content-type': 'application/json',
       },
       success: ({ statusCode }) => {
@@ -380,7 +340,7 @@ class ActivityService {
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
+        'Authorization': 'Bearer ' + sid,
         'content-type': 'application/json',
       },
       success: ({ statusCode }) => {
@@ -445,7 +405,7 @@ class ActivityService {
         url: url.toString(),
         method: 'GET',
         header: {
-          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
+          'Authorization': 'Bearer ' + sid
         },
         success: ({ data: result }) => {
           wx.setStorageSync('BusinessMap', result.ksBusinessList);
@@ -470,7 +430,7 @@ class ActivityService {
         url: url.toString(),
         method: 'GET',
         header: {
-          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
+          'Authorization': 'Bearer ' + sid
         },
         success: ({ data: result }) => {
           wx.setStorageSync('KstypeMap', result.ksDictDataMap);

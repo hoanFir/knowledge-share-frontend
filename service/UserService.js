@@ -48,8 +48,7 @@ class UserService {
   }
 
   /**
-   * 方便获取缓存中的token的方法
-   * 也可以直接使用wx.getStorageSync('sid');
+   * 获取缓存中的token
    */
   getSid() {
     return wx.getStorageSync('sid');
@@ -174,6 +173,7 @@ class UserService {
       }
     });
   }
+
 }
 
 export default new UserService();

@@ -197,6 +197,10 @@ Page({
 
   },
 
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  
   /**
    * 页面触底事件的处理函数
    */
@@ -254,6 +258,8 @@ Page({
 
     }
   },
+
+  onShareAppMessage() { },
 
   /**
    * 用户点击右上角分享

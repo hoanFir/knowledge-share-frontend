@@ -51,6 +51,13 @@ Page({
     notify("重置成功");
   },
 
+
+  onReady() { },
+  onShow() { },
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  onReachBottom() { },
   /**
    * 用户点击右上角分享
    */

@@ -197,6 +197,10 @@ Page({
 
   },
 
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  
   /**
    * 页面触底事件的处理函数
    */

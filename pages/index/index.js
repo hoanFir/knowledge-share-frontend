@@ -24,6 +24,8 @@ Page({
 
   },
 
+  onReady() { },
+
   onShow: function () {
     if (this.neverShow) this.neverShow = false;
     else {
@@ -32,6 +34,11 @@ Page({
       })
     }
   },
+  
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  onReachBottom() { },
 
   // 点击头像时的操作，open-type=getUserInfo
   getUserInfo: function(e) {

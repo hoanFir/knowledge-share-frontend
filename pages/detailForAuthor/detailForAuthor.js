@@ -98,12 +98,20 @@ Page({
     wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });    
   },
 
+
+  onReady() { },
+  
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
     this.data.activityDetail = wx.getStorageSync('activityDetail')
   },
+
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  onReachBottom() { },
 
   /**
    * 用户点击右上角分享
