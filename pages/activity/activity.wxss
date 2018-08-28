@@ -17,24 +17,19 @@
 }
 
 /* 讲座瀑布流 */
-.activities {
-  background: #f9f9f9;
-  /* padding: 30rpx 30rpx 0 30rpx; */
-}
-.activity { 
+.activity {
   margin-bottom: 30rpx;
   background: #fff;padding: 0 60rpx;
   height: 440rpx;
   box-shadow: 0 .05em .25em rgba(0,0,0,.5);
   border-radius: 6rpx;
 }
-
 .activity-header{
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 180rpx;
+  height: 200rpx;
   border-bottom: 1rpx solid #F0F5FA;
 }
 .activity-header view{
@@ -44,11 +39,10 @@
   display: block;
 }
 .activity-header .start, .activity-header .end{
-  width: 150rpx;
+  width: 200rpx;
 }
 .activity-header .header-avatar{
-  width: 80rpx;
-  height: 80rpx;
+  width: 80rpx; height: 80rpx;
   border-radius: 50%;
 }
 .activity-header .header-nickname{
@@ -57,13 +51,11 @@
 }
 .activity-header .distance{
   margin: 0px 10px;
-  display: block;
-  width: 176rpx;
+  width: 180rpx;
 }
 .activity-header .distance image, .activity-header .distance .image{
-  width: 176rpx;
-  height: 30rpx;
-  margin-bottom:1 2rpx;
+  width: 176rpx; height: 40rpx;
+  margin-bottom: 12rpx;
   overflow: hidden;
 }
 .activity-header .distance text{
@@ -81,18 +73,18 @@
   position: relative;
   height: 40rpx;
   border-bottom: 1rpx solid #F0F5FA;
-  font-size: 34rpx;
   padding: 20rpx 0;
+  font-size: 34rpx;
   color: black;
 }
 
 .list-abstract {
-  text-align: left;
   position: relative;
   height: 120rpx;
   border-bottom: 1rpx solid #F0F5FA;
-  font-size: 24rpx;
   padding: 20rpx 0;
+  text-align: left;
+  font-size: 24rpx;
   color: #666;
 }
 
@@ -104,14 +96,14 @@
 }
 
 .list-abstract text {
-  font-size: 28rpx;
-  color: black;
   display: -webkit-box;
   word-break: break-all;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 28rpx;
+  color: black;
 }
 
 /* 搜索 */

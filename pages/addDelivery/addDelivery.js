@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    // 用于输入计数
     abstractCount: 0,
     contentCount: 0,
 
@@ -29,6 +29,11 @@ Page({
     accounts: ["2小时", "3小时", "4小时"],
     accountIndex: 0,
 
+    // 日期和时间，假如有输入进行存储，若用户无输入使用默认的ksStartTime和ksEndTime
+    startTimeTemp: '',
+    endTimeTemp: '',
+    // 注意时间选择用户有可能只选择日期、时间、总长中的一项，其他不输入
+
     // 多选
     text: '',
 
@@ -46,15 +51,11 @@ Page({
     ksPartLimit: 0,
     ksPartNum: 0,
     ksRemark: "",
-    ksStartTime: "2018-08-01T12:00",
-    ksEndTime: "2018-08-01T14:00",
+    ksStartTime: "",
+    ksEndTime: "",
     ksTitle: null,
     ksType: 0,
 
-    // 日期和时间，假如有输入进行存储，若用户无输入使用默认的ksStartTime和ksEndTime
-    startTimeTemp: '',
-    endTimeTemp: '',
-    // 注意时间选择用户有可能只选择日期、时间、总长中的一项，其他不输入
   },
 
   /**
@@ -89,8 +90,8 @@ Page({
   },
   // 当讲座摘要输入
   onAbstractChange(e) {
-    var maxChars = 200;
-      if (e.detail.value.length > maxChars) wx.showToast({ title: "字数不能超过200字", icon: 'none' })
+    let maxChars = 200;
+    if (e.detail.value.length > maxChars) wx.showToast({ title: "字数不能超过200字", icon: 'none' })
     else {
       this.setData({ 
         ksAbstract: e.detail.value,
@@ -100,7 +101,7 @@ Page({
   },
   // 当讲座内容输入
   onContentChange(e) {
-    var maxChars = 200;
+    let maxChars = 200;
     if (e.detail.value.length > maxChars) wx.showToast({ title: "字数不能超过200字", icon: 'none' })
     else {
       this.setData({
@@ -197,7 +198,7 @@ Page({
     console.log(temp1)
 
     if (temp1.length != 0) {
-      for (var i = 0, len = temp1.length; i < len; i++) {
+      for (let i = 0, len = temp1.length; i < len; i++) {
         temp2 = temp2 + temp1[i] + ','
       }
       this.setData({

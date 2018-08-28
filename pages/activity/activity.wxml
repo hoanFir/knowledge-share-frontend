@@ -35,7 +35,7 @@
         </view>
       </view>
       
-      <!-- 讲座瀑布流 -->
+      <!-- 最新瀑布流 -->
       <scroll-view scroll-y="true" class='activities'>
         <view class='activity' bindtap='showDetail' wx:key="activities"  wx:for="{{activityList}}" wx:for-index="idx" id='{{idx}}'>
 
@@ -53,6 +53,8 @@
               <text class="province">已报名{{item.ksEnrollNum}}人</text>
             </view>
           </view>
+
+          <!-- 标题和摘要 -->
           <view class='activity-main'>
             <view class='list-title'>
               <text class="list-item-title ksTitle">{{item.ksTitle}}</text>
