@@ -189,7 +189,6 @@ class ActivityService {
             case 200:
               // 缓存页面数据，包括arrSize、array、isEnd、pageNum、serve_time
               wx.setStorageSync('pageData', result);
-              console.log("fetchAllActivity方法运行了", wx.getStorageSync('pageData'))
 
               // 获取最新数据并缓存
               let activityList = [];
@@ -407,6 +406,31 @@ class ActivityService {
   }
 
   /**
+   * 获取商家
+   */
+  getBusinessMap(callback) {
+    // 假如本地有缓存的数据
+    let BusinessMap = wx.getStorageSync('BusinessMap');
+    if (BusinessMap) callback(BusinessMap);
+    // 若没有则从服务器拉取
+    else {
+      let url = new URL('http', serverAddr).path('businesses');
+      wx.request({
+        url: url.toString(),
+        method: 'GET',
+        header: {
+          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
+        },
+        success: ({ data: result }) => {
+          wx.setStorageSync('BusinessMap', result.ksBusinessList);
+          callback(result.ksBusinessList);
+        },
+        fail: (e) => console.error(e)
+      });
+    }
+  }
+  
+  /**
    * 获取职业
    */
   getIndustryMap(callback) {
@@ -432,31 +456,6 @@ class ActivityService {
   }
 
   /**
-   * 获取商家
-   */
-  getBusinessMap(callback) {
-    // 假如本地有缓存的数据
-    let BusinessMap = wx.getStorageSync('BusinessMap');
-    if (BusinessMap) callback(BusinessMap);
-    // 若没有则从服务器拉取
-    else {
-      let url = new URL('http', serverAddr).path('businesses');
-      wx.request({
-        url: url.toString(),
-        method: 'GET',
-        header: {
-          'Authorization': 'Bearer ' + sid
-        },
-        success: ({ data: result }) => {
-          wx.setStorageSync('BusinessMap', result.ksBusinessList);
-          callback(result.ksBusinessList);
-        },
-        fail: (e) => console.error(e)
-      });
-    }
-  }
-
-  /**
    * 获取讲座类型
    */
   getKstypeMap(callback) {
@@ -469,9 +468,6 @@ class ActivityService {
       wx.request({
         url: url.toString(),
         method: 'GET',
-        header: {
-          'Authorization': 'Bearer ' + sid
-        },
         success: ({ data: result }) => {
           wx.setStorageSync('KstypeMap', result.ksDictDataMap);
           callback(result.ksDictDataMap);

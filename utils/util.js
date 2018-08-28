@@ -9,18 +9,7 @@ const formatTime = date => {
   return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute].map(formatNumber).join(':')
 }
 
-const tFormatTime = date => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  return [year, month, day].map(formatNumber).join('-') + 'T' + [hour, minute, second].map(formatNumber).join(':')
-}
-
-// 转换时间戳：为2018-11-22 09:30增加小时
+// 转换时间戳：为2018-11-22T09:30增加小时
 const addTime = (date, hours) => {
   const oldTimes1 = date
   const eosFormatTime2 = function (oldTimes1) {
@@ -59,6 +48,5 @@ function readDataFromStorage(key) {
 
 module.exports = {
   formatTime: formatTime,
-  addTime: addTime,
-  tFormatTime: tFormatTime
+  addTime: addTime
 }

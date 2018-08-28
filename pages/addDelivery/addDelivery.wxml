@@ -18,7 +18,7 @@
       </view>
       <view class="weui-cell__bd">
         <textarea  bindinput='onAbstractChange' class="weui-textarea industry" placeholder="请输入讲座摘要" style="height: 4.3em" />
-        <view class="weui-textarea-counter">0/200</view>
+        <view class="weui-textarea-counter">{{abstractCount}}/200</view>
       </view>
     </view>
 
@@ -28,7 +28,7 @@
       </view>
       <view class="weui-cell__bd">
         <textarea bindinput='onContentChange' class="weui-textarea industry" placeholder="请输入相关的个人简介" style="height: 4.3em" />
-        <view class="weui-textarea-counter">0/200</view>
+        <view class="weui-textarea-counter">{{contentCount}}/200</view>
       </view>
     </view>
 
@@ -55,14 +55,14 @@
     </view>
   </view>
 
-  <view class="weui-cells__title">发起讲座要求开讲至少于六小时之后</view>
+  <view class="weui-cells__title">由于有最少参与人数要求，建议讲座的开讲时间至少于六小时之后</view>
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__hd">
         <view class="weui-label">开讲日期</view>
       </view>
       <view class="weui-cell__bd">
-        <picker mode="date" value="{{date}}" start="2018-08-01" end="2010-09-01" bindchange="bindDateChange">
+        <picker mode="date" start="2019-09-01" end="2050-09-01" bindchange="bindDateChange">
             <view class="weui-input">{{date}}</view>
         </picker>
       </view>
@@ -73,7 +73,7 @@
         <view class="weui-label">开讲时间</view>
       </view>
       <view class="weui-cell__bd">
-        <picker mode="time" value="{{time}}" start="09:00" end="21:00" bindchange="bindTimeChange">
+        <picker mode="time" start="08:00" end="21:00" bindchange="bindTimeChange">
           <view class="weui-input">{{time}}</view>
         </picker>
       </view>
