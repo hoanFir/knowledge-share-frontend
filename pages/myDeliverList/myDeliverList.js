@@ -231,9 +231,7 @@ Page({
               }
               var tmpArr = this.data.myDeliverList;
               tmpArr.push.apply(tmpArr, addList);
-              this.setData({
-                myDeliverList: tmpArr
-              });
+              this.setData({ myDeliverList: tmpArr });
               console.log("加载完第", this.pageNum, "页")
 
               break;

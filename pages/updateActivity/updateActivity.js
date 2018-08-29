@@ -73,14 +73,10 @@ Page({
     this.setData({ time: TimeHelper.nowTime() })
 
     // 获取主题Id
-    this.setData({
-      ksId: wx.getStorageSync('activityDetail').ksId
-    })
+    this.setData({ ksId: wx.getStorageSync('activityDetail').ksId })
 
     // 获取原主题详情
-    this.setData({
-      oldActivityDetail: wx.getStorageSync('activityDetail')
-    })
+    this.setData({ oldActivityDetail: wx.getStorageSync('activityDetail') })
     console.log("原主题详情", this.data.oldActivityDetail)
 
     // 获取商家列表
@@ -126,7 +122,7 @@ Page({
   },
 
   // 当讲座标题输入
-  onTitleChange(e) { 
+  onTitleChange(e) {
     if (e.detail.value.length > 15) wx.showToast({ title: "标题长度不超过15字", icon: 'none' })
     else {
       this.setData({ ksTitle: e.detail.value });
@@ -159,77 +155,68 @@ Page({
   bindDateChange: function (e) {
     // 页面显示需要
     this.setData({ date: e.detail.value })
+
+    // 特别注意：如果输入了开讲日期，但没有输入开讲时间、讲座总长的情况下
+    if (this.data.accountIndex == 0) {
+      this.setData({ ksStartTime: this.data.date + 'T' + TimeHelper.nowTime() })
+      console.log('讲座开始时间值为', this.data.ksStartTime);
+      
+      this.setData({ ksEndTime: util.addTime(this.data.ksStartTime, 2) })
+      console.log('讲座预计结束时间值为', this.data.ksEndTime);
+      
+    }
   },
   bindTimeChange: function (e) {
 
     // 页面显示需要
-    this.setData({
-      time: e.detail.value,
-    })
+    this.setData({ time: e.detail.value })
 
     // 由于后台需要2018-09-01T14:00格式，所以转换时间格式空格为T格式
-    this.setData({
-      startTimeTemp: this.data.date + 'T' + e.detail.value
-    })
+    this.setData({ startTimeTemp: this.data.date + 'T' + e.detail.value })
     console.log('讲座开始时间值为', this.data.startTimeTemp);
 
     // 完成输入，赋值到ksStartTime中
-    this.setData({
-      ksStartTime: this.data.startTimeTemp
-    })
+    this.setData({ ksStartTime: this.data.startTimeTemp })
+
+    // 特别注意：如果输入了开讲时间，但没有输入讲座总长的情况下
+    if (this.data.accountIndex == 0) {
+      this.setData({ ksEndTime: util.addTime(this.data.startTimeTemp, 2) })
+      console.log('讲座预计结束时间值为', this.data.ksEndTime);
+      
+    }
   },
 
   // 预计用时输入，需要添加到开始时间，转换成预计结束时间
   bindAccountChange: function (e) {
     // 页面显示需要
-    this.setData({
-      accountIndex: e.detail.value
-    })
+    this.setData({ accountIndex: e.detail.value })
 
     if (this.data.accountIndex == 0 && this.data.startTimeTemp) {
       // 发起时间+用时
-      this.setData({
-        endTimeTemp: util.addTime(this.data.startTimeTemp, 2)
-      })
-      this.setData({
-        ksEndTime: this.data.endTimeTemp
-      })
+      this.setData({ endTimeTemp: util.addTime(this.data.startTimeTemp, 2) })
+      this.setData({ ksEndTime: this.data.endTimeTemp })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 1 && this.data.startTimeTemp) {
       // 发起时间+用时
-      this.setData({
-        endTimeTemp: util.addTime(this.data.startTimeTemp, 3)
-      })
-      this.setData({
-        ksEndTime: this.data.endTimeTemp
-      })
+      this.setData({ endTimeTemp: util.addTime(this.data.startTimeTemp, 3) })
+      this.setData({ ksEndTime: this.data.endTimeTemp })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 2 && this.data.startTimeTemp) {
       // 发起时间+用时
-      this.setData({
-        endTimeTemp: util.addTime(this.data.startTimeTemp, 4)
-      })
-      this.setData({
-        ksEndTime: this.data.endTimeTemp
-      })
+      this.setData({ endTimeTemp: util.addTime(this.data.startTimeTemp, 4) })
+      this.setData({ ksEndTime: this.data.endTimeTemp })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 0 && !this.data.startTimeTemp) {
       // 即假如没有输入日期和时间，但输入了用时
-      this.setData({
-        ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 2)
-      })
+      this.setData({ ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 2) })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 1 && !this.data.startTimeTemp) {
       // 即假如没有输入日期和时间，但输入了用时
-      this.setData({
-        ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 3)
-      })
+      this.setData({ ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 3) })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 2 && !this.data.startTimeTemp) {
       // 即假如没有输入日期和时间，但输入了用时
-      this.setData({
-        ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 4)
-      })
+      this.setData({ ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 4) })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     }
   },
@@ -250,14 +237,10 @@ Page({
       for (let i = 0, len = temp1.length; i < len; i++) {
         temp2 = temp2 + temp1[i] + ','
       }
-      this.setData({
-        ksRemark: temp2
-      })
+      this.setData({ ksRemark: temp2 })
       console.log("讲座其他要求", this.data.ksRemark)
     } else {
-      this.setData({
-        ksRemark: ''
-      })
+      this.setData({ ksRemark: '' })
       console.log("讲座其他要求", this.data.ksRemark)
     }
   },
@@ -269,35 +252,23 @@ Page({
     // 如果未作修改
     if (this.data.ksTitle == "") {
       console.log(this.data.oldActivityDetail.ksTitle)
-      this.setData({
-        ksTitle: this.data.oldActivityDetail.ksTitle
-      })
+      this.setData({ ksTitle: this.data.oldActivityDetail.ksTitle })
       console.log(this.data.ksTitle)
     }
     if (this.data.ksAbstract == "") {
-      this.setData({
-        ksAbstract: this.data.oldActivityDetail.ksAbstract
-      })
+      this.setData({ ksAbstract: this.data.oldActivityDetail.ksAbstract })
     }
     if (this.data.ksContent == "") {
-      this.setData({
-        ksContent: this.data.oldActivityDetail.ksContent
-      })
+      this.setData({ ksContent: this.data.oldActivityDetail.ksContent })
     }
     if (this.data.ksEnrollLimit == 0) {
-      this.setData({
-        ksEnrollLimit: this.data.oldActivityDetail.ksEnrollLimit
-      })
+      this.setData({ ksEnrollLimit: this.data.oldActivityDetail.ksEnrollLimit })
     }
     if (this.data.ksEnrollMinLimit == 0) {
-      this.setData({
-        ksEnrollLimit: this.data.oldActivityDetail.ksEnrollMinLimit
-      })
+      this.setData({ ksEnrollLimit: this.data.oldActivityDetail.ksEnrollMinLimit })
     }
     if (this.data.ksPartLimit == 0) {
-      this.setData({
-        ksPartLimit: this.data.oldActivityDetail.ksPartLimit
-      })
+      this.setData({ ksPartLimit: this.data.oldActivityDetail.ksPartLimit })
     }
 
     // 使用解构赋值

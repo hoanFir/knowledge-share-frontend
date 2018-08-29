@@ -32,9 +32,7 @@ Page({
     temp = wx.getStorageSync("activityDetail").ksRemark
     console.log("备注", temp)
     temp = temp.substring(0, temp.length-1)
-    this.setData({
-      ksRemark: temp
-    })
+    this.setData({ ksRemark: temp })
 
     // 实现转发
     // withShareTicket 为 true 时，表示允许转发时是否携带 shareTicket；shareTicket是获取转发目标群信息的票据，只有拥有该值，才能拿到群信息。用户每次转发都会生成对应唯一的shareTicket

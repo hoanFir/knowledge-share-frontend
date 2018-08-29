@@ -89,9 +89,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-    this.setData({
-      userInfo: wx.getStorageSync('wxUserInfo')
-    })
+    this.setData({ userInfo: wx.getStorageSync('wxUserInfo') })
 
     // TODO：暂时只获取第一页，初期一般讲座不超过12个，可以轻松获取到讲座数目
     let url1 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'author');

@@ -12,9 +12,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      userInfo: wx.getStorageSync('wxUserInfo')
-    })
+    this.setData({ userInfo: wx.getStorageSync('wxUserInfo') })
   },
 
   // 点击其他功能

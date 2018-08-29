@@ -26,9 +26,7 @@ Page({
    */
   onLoad: function (options) {
     // 微信用户自带信息
-    this.setData({
-      userInfo: wx.getStorageSync('wxUserInfo')
-    })
+    this.setData({ userInfo: wx.getStorageSync('wxUserInfo') })
     
     // 用户手动添加的信息
     console.log(wx.getStorageSync('userDetail'))
@@ -46,9 +44,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.setData({
-      userDetail: wx.getStorageSync('userDetail')
-    })
+    this.setData({ userDetail: wx.getStorageSync('userDetail') })
   },
 
   initData: function () {
@@ -57,9 +53,7 @@ Page({
     if (!wx.getStorageSync('userDetail')) {
       wx.showToast({ title: "获取用户信息失败", icon: 'none' });
     } else {
-      this.setData({
-        userDetail: wx.getStorageSync('userDetail')
-      })
+      this.setData({ userDetail: wx.getStorageSync('userDetail') })
     }
     
   },

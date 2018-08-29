@@ -275,9 +275,7 @@ Page({
               activityList.push(activity);
             }
             wx.setStorageSync('activityList', activityList);
-            this.setData({
-              activityList: wx.getStorageSync('activityList')
-            })
+            this.setData({ activityList: wx.getStorageSync('activityList') })
             console.log("下拉刷新之后:", this.data.activityList)
             setTimeout(function(){
               wx.hideLoading()
@@ -333,9 +331,7 @@ Page({
               }
               var tmpArr = this.data.activityList;
               tmpArr.push.apply(tmpArr, addList);
-              this.setData({
-                activityList: tmpArr 
-              });
+              this.setData({ activityList: tmpArr });
               console.log(this.data.activityList)
               console.log("加载完第", this.pageNum, "页")
 

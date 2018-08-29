@@ -57,9 +57,7 @@ Page({
           // 获取该讲座的keId
           for (let item of wx.getStorageSync('activityDetail').enrollments) {
             if (item.kuId == wx.getStorageSync('userDetail').kuId) {
-              this.setData({
-                keId: item.keId
-              })
+              this.setData({ keId: item.keId })
             }
           }
           activityService.cancelEnrollActivity(this.data.ksId, this.data.keId, (successed) => {

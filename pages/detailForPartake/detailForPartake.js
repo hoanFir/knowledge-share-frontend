@@ -56,9 +56,7 @@ Page({
           // 获取该讲座的kpId
           for (let item of wx.getStorageSync('activityDetail').participations) {
             if (item.kuId == wx.getStorageSync('userDetail').kuId) {
-              this.setData({
-                kpId: item.kpId
-              })
+              this.setData({ kpId: item.kpId })
             }
           }
           activityService.cancelPartakeActivity(this.data.ksId, this.data.kpId, (successed) => {

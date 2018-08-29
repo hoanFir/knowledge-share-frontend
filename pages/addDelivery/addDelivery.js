@@ -29,7 +29,8 @@ Page({
     accounts: ["2小时", "3小时", "4小时"],
     accountIndex: 0,
 
-    // 日期和时间，假如有输入进行存储，若用户无输入使用默认的ksStartTime和ksEndTime
+    // 若用户无日期和时间、时长输入，使用onload中默认设置的ksStartTime和ksEndTime
+    // 用于有日期和时间、时长输入进行存储的情况
     startTimeTemp: '',
     endTimeTemp: '',
     // 注意时间选择用户有可能只选择日期、时间、总长中的一项，其他不输入
@@ -67,7 +68,7 @@ Page({
     console.log(TimeHelper.nowTime())
     this.setData({ ksStartTime: DateHelper.nowDate() + 'T' + TimeHelper.nowTime() })
 
-    // 设置默认结束时间:当地日期+当地时间
+    // 设置默认结束时间:当地日期+当地时间+默认2小时时长
     this.setData({ ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 2) })
 
     // 设置最新日期
@@ -115,77 +116,68 @@ Page({
   bindDateChange: function (e) {
     // 页面显示需要
     this.setData({ date: e.detail.value })
+
+    // 特别注意：如果输入了开讲日期，但没有输入开讲时间、讲座总长的情况下
+    if (this.data.accountIndex == 0) {
+      this.setData({ ksStartTime: this.data.date + 'T' + TimeHelper.nowTime() })
+      console.log('讲座开始时间值为', this.data.ksStartTime);
+      
+      this.setData({ ksEndTime: util.addTime(this.data.ksStartTime, 2) })
+      console.log('讲座预计结束时间值为', this.data.ksEndTime);
+      
+    }
   },
   bindTimeChange: function (e) {
 
     // 页面显示需要
-    this.setData({
-      time: e.detail.value,
-    })
+    this.setData({ time: e.detail.value })
 
     // 由于后台需要2018-09-01T14:00格式，所以转换时间格式空格为T格式
-    this.setData({
-      startTimeTemp: this.data.date + 'T' + e.detail.value
-    })
+    // 如果输入了开讲时间，计算讲座开始时间
+    this.setData({ startTimeTemp: this.data.date + 'T' + e.detail.value })
     console.log('讲座开始时间值为', this.data.startTimeTemp);
-
     // 完成输入，赋值到ksStartTime中
-    this.setData({
-      ksStartTime: this.data.startTimeTemp
-    })
+    this.setData({ ksStartTime: this.data.startTimeTemp })
+
+    // 特别注意：如果输入了开讲时间，但没有输入讲座总长的情况下
+    if (this.data.accountIndex == 0) {
+      this.setData({ ksEndTime: util.addTime(this.data.startTimeTemp, 2) })
+      console.log('讲座预计结束时间值为', this.data.ksEndTime);
+      
+    }
   },
 
   // 预计用时输入，需要添加到开始时间，转换成预计结束时间
   bindAccountChange: function (e) {
     // 页面显示需要
-    this.setData({
-      accountIndex: e.detail.value
-    })
+    this.setData({ accountIndex: e.detail.value })
 
     if (this.data.accountIndex == 0 && this.data.startTimeTemp) {
       // 发起时间+用时
-      this.setData({
-        endTimeTemp: util.addTime(this.data.startTimeTemp, 2),
-      })
-      this.setData({
-        ksEndTime: this.data.endTimeTemp
-      })
+      this.setData({ endTimeTemp: util.addTime(this.data.startTimeTemp, 2) })
+      this.setData({ ksEndTime: this.data.endTimeTemp })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 1 && this.data.startTimeTemp) {
       // 发起时间+用时
-      this.setData({
-        endTimeTemp: util.addTime(this.data.startTimeTemp, 3) 
-      })
-      this.setData({
-        ksEndTime: this.data.endTimeTemp
-      })
+      this.setData({ endTimeTemp: util.addTime(this.data.startTimeTemp, 3) })
+      this.setData({ ksEndTime: this.data.endTimeTemp })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 2 && this.data.startTimeTemp) {
       // 发起时间+用时
-      this.setData({
-        endTimeTemp: util.addTime(this.data.startTimeTemp, 4)
-      })
-      this.setData({
-        ksEndTime: this.data.endTimeTemp
-      })
+      this.setData({ endTimeTemp: util.addTime(this.data.startTimeTemp, 4) })
+      this.setData({ ksEndTime: this.data.endTimeTemp })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 0 && !this.data.startTimeTemp) {
       // 即假如没有输入日期和时间，但输入了用时
-      this.setData({
-        ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 2)
-      })
+      this.setData({ ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 2) })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);      
     } else if (this.data.accountIndex == 1 && !this.data.startTimeTemp) {
       // 即假如没有输入日期和时间，但输入了用时
-      this.setData({
-        ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 3)
-      })
+      this.setData({ ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 3) })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 2 && !this.data.startTimeTemp) {
       // 即假如没有输入日期和时间，但输入了用时
-      this.setData({
-        ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 4)
-      })
+      this.setData({ ksEndTime: util.addTime(DateHelper.nowDate() + 'T' + TimeHelper.nowTime(), 4) })
       console.log('讲座预计结束时间值为', this.data.ksEndTime);
     }
   },
@@ -207,14 +199,10 @@ Page({
       for (let i = 0, len = temp1.length; i < len; i++) {
         temp2 = temp2 + temp1[i] + ','
       }
-      this.setData({
-        ksRemark: temp2
-      })
+      this.setData({ ksRemark: temp2 })
       console.log("讲座其他要求", this.data.ksRemark)
     } else {
-      this.setData({
-        ksRemark: ''
-      })
+      this.setData({ ksRemark: '' })
       console.log("讲座其他要求", this.data.ksRemark)
     }
   },

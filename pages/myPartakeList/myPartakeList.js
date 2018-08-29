@@ -225,9 +225,7 @@ Page({
               }
               var tmpArr = this.data.myPartakeList;
               tmpArr.push.apply(tmpArr, addList);
-              this.setData({
-                myPartakeList: tmpArr
-              });
+              this.setData({ myPartakeList: tmpArr });
               console.log(this.data.myPartakeList)
               console.log("加载完第", this.pageNum, "页")
 

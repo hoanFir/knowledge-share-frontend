@@ -230,9 +230,7 @@ Page({
               }
               var tmpArr = this.data.myEnrollList;
               tmpArr.push.apply(tmpArr, addList);
-              this.setData({
-                myEnrollList: tmpArr
-              });
+              this.setData({ myEnrollList: tmpArr });
               console.log(this.data.myEnrollList)
               console.log("加载完第", this.pageNum, "页")
 

@@ -24,9 +24,7 @@ Page({
     // TODO：通过kuId获取用户信息
     userService.getActivityUserDetail(this.data.kuId, (successed) => {
       if (successed) {
-        this.setData({
-          activityUserDetail: wx.getStorageSync('activityUserDetail')
-        })
+        this.setData({ rDetail: wx.getStorageSync('activityUserDetail') })
       }
       else wx.showToast({ title: "获取信息失败", icon: 'none' });
     });
