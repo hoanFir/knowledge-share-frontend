@@ -1,17 +1,28 @@
 <!--pages/activity/detail.wxml-->
 
 <view class="page__hd">
-  <view class="page__title">讲座主题 #类型 {{ksType}}#</view>
-  <view class="page__desc">{{activityDetail.ksTitle}}</view>
+  <view class="page__title">{{activityDetail.ksTitle}}</view>
+  <view class="page__desc">讲座主题 | 类型 {{ksType}}</view>
 </view>
 
-<view class="weui-media-box weui-media-box_text">
+<!-- <view class="weui-media-box weui-media-box_text">
   <view class="weui-media-box__title weui-media-box__title_in-text">摘要</view>
   <view class="weui-media-box__desc">{{activityDetail.ksAbstract}}</view>
 </view>
 <view class="weui-media-box weui-media-box_text">
   <view class="weui-media-box__title weui-media-box__title_in-text">主讲内容</view>
   <view class="weui-media-box__desc">{{activityDetail.ksContent}}</view>
+</view> -->
+<!-- 摘要和主讲内容 -->
+<view class='activity-main'>
+  <view class='list-title'>
+    摘要
+    <text class="list-item-title ksTitle">{{activityDetail.ksAbstract}}</text>
+  </view>
+  <view class='list-abstract'>
+    主讲内容
+    <text class="list-item-abstract">{{activityDetail.ksContent}}</text>
+  </view>
 </view>
 
 <view class="weui-form-preview__bd">
@@ -37,7 +48,7 @@
     <view class="weui-form-preview__value">{{activityDetail.ksPartNum}}/{{activityDetail.ksPartLimit}}</view>
   </view>
 
-  <view url="" class="weui-media-box weui-media-box_appmsg">
+  <view class="weui-media-box weui-media-box_appmsg">
     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
       <image style='border-radius: 50%;' class="weui-media-box__thumb" src="{{activityDetail.ksUser.kuHeadImgUrl}}" />
     </view>
@@ -47,17 +58,33 @@
     </view>
   </view>
 
-  <!-- 参讲人列表 -->
-  <view wx:if="{{activityDetail.ksPartNum}}" wx:key="participations" wx:for="{{activityDetail.participations}}" wx:for-index="idx" id='{{idx}}'>
-    <view url="" class="weui-cell weui-cell_access">
-      <view class="weui-cell__hd"><image src="{{item.ksUser.kuHeadImgUrl}}" style="width: 20px;height: 20px;margin-right: 5px;border-radius: 50%" /></view>
-      <view class="weui-cell__bd weui-cell_primary">
-        <view>{{item.ksUser.kuName}}</view>
+</view>
+
+<!-- 参讲人列表 -->
+<view class="weui-cells__title">参讲者</view>
+<view class="weui-cells weui-cells_after-title">
+  <view wx:if="{{!activityDetail.enrollments}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
+  <view wx:else>
+    <view wx:key="participations" wx:for="{{activityDetail.participations}}" wx:for-index="idx" id='{{idx}}'>
+      <view class="weui-cell weui-cell_access" bindtap='toActivityProfile' id='{{item.ksUser.kuId}}'>
+        <view class="weui-cell__bd">{{item.ksUser.kuName}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
+        <view class="weui-badge" style="margin-left: 5px;margin-right: 5px;">待审核{{item.ksUser.isAudit}}</view>
+        </view>
       </view>
-      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
     </view>
   </view>
+</view>
 
+<!-- 报名者列表 -->
+<view class="weui-cells__title">已报名</view>
+<view class="weui-cells weui-cells_after-title last-div">
+  <view wx:if="{{!activityDetail.enrollments}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
+  <view wx:else>
+    <view wx:key="enrollments" wx:for="{{activityDetail.enrollments}}" wx:for-index="idx" id='{{idx}}'>
+      <image bindtap='toActivityProfile' id='{{item.ksUser.kuId}}' src="{{item.ksUser.kuHeadImgUrl}}" style="width: 30px;height: 30px;margin: 10px;border-radius: 50%" />
+    </view>
+  </view>
 </view>
 
 <view class="flex-wrp" style="flex-direction:row;">

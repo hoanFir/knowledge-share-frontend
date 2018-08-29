@@ -3,6 +3,10 @@ page {
   padding-bottom: 50px;
 }
 
+.last-div {
+  margin-bottom: 100px;
+}
+
 .page__hd {
   box-shadow: 0 .05em .25em rgba(0,0,0,.5);
 }
@@ -22,4 +26,21 @@ page {
   text-align: center;
   width: 33%;
   border-radius: 0px;
+}
+
+/* 摘要和内容 */
+.list-abstract, .list-title {
+  margin: 0 40rpx;
+  position: relative;
+  height: auto;
+  border-bottom:1rpx solid #e5e5e5;
+  padding: 20rpx 0;
+  text-align: left;
+  font-size: 34rpx;
+  color: black;
+}
+.list-abstract text, .list-title text  {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
 }

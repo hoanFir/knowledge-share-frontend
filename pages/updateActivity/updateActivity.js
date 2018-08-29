@@ -191,22 +191,28 @@ Page({
       this.setData({
         endTimeTemp: util.addTime(this.data.startTimeTemp, 2)
       })
-      console.log('讲座预计结束时间值为', this.data.endTimeTemp);
-      ksEndTime: this.data.endTimeTemp
+      this.setData({
+        ksEndTime: this.data.endTimeTemp
+      })
+      console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 1 && this.data.startTimeTemp) {
       // 发起时间+用时
       this.setData({
-        endTimeTemp: util.addTime(this.data.startTimeTemp, 3),
+        endTimeTemp: util.addTime(this.data.startTimeTemp, 3)
+      })
+      this.setData({
         ksEndTime: this.data.endTimeTemp
       })
-      console.log('讲座预计结束时间值为', this.data.endTimeTemp);
+      console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 2 && this.data.startTimeTemp) {
       // 发起时间+用时
       this.setData({
-        endTimeTemp: util.addTime(this.data.startTimeTemp, 4),
+        endTimeTemp: util.addTime(this.data.startTimeTemp, 4)
+      })
+      this.setData({
         ksEndTime: this.data.endTimeTemp
       })
-      console.log('讲座预计结束时间值为', this.data.endTimeTemp);
+      console.log('讲座预计结束时间值为', this.data.ksEndTime);
     } else if (this.data.accountIndex == 0 && !this.data.startTimeTemp) {
       // 即假如没有输入日期和时间，但输入了用时
       this.setData({

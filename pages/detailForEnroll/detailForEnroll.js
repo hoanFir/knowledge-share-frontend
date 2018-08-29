@@ -76,6 +76,12 @@ Page({
     })
   },
 
+  // 点击头像跳转到个人页面
+  toActivityProfile: function (event) {
+    console.log(event)
+    wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });
+  },
+  
   onReady() { },
   onShow() { },
   onHide() { },
