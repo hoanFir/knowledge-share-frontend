@@ -7,7 +7,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 方便用于主题操作，不用于页面数据显示
+    ksId: null,
+    kpId: null,
     kuId: null,
+    // 用于页面数据显示
     activityUserDetail: null
   },
 
@@ -15,9 +19,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
     // 获取用户Id
     let kuId = options.itemId
-    // 解构赋值
     this.setData({ kuId })
 
     // 通过kuId获取用户信息
@@ -27,6 +31,18 @@ Page({
       }
       else wx.showToast({ title: "获取信息失败", icon: 'none' });
     });
+
+    // 获取该讲座的ksId
+    this.setData({
+      ksId: wx.getStorageSync("activityDetail").ksId
+    })
+
+    // 获取该讲座的kpId
+    for (let item of wx.getStorageSync('activityDetail').participations) {
+      if (item.kuId == this.data.kuId) {
+        this.setData({ kpId: item.kpId })
+      }
+    }
   },
 
   // 一键复制联系方式
@@ -50,22 +66,37 @@ Page({
     })
   },
 
-  // TODO：审核通过
-  onTapOk() {  
-
+  // 审核通过
+  onTapOk() {
+    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    activityService.auditPartake(this.data.ksId, this.data.kpId, true, (successed) => {
+      if (successed) {
+        notify('操作成功');
+        // wx.navigateBack();
+        wx.navigateTo({ url: '../activity/activity' });        
+      }
+      else notify('操作失败');
+    });
   },
 
-  // TODO：删除警示
+  // 删除警示
   onTapDelete() {
     wx.showModal({
       title: '警告',
       content: '删除操作将无法撤销',
       success: (res) => {
         if (res.confirm) {
-          // pigService.deleteById(this.data.pig.id, (successed) => {
-          //   if (successed) wx.navigateBack();
-          //   else wx.showToast({ title: '操作失败', icon: 'none' });
-          // });
+          
+          const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+          activityService.auditPartake(this.data.ksId, this.data.kpId, false, (successed) => {
+            if (successed) {
+              notify('操作成功');
+              // wx.navigateBack();
+              wx.navigateTo({ url: '../activity/activity' });              
+            }
+            else notify('操作失败');
+          });
+
         }
       },
       fail: () => { }

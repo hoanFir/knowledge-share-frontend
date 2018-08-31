@@ -418,6 +418,41 @@ class ActivityService {
   }
 
   /**
+   * 审查参与，通过则上传true，不通过则上传false
+   */
+  auditPartake(ksId, kpId, isAudit, callback) {
+    let url = new URL('http', serverAddr).path('subjects/' + ksId + 'participations/' + kpId).param('boolean', isAudit);
+    wx.request({
+      url: url.toString(),
+      method: 'PUT',
+      header: {
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
+      },
+      success: ({ data: result, statusCode }) => {
+        console.log("审核参讲运行了", statusCode);
+
+          // TODO 状态码判断
+          switch (statusCode) {
+            case 200:
+              callback(true);
+              break;
+            case StatusCode.FOUND_NOTHING:
+              console.warn('found nothing');
+              break;
+            case StatusCode.INVALID_SID:
+              console.error('invalid sid');
+              break;
+          }
+        
+      },
+      fail: (e) => {
+        console.error(e);
+        callback(false);
+      }
+    });
+  }
+
+  /**
    * 获取商家
    */
   getBusinessMap(callback) {
