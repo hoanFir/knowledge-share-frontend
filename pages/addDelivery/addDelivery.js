@@ -64,8 +64,6 @@ Page({
    */
   onLoad: function (options) {
     // 设置默认开始时间:当地日期+当地时间
-    console.log(DateHelper.nowDate() + 'T')
-    console.log(TimeHelper.nowTime())
     this.setData({ ksStartTime: DateHelper.nowDate() + 'T' + TimeHelper.nowTime() })
 
     // 设置默认结束时间:当地日期+当地时间+默认2小时时长
@@ -275,7 +273,7 @@ Page({
           notify('发起成功');
           wx.navigateBack();
         }
-        else notify('发起失败');
+        // else notify('发起失败');
       });
     }
   },

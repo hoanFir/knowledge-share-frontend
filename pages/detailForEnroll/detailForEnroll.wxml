@@ -54,7 +54,7 @@
 <!-- 参讲人列表 -->
 <view class="weui-cells__title">参讲者</view>
 <view class="weui-cells weui-cells_after-title">
-  <view wx:if="{{!activityDetail.enrollments}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
+  <view wx:if="{{!activityDetail.participations.length}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
   <view wx:else>
     <view wx:key="participations" wx:for="{{activityDetail.participations}}" wx:for-index="idx" id='{{idx}}'>
       <view class="weui-cell weui-cell_access" bindtap='toActivityProfile' id='{{item.ksUser.kuId}}'>
@@ -70,7 +70,7 @@
 <!-- 报名者列表 -->
 <view class="weui-cells__title">已报名</view>
 <view class="weui-cells weui-cells_after-title last-div">
-  <view wx:if="{{!activityDetail.enrollments}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
+  <view wx:if="{{!activityDetail.enrollments.length}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
   <view wx:else>
     <view wx:key="enrollments" wx:for="{{activityDetail.enrollments}}" wx:for-index="idx" id='{{idx}}'>
       <image bindtap='toActivityProfile' id='{{item.ksUser.kuId}}' src="{{item.ksUser.kuHeadImgUrl}}" style="width: 30px;height: 30px;margin: 10px;border-radius: 50%" />

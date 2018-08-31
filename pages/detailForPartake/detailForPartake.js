@@ -48,7 +48,7 @@ Page({
   touchCancelPartake() {
     wx.showModal({
       title: '警告',
-      content: '确定取消报名',
+      content: '确定取消参讲',
       success: (res) => {
         if (res.confirm) {
 
@@ -73,6 +73,12 @@ Page({
     })
   },
 
+  // 点击头像跳转到个人页面
+  toActivityProfile: function (event) {
+    console.log(event)
+    wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });
+  },
+  
   onReady() { },
   onShow() { },
   onHide() { },

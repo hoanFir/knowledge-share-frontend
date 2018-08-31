@@ -90,7 +90,7 @@ Page({
   onShow: function () {
     if (this.neverShow) this.neverShow = false;
     else {
-      let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'applicant');
+      let url = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'applicant');
       wx.request({
         url: url.toString(),
         method: 'GET',
@@ -105,7 +105,6 @@ Page({
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('myEnrollPageData', result);
-              console.log("myEnrollPageData:", wx.getStorageSync('myEnrollPageData'))
 
               // 获取最新数据并缓存
               let myList = [];
@@ -115,8 +114,6 @@ Page({
                 myList.push(activity);
               }
               wx.setStorageSync('myEnrollList', myList);
-
-              console.log("myEnrollList:", wx.getStorageSync('myEnrollList'))
               this.setData({ myEnrollList: wx.getStorageSync('myEnrollList') })
 
               break;
@@ -162,21 +159,28 @@ Page({
             activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
             // 获取到详情，存储到本地缓存
             wx.setStorageSync('activityDetail', activityDetail);
+            // 获取主题类型ksType字典值，存储到本地缓存，方便调用
+            wx.setStorageSync('activityType', activityDetail.ksType);
+            // 获取服务器时间，用于判断活动所处状态
+            wx.setStorageSync('serverTime', activityDetail.serverTime);
 
             // 控制台输出详情数据
             console.log("该主题详情", wx.getStorageSync("activityDetail"))
 
             // 判断用户是否报名者、发起者、参讲者，进入不同的页面
             let whichEnter = wx.getStorageSync('activityDetail')
-            if (!whichEnter.isAuthor && !whichEnter.isEnroll && !whichEnter.isPartake) {
-              wx.navigateTo({ url: '../activity/detail?itemId=' + event.currentTarget.id });
+            if (whichEnter.ksEnd) {
+              wx.navigateTo({ url: '../endedActivity/endedActivity' });
             } else if (whichEnter.isAuthor) {
-              wx.navigateTo({ url: '../detailForAuthor/detailForAuthor?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../detailForAuthor/detailForAuthor' });
             } else if (whichEnter.isEnroll) {
-              wx.navigateTo({ url: '../detailForEnroll/detailForEnroll?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../detailForEnroll/detailForEnroll' });
+            } else if (whichEnter.isPartake) {
+              wx.navigateTo({ url: '../detailForPartake/detailForPartake' });
             } else {
-              wx.navigateTo({ url: '../detailForPartake/detailForPartake?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../activity/detail' });
             }
+            
             break;
           case StatusCode.FOUND_NOTHING:
             console.warn('found nothing');

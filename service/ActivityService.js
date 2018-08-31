@@ -62,7 +62,7 @@ class ActivityService {
       url: url.toString(),
       method: 'POST',
       header: {
-        'Authorization': 'Bearer ' + sid,
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json'
       },
       data: {
@@ -84,21 +84,28 @@ class ActivityService {
         ksTitle: data.ksTitle,
         ksType: data.ksType
       },
-      success: ({ statusCode }) => {
+      success: ({ data: result, statusCode }) => {
         // 此处无须加新增的添加入缓存，因为首页需要重新请求
         console.log("发起讲座运行了", statusCode);
 
-        // TODO 状态码判断
-        switch (statusCode) {
-          case 200:
-            callback(true);
-            break;
-          case StatusCode.FOUND_NOTHING:
-            console.warn('found nothing');
-            break;
-          case StatusCode.INVALID_SID:
-            console.error('invalid sid');
-            break;
+        if (result.hasOwnProperty('errMsg')) {
+          if (result.errMsg.substring(0, 19) == "Invalid ksStartTime") {
+            wx.showToast({ title: "开讲时间应设置在六小时之后", icon: 'none' })
+            callback(false)
+          }
+        } else {
+          // TODO 状态码判断
+          switch (statusCode) {
+            case 200:
+              callback(true);
+              break;
+            case StatusCode.FOUND_NOTHING:
+              console.warn('found nothing');
+              break;
+            case StatusCode.INVALID_SID:
+              console.error('invalid sid');
+              break;
+          }
         }
       },
       fail: (e) => {
@@ -117,7 +124,7 @@ class ActivityService {
       url: url.toString(),
       method: 'PUT',
       header: {
-        'Authorization': 'Bearer ' + sid,
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json',
       },
       data: {
@@ -134,28 +141,35 @@ class ActivityService {
         ksType: data.ksType
       },
       success: ({ data: result, statusCode }) => {
-        console.log("修改主题运行了", StatusCode)
-
-        // TODO 状态码判断
-        switch (statusCode) {
-          case 200:
-            // 缓存获取的新数据
-            let activityDetail = new ActivityDetail(result.subject)
-            // 时间戳转换
-            activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));
-            activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
-            // 获取详情，存储到本地缓存
-            wx.setStorageSync('activityDetail', activityDetail);
-            // 获取主题类型ksType，存储到本地缓存
-            wx.setStorageSync('activityType', activityDetail.ksType);
-            callback(true);
-            break;
-          case StatusCode.FOUND_NOTHING:
-            console.warn('found nothing');
-            break;
-          case StatusCode.INVALID_SID:
-            console.error('invalid sid');
-            break;
+        console.log("更新讲座运行了", statusCode);
+        
+        if (result.hasOwnProperty('errMsg')) {
+          if (result.errMsg.substring(0, 19) == "Invalid ksStartTime") {
+            wx.showToast({ title: "开讲时间应设置在六小时之后", icon: 'none' })
+            callback(false)
+          }
+        } else {
+          // TODO 状态码判断
+          switch (statusCode) {
+            case 200:
+              // 缓存获取的新数据
+              let activityDetail = new ActivityDetail(result.subject)
+              // 时间戳转换
+              activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));
+              activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
+              // 获取详情，存储到本地缓存
+              wx.setStorageSync('activityDetail', activityDetail);
+              // 获取主题类型ksType，存储到本地缓存
+              wx.setStorageSync('activityType', activityDetail.ksType);
+              callback(true);
+              break;
+            case StatusCode.FOUND_NOTHING:
+              console.warn('found nothing');
+              break;
+            case StatusCode.INVALID_SID:
+              console.error('invalid sid');
+              break;
+          }
         }
       },
       fail: (e) => {
@@ -228,7 +242,7 @@ class ActivityService {
       url: url.toString(),
       method: 'POST',
       header: { 
-        'Authorization': 'Bearer ' + sid,
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json',
       },
       success: ({ statusCode }) => {
@@ -265,7 +279,7 @@ class ActivityService {
       url: url.toString(),
       method: 'POST',
       header: {
-        'Authorization': 'Bearer ' + sid,
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json'
       },
       success: ({ statusCode }) => {
@@ -303,8 +317,7 @@ class ActivityService {
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + sid,
-        'content-type': 'application/json'
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ statusCode }) => {
         console.log("点击删除运行了", statusCode)
@@ -341,8 +354,7 @@ class ActivityService {
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + sid,
-        'content-type': 'application/json',
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
       },
       success: ({ statusCode }) => {
         console.log("点击取消报名运行了", statusCode)
@@ -379,7 +391,7 @@ class ActivityService {
       url: url.toString(),
       method: 'DELETE',
       header: {
-        'Authorization': 'Bearer ' + sid,
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json',
       },
       success: ({ statusCode }) => {

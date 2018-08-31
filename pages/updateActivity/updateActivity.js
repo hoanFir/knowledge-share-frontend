@@ -60,8 +60,6 @@ Page({
    */
   onLoad: function (options) {
     // 设置默认开始时间:当地日期+当地时间
-    console.log(DateHelper.nowDate() + 'T')
-    console.log(TimeHelper.nowTime())
     this.setData({ ksStartTime: DateHelper.nowDate() + 'T' + TimeHelper.nowTime() })
 
     // 设置默认结束时间:当地日期+当地时间
@@ -83,6 +81,13 @@ Page({
     activityService.getBusinessMap(this.setIndustry);
     // 获取讲座类型列表
     activityService.getKstypeMap(this.setKstype);
+
+    this.setData({ ksTitle: this.data.oldActivityDetail.ksTitle })
+    this.setData({ ksAbstract: this.data.oldActivityDetail.ksAbstract })
+    this.setData({ ksContent: this.data.oldActivityDetail.ksContent })
+    this.setData({ ksEnrollLimit: this.data.oldActivityDetail.ksEnrollLimit })
+    this.setData({ ksEnrollMinLimit: this.data.oldActivityDetail.ksEnrollMinLimit })
+    this.setData({ ksPartLimit: this.data.oldActivityDetail.ksPartLimit })
   },
 
   // 获取商家Map
@@ -248,28 +253,6 @@ Page({
   // 点击确认修改讲座
   onTapSure() {
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    
-    // 如果未作修改
-    if (this.data.ksTitle == "") {
-      console.log(this.data.oldActivityDetail.ksTitle)
-      this.setData({ ksTitle: this.data.oldActivityDetail.ksTitle })
-      console.log(this.data.ksTitle)
-    }
-    if (this.data.ksAbstract == "") {
-      this.setData({ ksAbstract: this.data.oldActivityDetail.ksAbstract })
-    }
-    if (this.data.ksContent == "") {
-      this.setData({ ksContent: this.data.oldActivityDetail.ksContent })
-    }
-    if (this.data.ksEnrollLimit == 0) {
-      this.setData({ ksEnrollLimit: this.data.oldActivityDetail.ksEnrollLimit })
-    }
-    if (this.data.ksEnrollMinLimit == 0) {
-      this.setData({ ksEnrollLimit: this.data.oldActivityDetail.ksEnrollMinLimit })
-    }
-    if (this.data.ksPartLimit == 0) {
-      this.setData({ ksPartLimit: this.data.oldActivityDetail.ksPartLimit })
-    }
 
     // 使用解构赋值
     let { ksId, kbId, ksTitle, ksAbstract, ksContent, ksEndTime, ksEnrollLimit, ksEnrollMinLimit, ksPartLimit, ksRemark, ksStartTime, ksType } = this.data;
@@ -282,7 +265,7 @@ Page({
         notify('修改成功');
         wx.redirectTo({ url: '../detailForAuthor/detailForAuthor' });        
       }
-      else notify('修改失败');
+      // else notify('修改失败');
     });
     
   },

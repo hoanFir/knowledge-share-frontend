@@ -19,12 +19,11 @@ Page({
     let kuId = options.itemId
     // 解构赋值
     this.setData({ kuId })
-    console.log("获取到用户Id", this.data.kuId)
 
-    // TODO：通过kuId获取用户信息
+    // 通过kuId获取用户信息
     userService.getActivityUserDetail(this.data.kuId, (successed) => {
       if (successed) {
-        this.setData({ rDetail: wx.getStorageSync('activityUserDetail') })
+        this.setData({ activityUserDetail: wx.getStorageSync('activityUserDetail') })
       }
       else wx.showToast({ title: "获取信息失败", icon: 'none' });
     });

@@ -85,7 +85,7 @@ Page({
     else {
       // 每次再显示时
       // 需要重新请求，因为loadActivityList会先判断本地缓存有无，假如有则不向服务器请求新数据
-      let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'browser');
+      let url = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'browser');
       wx.request({
         url: url.toString(),
         method: 'GET',
@@ -109,8 +109,6 @@ Page({
                 activityList.push(activity);
               }
               wx.setStorageSync('activityList', activityList);
-
-              console.log("onShow运行了:", wx.getStorageSync('activityList'))
               this.setData({ activityList: wx.getStorageSync('activityList') })
 
               break;

@@ -60,6 +60,7 @@ Page({
               this.setData({ keId: item.keId })
             }
           }
+          
           activityService.cancelEnrollActivity(this.data.ksId, this.data.keId, (successed) => {
             if (successed) {
               notify('取消成功');
