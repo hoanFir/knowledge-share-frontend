@@ -1,7 +1,11 @@
 // pages/activity/detail.js
 import activityService from '../../service/ActivityService';
+import commentService from '../../service/CommentService';
 
 Page({
+  // 评论模块
+  pageNum: 1,
+
   /**
    * 页面的初始数据
    */
@@ -11,18 +15,35 @@ Page({
     // 方便用于主题操作，不用于页面数据显示
     ksId: null,
     // 讲座类型
-    ksType: null
+    ksType: null,
+
+    // 评论模块
+    commentList: [],
+    postComContent: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 添加评论
+    this.addStrainDialog = this.selectComponent('#addStrainDialog');
+
     this.setData({
       activityDetail: wx.getStorageSync("activityDetail"),
       ksId: wx.getStorageSync("activityDetail").ksId,
       ksType: wx.getStorageSync("activityType").kddDataName
     })
+
+    // 评论模块
+    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    commentService.fetchComments(this.data.ksId, this.pageNum, (successed) => {
+      if (successed) {
+        notify('获取成功');
+      }
+      else notify('获取失败');
+    });
+
   },
 
   // 处理点击报名
@@ -54,6 +75,41 @@ Page({
       }
       else notify('参讲失败');
     });
+  },
+
+  // 添加评论
+  showAddStrainDialog() { this.addStrainDialog.show(); },
+  hideAddStrainDialog() { this.addStrainDialog.hide(); },
+  onAddStrainDialogInputChange(e) { this.addStrainInputValue = e.detail; },
+  submitAddStrain() {
+    if (this.addStrainInputValue) {
+      commentService.commentActivity(this.data.ksId, this.addStrainInputValue, (successed) => {
+        if (successed) {
+          notify('评论成功');
+        }
+        else notify('评论失败');
+      });
+
+      pigService.addStrain(this.addStrainInputValue, (map) => {
+        if (map != null) {
+          this.addStrainInputValue = '';
+          this.hideAddStrainDialog();
+          wx.showToast({ title: '添加成功', icon: 'none' });
+          // 重新加载strain map
+          this.initStrain(map);
+        }
+        else wx.showToast({ title: '添加失败', icon: 'none' });
+      });
+    }
+    else wx.showToast({ title: '请输入评论内容', icon: 'none' });
+  },
+  // 评论模块
+  onUpTap: function (event) {
+    // 当用户点击点赞按钮后，onUpTap方法将调用DBPost的up方法并将返回的最新数据使用this.setData更新。
+    // 点击点赞按钮，图片会不断切换，点赞数也将相应地+1或者-1
+  },
+  onCommentOthersTap: function(e) {
+    wx.showToast({ title: "即将开放", icon: 'none' });
   },
 
   onReady() { },

@@ -1,10 +1,27 @@
 /* pages/endedActivity/endedActivity.wxss */
-.page {
+page {
   padding-bottom: 50px;
 }
 
 .page__hd {
   box-shadow: 0 .05em .25em rgba(0,0,0,.5);
+}
+
+/* 摘要和内容 */
+.list-abstract, .list-title {
+  margin: 0 40rpx;
+  position: relative;
+  height: auto;
+  border-bottom:1rpx solid #e5e5e5;
+  padding: 20rpx 0;
+  text-align: left;
+  font-size: 34rpx;
+  color: black;
+}
+.list-abstract text, .list-title text  {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
 }
 
 /* 底部按钮 */
@@ -17,9 +34,51 @@
 }
 
 .flex-item {
-  /* background: #40586d;
-  color: #fff; */
   text-align: center;
   width: 100%;
   border-radius: 0px;
+}
+
+/* 评论模块 */
+.comment {
+  padding: 20rpx 40rpx;
+}
+
+.comment-header {
+  display: flex;
+  justify-content:space-between;
+}
+.comment-header image {
+  height: 40rpx;
+  width: 40rpx;
+}
+
+.author-box {
+  text-align: center;
+  color: #999;
+}
+.author-box image {
+  height: 60rpx;
+  width: 60rpx;
+  border-radius: 50%;
+}
+
+.tool{
+  display: flex;
+  justify-content: flex-end;
+  height: 64rpx;
+  text-align: center;
+  line-height: 64rpx;
+  margin: 5rpx 0;
+}
+.tool-item{
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 30rpx;
+}
+.tool-item image{
+  height: 40rpx;
+  width: 40rpx;
+  vertical-align: -3px;
+  margin-right: 10rpx;
 }

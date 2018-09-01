@@ -1,7 +1,11 @@
 // pages/detailForEnroll/detailForEnroll.js
 import activityService from '../../service/ActivityService';
+import commentService from '../../service/CommentService';
 
 Page({
+  // 评论模块
+  pageNum: 1,
+
   /**
    * 页面的初始数据
    */
@@ -12,7 +16,11 @@ Page({
     // 用于页面数据显示
     activityDetail: null,
     // 讲座类型
-    ksType: null
+    ksType: null,
+
+    // 评论模块
+    commentList: [],
+    postComContent: null
   },
 
   /**
@@ -20,11 +28,20 @@ Page({
    */
   onLoad: function (options) {
 
+    this.setData({ activityDetail: wx.getStorageSync("activityDetail") })
     this.setData({
-      activityDetail: wx.getStorageSync("activityDetail"),
-      ksId: wx.getStorageSync("activityDetail").ksId,
-      ksType: wx.getStorageSync("activityType").kddDataName
+      ksId: this.data.activityDetail.ksId,
+      ksType: this.data.activityDetail.ksType.kddDataName
     })
+
+    // 评论模块
+    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    commentService.fetchComments(this.data.ksId, this.pageNum, (successed) => {
+      if (successed) {
+        notify('获取成功');
+      }
+      else notify('获取失败');
+    });
 
     // 实现转发
     // withShareTicket 为 true 时，表示允许转发时是否携带 shareTicket；shareTicket是获取转发目标群信息的票据，只有拥有该值，才能拿到群信息。用户每次转发都会生成对应唯一的shareTicket
@@ -81,6 +98,37 @@ Page({
     wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });
   },
   
+  // 评论模块
+  onUpTap: function (event) {
+    // 当用户点击点赞按钮后，onUpTap方法将调用DBPost的up方法并将返回的最新数据使用this.setData更新。
+    // 点击点赞按钮，图片会不断切换，点赞数也将相应地+1或者-1
+    // var newData = this.dbPost.up();
+    // this.setData({
+    //   'post.upStatus': newData.upStatus,
+    //   'post.upNum': newData.upNum,
+    // })
+    // wx.showToast({
+    //   title: newData.upStatus ? "点赞成功" : "点赞取消",
+    //   duration: 1000,
+    //   icon: "sucess",
+    //   make: true
+    // })
+  },
+  onCommentTap: function (event) {
+
+    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
+    notify('评论成功');
+    // commentService.commentActivity(this.data.ksId, postComContent, (successed) => {
+    //   if (successed) {
+    //     notify('获取成功');
+    //   }
+    //   else notify('获取失败');
+    // });
+  },
+  onCommentOthersTap: function (e) {
+    wx.showToast({ title: "即将开放", icon: 'none' });
+  },
+
   onReady() { },
   onShow() { },
   onHide() { },

@@ -49,7 +49,8 @@
               <text>{{item.ksStartTime}}\n{{item.ksBusiness.kbName}}</text>
             </view>
             <view class="end">
-              <text class="city">报名中{{item.ksStatus}}</text>
+              <text wx:if="{{!item.ksEnd}}" class="city">报名中</text>
+              <text wx:else class="city">已结束</text>
               <text class="province">已报名{{item.ksEnrollNum}}人</text>
             </view>
           </view>

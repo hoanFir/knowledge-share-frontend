@@ -205,7 +205,7 @@ Page({
 
             // 判断用户是否报名者、发起者、参讲者，进入不同的页面
             let whichEnter = wx.getStorageSync('activityDetail')
-            if ( whichEnter.ksEnd) {
+            if ( whichEnter.ksEnd ) {
               wx.navigateTo({ url: '../endedActivity/endedActivity' });
             } else if (whichEnter.isAuthor) {
               wx.navigateTo({ url: '../detailForAuthor/detailForAuthor' });
@@ -253,7 +253,7 @@ Page({
       title: '刷新中'
     })
     // 需要重新请求，因为loadActivityList会先判断本地缓存有无，假如有则不向服务器请求新数据
-    let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'browser');
+    let url = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'browser');
     wx.request({
       url: url.toString(),
       method: 'GET',

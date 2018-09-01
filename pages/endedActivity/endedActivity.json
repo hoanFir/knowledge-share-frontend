@@ -1,1 +1,6 @@
-{}
+{
+  "navigationBarTitleText": "详情",
+  "usingComponents": {
+    "intput-dialog": "../../components/input-dialog/input-dialog"
+  }
+}

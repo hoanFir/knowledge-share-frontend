@@ -421,7 +421,7 @@ class ActivityService {
    * 审查参与，通过则上传true，不通过则上传false
    */
   auditPartake(ksId, kpId, isAudit, callback) {
-    let url = new URL('http', serverAddr).path('subjects/' + ksId + 'participations/' + kpId).param('boolean', isAudit);
+    let url = new URL('http', serverAddr).path('subjects/' + ksId + '/participations/' + kpId).param('audit_status', isAudit);
     wx.request({
       url: url.toString(),
       method: 'PUT',

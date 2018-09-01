@@ -1,5 +1,6 @@
 // pages/auditPartake/auditPartake.js
 import userService from '../../service/UserService';
+import activityService from '../../service/ActivityService';
 
 Page({
 
@@ -51,18 +52,21 @@ Page({
     wx.setClipboardData({
       data: self.data.activityUserDetail.kuPhone,
       success: function (res) {
+
         wx.showModal({
           title: '提示',
           content: '已经复制到剪切板',
           success: function (res) {
             if (res.confirm) {
-              console.log('确定')
+              console.log('复制成功')
             } else if (res.cancel) {
-              console.log('取消')
+              console.log('取消复制')
             }
           }
         })
-      }
+
+      },
+      fail: function (e) { console.log(e) }
     })
   },
 
@@ -71,9 +75,18 @@ Page({
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     activityService.auditPartake(this.data.ksId, this.data.kpId, true, (successed) => {
       if (successed) {
-        notify('操作成功');
-        // wx.navigateBack();
-        wx.navigateTo({ url: '../activity/activity' });        
+        let activityDetail = wx.getStorageSync('activityDetail')
+        for (let item = 0; item < activityDetail.participations.length; item++) {
+          if (activityDetail.participations[item].kuId == this.data.kuId) {
+            // 审核通过设置活动详情缓存里的参讲者的kpStatus为true，则显示通过
+            activityDetail.participations[item].kpStatus = true;
+            break;
+          }
+        }
+        wx.setStorageSync('activityDetail', activityDetail);
+        notify('审核通过');
+        wx.navigateBack();
+        // wx.navigateTo({ url: '../activity/activity' });        
       }
       else notify('操作失败');
     });
@@ -90,9 +103,17 @@ Page({
           const notify = (content) => wx.showToast({ title: content, icon: 'none' });
           activityService.auditPartake(this.data.ksId, this.data.kpId, false, (successed) => {
             if (successed) {
+              // 审核不通过则在详情的申请列表中移除该申请者
+              let activityDetail = wx.getStorageSync('activityDetail');
+              for (let item = 0; item < activityDetail.participations.length; item++) {
+                if (activityDetail.participations[item].kuId == this.data.kuId) {
+                  activityDetail.participations.splice(item, 1);
+                  break;
+                }
+              }
+              wx.setStorageSync('activityDetail', activityDetail);
               notify('操作成功');
-              // wx.navigateBack();
-              wx.navigateTo({ url: '../activity/activity' });              
+              wx.navigateBack();
             }
             else notify('操作失败');
           });

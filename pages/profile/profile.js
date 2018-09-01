@@ -20,9 +20,9 @@ Page({
     userInfo: {},
 
     // 参讲次数、听讲次数和主讲次数
-    partakeCount: 0,
-    listenCount: 0,
-    deliverCount: 0,
+    // partakeCount: 0,
+    // listenCount: 0,
+    // deliverCount: 0,
 
     // 用户中心
 		icons: [
@@ -113,7 +113,7 @@ Page({
               myList.push(activity);
             }
             wx.setStorageSync('myDeliverList', myList);
-            this.setData({ deliverCount: wx.getStorageSync('myDeliverList').length })
+            // this.setData({ deliverCount: wx.getStorageSync('myDeliverList').length })
             break;
           case StatusCode.FOUND_NOTHING:
             console.warn('found nothing');
@@ -147,7 +147,7 @@ Page({
               myList.push(activity);
             }
             wx.setStorageSync('myEnrollList', myList);
-            this.setData({ listenCount: wx.getStorageSync('myEnrollList').length })
+            // this.setData({ listenCount: wx.getStorageSync('myEnrollList').length })
 
             break;
           case StatusCode.FOUND_NOTHING:
@@ -182,7 +182,7 @@ Page({
               myList.push(activity);
             }
             wx.setStorageSync('myPartakeList', myList);
-            this.setData({ partakeCount: wx.getStorageSync('myPartakeList').length })
+            // this.setData({ partakeCount: wx.getStorageSync('myPartakeList').length })
             break;
           case StatusCode.FOUND_NOTHING:
             console.warn('found nothing');
