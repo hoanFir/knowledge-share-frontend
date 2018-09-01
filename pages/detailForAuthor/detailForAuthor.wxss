@@ -47,6 +47,7 @@ page {
 
 /* 评论模块 */
 .comment {
+  margin-top: 50rpx;
   padding: 20rpx 40rpx;
 }
 
@@ -60,31 +61,35 @@ page {
 }
 
 .author-box {
+  display: flex;
+  justify-content: flex-start;
   text-align: center;
   color: #999;
 }
-.author-box image {
+.avatar {
   height: 60rpx;
   width: 60rpx;
   border-radius: 50%;
 }
+.author {
+  margin: 0 20rpx;
+}
+.date {
+  margin-left: 100rpx;
+  margin-top: 20rpx;
+  font-size: 20rpx;
+}
 
-.tool{
+.tool {
   display: flex;
   justify-content: flex-end;
   height: 64rpx;
-  text-align: center;
-  line-height: 64rpx;
-  margin: 5rpx 0;
 }
-.tool-item{
+.tool-item {
   display: inline-block;
-  vertical-align: top;
   margin-right: 30rpx;
 }
-.tool-item image{
+.tool-item image {
   height: 40rpx;
   width: 40rpx;
-  vertical-align: -3px;
-  margin-right: 10rpx;
 }

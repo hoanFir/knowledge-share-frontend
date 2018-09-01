@@ -26,7 +26,7 @@
         <view class="weui-search-bar__form">
           <view class="weui-search-bar__box">
             <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-            <input type="text" class="weui-search-bar__input" placeholder="搜索" focus="{{showInput}}" bindinput="onTextChange" 
+            <input type="text" class="weui-search-bar__input" placeholder="请根据标题进行搜索" focus="{{showInput}}" bindinput="onTextChange" 
             bindconfirm="onConfirm" value='{{keyword}}'/>
             <view class="weui-icon-clear" wx:if="{{keyword.length > 0}}" bindtap="clearText">
               <icon type="clear" size="14"></icon>

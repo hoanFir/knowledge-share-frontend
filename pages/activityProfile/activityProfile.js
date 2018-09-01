@@ -17,9 +17,7 @@ Page({
   onLoad: function (options) {
     // 获取用户Id
     let kuId = options.itemId
-    // 解构赋值
     this.setData({ kuId })
-    console.log("获取到用户Id", this.data.kuId)
 
     // 通过kuId获取用户信息
     userService.getActivityUserDetail(this.data.kuId, (successed) => {

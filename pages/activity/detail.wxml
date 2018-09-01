@@ -51,7 +51,7 @@
 
   <view class="weui-media-box weui-media-box_appmsg">
     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-      <image style='border-radius: 50%;' class="weui-media-box__thumb" src="{{activityDetail.ksUser.kuHeadImgUrl}}" />
+      <image bindtap='toActivityProfile' id='{{activityDetail.ksUser.kuId}}' style='border-radius: 50%;' class="weui-media-box__thumb" src="{{activityDetail.ksUser.kuHeadImgUrl}}" />
     </view>
     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
       <view class="weui-media-box__title">{{activityDetail.ksUser.kuName}} {{activityDetail.ksUser.kuPhone}}</view>
@@ -102,27 +102,29 @@
     <image bindtap='showAddStrainDialog' src="../../images/icon/comment.png"></image>
   </view>
 
-  <view wx:if="{{!commentList.length}}" style='padding: 10rpx 40rpx;color: #999;'>
+  <view wx:if="{{commentList.length == 0}}" style='padding: 10rpx 40rpx;color: #999;'>
     暂无小伙伴评论
   </view>
   <view wx:else style='border-top:1rpx solid #e5e5e5;'>
-    <view class="author-box">
-        <image class="avatar" src="{{post.avatar}}"></image>
-        <text class="author">用户名{{post.author}}</text>
-        <text class="date">一天前{{post.dataTime}}</text>
-    </view>
-    <text class="detail">评论{{post.detail}}</text>
-    <view class="tool">
-      <!-- 点赞 -->
-      <view class="tool-item" catchtap='onUpTop' data-post-id="{{post.postId}}">
-        <image wx:if="{{post.upStatus}}" src="../../images/icon/like_actived.png"></image>
-        <image wx:else src="../../images/icon/like.png"></image>
-        <text>{{post.upNum}}</text>
+    <view wx:key="comments" wx:for="{{commentList}}" wx:for-index="idx" id='{{idx}}'>
+      <view class="author-box">
+          <image class="avatar" src="{{item.user.kuHeadImgUrl}}"></image>
+          <text class="author">{{item.user.kuName}}</text>
+          <text class="date">{{item.addTime}}</text>
       </view>
-      <!-- 评论 -->
-      <view class="tool-item comment" data-post-id="{{post.postId}}">
-        <image bindtap='onCommentOthersTap' src="../../images/icon/comment.png"></image>
-        <text>{{post.commentNum}}</text>
+      <text class="detail">{{item.kcContent}}</text>
+      <view class="tool">
+        <!-- 点赞 -->
+        <view class="tool-item" catchtap='onUpTap'>
+          <image wx:if="{{item.upStatus}}" src="../../images/icon/like_actived.png"></image>
+          <image wx:else src="../../images/icon/like.png"></image>
+          <text>{{item.upNum}}</text>
+        </view>
+        <!-- 评论 -->
+        <view class="tool-item">
+          <image bindtap='onCommentOthersTap' src="../../images/icon/comment.png"></image>
+          <text>{{item.commentNum}}</text>
+        </view>
       </view>
     </view>
   </view>

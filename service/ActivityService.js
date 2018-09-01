@@ -4,8 +4,8 @@ import StatusCode from '../model/StatusCode';
 import config from '../config';
 import Activity from '../model/Activity';
 import ActivityDetail from '../model/ActivityDetail';
-
 const serverAddr = config.serverAddr;
+
 // 用于时间戳转换
 const util = require('../utils/util.js')
 // token

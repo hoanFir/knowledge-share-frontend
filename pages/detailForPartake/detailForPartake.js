@@ -19,14 +19,15 @@ Page({
     ksType: null,
 
     // 评论模块
-    commentList: [],
-    postComContent: null
+    commentList: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // 添加评论
+    this.addStrainDialog = this.selectComponent('#addStrainDialog');
 
     this.setData({ activityDetail: wx.getStorageSync("activityDetail") })
     this.setData({
@@ -38,7 +39,7 @@ Page({
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     commentService.fetchComments(this.data.ksId, this.pageNum, (successed) => {
       if (successed) {
-        notify('获取成功');
+        this.setData({ commentList: wx.getStorageSync('commentList') })
       }
       else notify('获取失败');
     });
@@ -92,36 +93,31 @@ Page({
 
   // 点击头像跳转到个人页面
   toActivityProfile: function (event) {
-    console.log(event)
     wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });
   },
   
+  // 添加评论
+  showAddStrainDialog() { this.addStrainDialog.show(); },
+  hideAddStrainDialog() { this.addStrainDialog.hide(); },
+  onAddStrainDialogInputChange(e) { this.addStrainInputValue = e.detail; },
+  submitAddStrain() {
+    if (this.addStrainInputValue) {
+      commentService.commentActivity(this.data.ksId, this.addStrainInputValue, (successed) => {
+        if (successed) {
+          this.hideAddStrainDialog();
+          this.setData({ commentList: wx.getStorageSync('commentList') })
+          wx.showToast({ title: '评论成功', icon: 'none' });
+        }
+        else wx.showToast({ title: '评论失败', icon: 'none' });
+      });
+    }
+    else wx.showToast({ title: '请输入评论内容', icon: 'none' });
+  },
   // 评论模块
   onUpTap: function (event) {
+    wx.showToast({ title: "即将开放", icon: 'none' });
     // 当用户点击点赞按钮后，onUpTap方法将调用DBPost的up方法并将返回的最新数据使用this.setData更新。
     // 点击点赞按钮，图片会不断切换，点赞数也将相应地+1或者-1
-    // var newData = this.dbPost.up();
-    // this.setData({
-    //   'post.upStatus': newData.upStatus,
-    //   'post.upNum': newData.upNum,
-    // })
-    // wx.showToast({
-    //   title: newData.upStatus ? "点赞成功" : "点赞取消",
-    //   duration: 1000,
-    //   icon: "sucess",
-    //   make: true
-    // })
-  },
-  onCommentTap: function (event) {
-
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    notify('评论成功');
-    // commentService.commentActivity(this.data.ksId, postComContent, (successed) => {
-    //   if (successed) {
-    //     notify('获取成功');
-    //   }
-    //   else notify('获取失败');
-    // });
   },
   onCommentOthersTap: function (e) {
     wx.showToast({ title: "即将开放", icon: 'none' });

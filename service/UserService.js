@@ -1,7 +1,6 @@
 import URL from '../utils/URL';
 import StatusCode from '../model/StatusCode';
 import config from '../config';
-
 const serverAddr = config.serverAddr;
 
 class UserService {
@@ -143,7 +142,7 @@ class UserService {
    */
   getActivityUserDetail(kuId, callback) {
 
-    let url = new URL('http', serverAddr).path('users' + '/' + kuId);
+    let url = new URL('http', serverAddr).path('users/' + kuId);
     wx.request({
       url: url.toString(),
       method: 'GET',

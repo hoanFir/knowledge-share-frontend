@@ -18,8 +18,7 @@ Page({
     ksType: null,
 
     // 评论模块
-    commentList: [],
-    postComContent: null
+    commentList: null
   },
 
   /**
@@ -39,7 +38,7 @@ Page({
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     commentService.fetchComments(this.data.ksId, this.pageNum, (successed) => {
       if (successed) {
-        notify('获取成功');
+        this.setData({ commentList: wx.getStorageSync('commentList') })
       }
       else notify('获取失败');
     });
@@ -85,31 +84,28 @@ Page({
     if (this.addStrainInputValue) {
       commentService.commentActivity(this.data.ksId, this.addStrainInputValue, (successed) => {
         if (successed) {
-          notify('评论成功');
-        }
-        else notify('评论失败');
-      });
-
-      pigService.addStrain(this.addStrainInputValue, (map) => {
-        if (map != null) {
-          this.addStrainInputValue = '';
           this.hideAddStrainDialog();
-          wx.showToast({ title: '添加成功', icon: 'none' });
-          // 重新加载strain map
-          this.initStrain(map);
+          this.setData({ commentList: wx.getStorageSync('commentList') })
+          wx.showToast({ title: '评论成功', icon: 'none' });
         }
-        else wx.showToast({ title: '添加失败', icon: 'none' });
+        else wx.showToast({ title: '评论失败', icon: 'none' });
       });
     }
     else wx.showToast({ title: '请输入评论内容', icon: 'none' });
   },
   // 评论模块
   onUpTap: function (event) {
+    wx.showToast({ title: "即将开放", icon: 'none' });
     // 当用户点击点赞按钮后，onUpTap方法将调用DBPost的up方法并将返回的最新数据使用this.setData更新。
     // 点击点赞按钮，图片会不断切换，点赞数也将相应地+1或者-1
   },
   onCommentOthersTap: function(e) {
     wx.showToast({ title: "即将开放", icon: 'none' });
+  },
+
+  // 点击头像跳转到个人页面
+  toActivityProfile: function (event) {
+    wx.navigateTo({ url: '../activityProfile/activityProfile?itemId=' + event.currentTarget.id });
   },
 
   onReady() { },

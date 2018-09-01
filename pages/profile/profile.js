@@ -3,7 +3,6 @@ import activityService from '../../service/ActivityService';
 const util = require('../../utils/util.js')
 
 // 用于下拉刷新再申请，以及token
-import userService from '../../service/UserService';
 import Activity from '../../model/Activity';
 import URL from '../../utils/URL';
 import StatusCode from '../../model/StatusCode';
@@ -97,7 +96,7 @@ Page({
       url: url1.toString(),
       method: 'GET',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid()
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ data: result, statusCode }) => {
         console.log("加载我的主讲:", statusCode)
@@ -132,7 +131,7 @@ Page({
       url: url2.toString(),
       method: 'GET',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid()
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ data: result, statusCode }) => {
         console.log("加载我的听讲:", statusCode)
@@ -167,7 +166,7 @@ Page({
       url: url3.toString(),
       method: 'GET',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid()
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ data: result, statusCode }) => {
         console.log("加载我的参讲:", statusCode)

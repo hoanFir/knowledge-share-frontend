@@ -2,9 +2,9 @@ import URL from '../utils/URL';
 import StatusCode from '../model/StatusCode';
 import config from '../config';
 const serverAddr = config.serverAddr;
+import Comment from '../model/Comment';
 
 class CommentService {
-
   /**
    * 获得评论
    */
@@ -17,7 +17,6 @@ class CommentService {
       header: { 'Authorization': 'Bearer ' + wx.getStorageSync('sid'), },
       success: ({ data: result, statusCode }) => {
         console.log("获取评论运行后", statusCode)
-        console.log("result: ", result)
 
         // TODO 状态码判断
         switch (statusCode) {
@@ -56,6 +55,10 @@ class CommentService {
         // TODO 状态码判断
         switch (statusCode) {
           case 200:
+            let comment = new Comment(result.ksComment);
+            let commentList = wx.getStorageSync('commentList');
+            commentList.push(comment);
+            wx.setStorageSync('commentList', commentList);
             callback(true);
             break;
           case StatusCode.FOUND_NOTHING:
