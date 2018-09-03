@@ -80,12 +80,6 @@ Page({
   onUnload() { },
   onPullDownRefresh() { },
   onReachBottom() { },
-
-  /**
-   * 用户点击右上角分享
-   * 或者
-   * 用户点击分享按钮分享
-   */
   onShareAppMessage: function () {
 
   }

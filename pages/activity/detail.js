@@ -43,6 +43,32 @@ Page({
       else notify('获取失败');
     });
 
+    // 实现分享到群
+    // withShareTicket 为 true 时，表示允许转发时是否携带 shareTicket；
+    // shareTicket是获取转发目标群信息的票据，只有拥有该值，才能拿到群信息。
+    // 用户每次转发都会生成对应唯一的 shareTicket
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+    // 当转发到微信群组被群成员打开，页面onload或onshow方法的options参数会包含scene和shareTicket
+    // 判断场景值 scene 是否为1044，是则为转发场景，包含 shareTicket 参数，不是的话则不包含options中shareTicket参数
+    if (options.scene == 1044) {
+
+      console.log("shareTicket: ", options.shareTicket)
+
+      // 使用 wx.getShareInfo({}) 方法传入 shareTicket 参数，wx.getShareInfo({}) 里回调函数中包含已加密的群信息和向量IV。
+      wx.getShareInfo({
+        shareTicket: options.shareTicket,
+        success: function (res) {
+          var encryptedData = res.encryptedData;
+          var iv = res.iv;
+        }
+      })
+
+      console.log(encryptedData)
+      console.log(iv)
+    }
+
   },
 
   // 处理点击报名
@@ -120,23 +146,34 @@ Page({
    * 或者
    * 用户点击分享按钮分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
 
-    console.log("点击分享")
+    console.log("点击分享", res)  
+    // res包含from 和 target 属性
+    // console.log("webViewUrl", res.webViewUrl) 输出undefined
 
-    // 转发时获取群信息
-    // 当某个小程序被转发到群组后，开发者想获取到转发目标群组信息，需要将用户和群组做某种绑定关系(openId + openGid)
+    if (res.from === 'button') {
+      // 来自页面内button转发按钮
+      console.log(res.target)
+    }
+
     return {
       title: '快来听讲座吧',
       desc: '微言，予你予我',
-      path: '/pages/detail/detail',
+      path: '/pages/index/index?pageId=123', // 该处的pageId是一个标识位，用来在对应页面中的onload判断来进入该页面的来源是否是用户点击了分享的卡片
       successs: function(res) {
-        // shareTickets 是一个数组，每一项是一个 shareTicket ，对应一个转发对象，转发给用户不会包含shareTicket
+        // 分享成功
+        
+        // 分享时获取群信息(只转发给用户不会包含shareTickets)
+        // 当某个小程序被转发到群组后，开发者想获取到转发目标群组信息，需要将用户和群组做某种绑定关系(openId + openGid)
+        // shareTickets 是一个数组，每一项是一个 shareTicket ，对应一个转发对象（shareTicket在每次分享到群里是会唯一地生成）
         var shareTickets = res.shareTickets;
+        console.log("shareTickets: ", shareTickets)
+
         if (shareTickets.length == 0) {
           return false;
         }
-        // 拿到 shareTicket 之后，使用 wx.getShareInfo({}) 方法传入 shareTicket 参数，wx.getShareInfo({}) 里回调函数中包含 已加密的群信息和 向量IV。
+        // 如果能拿到 shareTicket，使用 wx.getShareInfo({}) 方法传入 shareTicket 参数，wx.getShareInfo({}) 里回调函数中包含已加密的群信息和向量IV。
         wx.getShareInfo({
           shareTicket: shareTickets[0],
           success: function (res) {
@@ -144,12 +181,14 @@ Page({
             var iv = res.iv;
           }
         })
-        // 转发到微信群组成功之后，群成员打开小程序，通过shareTicket，开发者就能将群成员和群组绑定起来(openId+openGid)，基于群组关系，小程序有更多的应用场景，例如：群排行，摩拜单车。
+        // 转发到微信群组成功之后，群成员打开小程序，通过shareTicket，开发者就能将群成员和群组绑定起来(openId+openGid)
+        // 基于这些群组关系，小程序有更多的应用场景，例如：群排行，摩拜单车。
         
       },
       fail: function(res) {
-        const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-        notify('分享失败');
+        // 分享失败
+
+        wx.showToast({ title: "分享失败", icon: 'none' });
       }
       
     }

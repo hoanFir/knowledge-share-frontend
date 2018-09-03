@@ -8,7 +8,7 @@ Page({
 
   },
 
-  onLoad: function () {
+  onLoad: function (options) {
 
     // 登录
     wx.login({
@@ -22,6 +22,17 @@ Page({
       }
     })
 
+    // 判断进入该页面的来源是否是用户点击了分享的卡片，然后其他用户进行访问
+    if (options.pageId) {
+      // 假如pageId存在，则证明页面这次的开启来源于用户点击分享来的
+      // 同时也可以通过获取到的pageId的值跳转导航到对应的详情页
+
+      // wx.navigateTo({
+      //   url: '../pageDetail/pageDetail?pageId=' + options.pageId,
+      // })
+
+      console.log("code", wx.getStorageSync('code'))
+    }
   },
 
   onReady() { },
@@ -56,10 +67,10 @@ Page({
               // 在此处顺便obtain sid
               userService.validate(wx.getStorageSync('code') || '', wx.getStorageSync('wxUserInfo'), () => {
                 console.log("获取tokens成功")
+                wx.switchTab({
+                  url: '../activity/activity'
+                })
               });
-              wx.switchTab({
-                url: '../activity/activity'
-              })
             }
           })
         }
