@@ -28,14 +28,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 添加评论
-    this.addStrainDialog = this.selectComponent('#addStrainDialog');
-    
+    // 获取该讲座的ksId和ksType
     this.setData({ activityDetail: wx.getStorageSync("activityDetail") })
     this.setData({
       ksId: this.data.activityDetail.ksId,
       ksType: this.data.activityDetail.ksType.kddDataName
     })
+
+    // 添加评论
+    this.addStrainDialog = this.selectComponent('#addStrainDialog');
 
     // 去掉ksRemark最后一个逗号
     let temp = ""
@@ -86,7 +87,6 @@ Page({
         if (res.confirm) {
           activityService.deleteActivity(this.data.ksId, (successed) => {
             if (successed) {
-              wx.showToast({ title: '删除成功', icon: 'none' });
               wx.navigateBack();
             }
             else wx.showToast({ title: '删除失败', icon: 'none' });

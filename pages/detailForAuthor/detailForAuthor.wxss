@@ -93,3 +93,8 @@ page {
   height: 40rpx;
   width: 40rpx;
 }
+
+/* 报名列表头像 */
+.enrollImage {
+  display: inline-block;
+}

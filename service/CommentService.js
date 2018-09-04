@@ -56,6 +56,7 @@ class CommentService {
         switch (statusCode) {
           case 200:
             let comment = new Comment(result.ksComment);
+            console.log(comment)
             let commentList = wx.getStorageSync('commentList');
             commentList.push(comment);
             wx.setStorageSync('commentList', commentList);

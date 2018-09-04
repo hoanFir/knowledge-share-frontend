@@ -195,8 +195,7 @@ class ActivityService {
           'Authorization': 'Bearer ' + wx.getStorageSync('sid')
         },
         success: ({ data: result, statusCode }) => {
-          console.log("fetchAllActivitys方法运行了:", statusCode)
-          console.log("result: ", result)
+          console.log("ActivityService fetchAllActivitys方法运行了:", statusCode)
 
           // TODO 状态码判断
           switch (statusCode) {
@@ -213,7 +212,6 @@ class ActivityService {
                 activityList.push(activity);
               }
               wx.setStorageSync('activityList', activityList);
-              
               callback(activityList);
               break;
             case StatusCode.FOUND_NOTHING:

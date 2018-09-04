@@ -83,7 +83,7 @@
 <view class="weui-cells weui-cells_after-title">
   <view wx:if="{{!activityDetail.enrollments.length}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
   <view wx:else>
-    <view wx:key="enrollments" wx:for="{{activityDetail.enrollments}}" wx:for-index="idx" id='{{idx}}'>
+    <view class='enrollImage' wx:key="enrollments" wx:for="{{activityDetail.enrollments}}" wx:for-index="idx" id='{{idx}}'>
       <image bindtap='toActivityProfile' id='{{item.ksUser.kuId}}' src="{{item.ksUser.kuHeadImgUrl}}" style="width: 30px;height: 30px;margin: 10px;border-radius: 50%" />
     </view>
   </view>
@@ -98,7 +98,7 @@
 </intput-dialog>
 <!-- 评论模块 -->
 <view class="comment last-div">
-  <view class='comment-header'>
+  <view class='comment-header' style='border-bottom:1rpx solid #e5e5e5;'>
     <text>评论</text>
     <image bindtap='showAddStrainDialog' src="../../images/icon/comment.png"></image>
   </view>
@@ -106,14 +106,14 @@
   <view wx:if="{{commentList.length == 0}}" style='text-align: center;padding: 10rpx 40rpx;color: #999;'>暂无小伙伴评论</view>
   <view wx:else>
     <!-- 评论瀑布流 -->
-    <view wx:key="comments" wx:for="{{commentList}}" wx:for-index="idx" id='{{idx}}' style='border-top:1rpx solid #e5e5e5;'>
+    <view wx:key="comments" wx:for="{{commentList}}" wx:for-index="idx" id='{{idx}}'>
       <view class="author-box">
           <image class="avatar" src="{{item.user.kuHeadImgUrl}}"></image>
           <text class="author">{{item.user.kuName}}</text>
           <text class="date">{{item.addTime}}</text>
       </view>
       <text class="detail">{{item.kcContent}}</text>
-      <view class="tool">
+      <view class="tool" style='border-bottom:1rpx solid #e5e5e5;'>
         <!-- 点赞 -->
         <view class="tool-item" catchtap='onUpTap'>
           <image wx:if="{{item.upStatus}}" src="../../images/icon/like_actived.png"></image>

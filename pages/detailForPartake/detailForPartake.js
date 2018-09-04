@@ -10,6 +10,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 防止重复点击button
+    disabled: false,
+
     // 方便用于主题操作，不用于页面数据显示
     ksId: null,
     kpId: null,
@@ -26,14 +29,22 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 添加评论
-    this.addStrainDialog = this.selectComponent('#addStrainDialog');
+    // 获取该讲座的kpId
+    for (let item of wx.getStorageSync('activityDetail').participations) {
+      if (item.kuId == wx.getStorageSync('userDetail').kuId) {
+        this.setData({ kpId: item.kpId })
+      }
+    }
 
+    // 获取该讲座的ksId和ksType
     this.setData({ activityDetail: wx.getStorageSync("activityDetail") })
     this.setData({
       ksId: this.data.activityDetail.ksId,
       ksType: this.data.activityDetail.ksType.kddDataName
     })
+
+    // 添加评论
+    this.addStrainDialog = this.selectComponent('#addStrainDialog');
 
     // 评论模块
     const notify = (content) => wx.showToast({ title: content, icon: 'none' });
@@ -78,16 +89,11 @@ Page({
       success: (res) => {
         if (res.confirm) {
 
+          this.setData({ disabled: true })
           const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-          // 获取该讲座的kpId
-          for (let item of wx.getStorageSync('activityDetail').participations) {
-            if (item.kuId == wx.getStorageSync('userDetail').kuId) {
-              this.setData({ kpId: item.kpId })
-            }
-          }
           activityService.cancelPartakeActivity(this.data.ksId, this.data.kpId, (successed) => {
             if (successed) {
-              notify('取消成功');
+              this.setData({ disabled: false })
               wx.navigateBack();
             }
             else notify('取消失败');

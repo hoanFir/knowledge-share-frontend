@@ -63,9 +63,9 @@ Page({
 
               // 可以将 res 发送给后台解码出 unionId
               wx.setStorageSync('wxUserInfo', res.userInfo)
-
               // 在此处顺便obtain sid
-              userService.validate(wx.getStorageSync('code') || '', wx.getStorageSync('wxUserInfo'), () => {
+              // userService.validate(wx.getStorageSync('code') || '', res.userInfo, () => {
+              userService.validate(wx.getStorageSync('code'), res.userInfo, () => {
                 console.log("获取tokens成功")
                 wx.switchTab({
                   url: '../activity/activity'
