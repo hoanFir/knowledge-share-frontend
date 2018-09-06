@@ -468,6 +468,7 @@ class ActivityService {
         },
         success: ({ data: result }) => {
           wx.setStorageSync('BusinessMap', result.ksBusinessList);
+          console.log("获取商家Map", result.ksBusinessList);
           callback(result.ksBusinessList);
         },
         fail: (e) => console.error(e)
@@ -515,6 +516,7 @@ class ActivityService {
         method: 'GET',
         success: ({ data: result }) => {
           wx.setStorageSync('KstypeMap', result.ksDictDataMap);
+          console.log("获取讲座类型Map", result.ksDictDataMap);          
           callback(result.ksDictDataMap);
         },
         fail: (e) => console.error(e)

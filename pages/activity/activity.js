@@ -152,18 +152,36 @@ Page({
 
   // 警示
   touchAdd() {
-    wx.showModal({
-      title: '确认',
-      content: '我也要发布讲座',
-      success: (res) => {
-        if (res.confirm) {
-          wx.navigateTo({
-            url: "../addDelivery/addDelivery"
-          })
-        }
-      },
-      fail: () => { }
-    })
+    // 判断个人信息（手机号）是否已经填写，是则可以发起讲座，否则前往完善基本信息
+    if (!wx.getStorageSync('userDetail').kuPhone) {
+      wx.showModal({
+        title: '确认',
+        content: '完善基本信息再发布讲座',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: "../basicInfo/basicInfo"
+            })
+          }
+        },
+        fail: () => { }
+      })
+    } else {
+
+      wx.showModal({
+        title: '确认',
+        content: '我也要发布讲座',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: "../addDelivery/addDelivery"
+            })
+          }
+        },
+        fail: () => { }
+      })
+
+    }
   },
 
   // 点击查看详情

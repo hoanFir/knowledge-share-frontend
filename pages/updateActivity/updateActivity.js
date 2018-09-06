@@ -82,6 +82,7 @@ Page({
     // 获取讲座类型列表
     activityService.getKstypeMap(this.setKstype);
 
+    // 如果未进行输入，使用默认
     this.setData({ ksTitle: this.data.oldActivityDetail.ksTitle })
     this.setData({ ksAbstract: this.data.oldActivityDetail.ksAbstract })
     this.setData({ ksContent: this.data.oldActivityDetail.ksContent })

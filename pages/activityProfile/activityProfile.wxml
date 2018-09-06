@@ -5,9 +5,9 @@
     <image class="header-avatar" src="{{activityUserDetail.kuHeadImgUrl}}" background-size="cover"></image>
     <text class="header-nickname">{{activityUserDetail.kuName}}</text>
     <view class='header-activtiy'>
-      <text class="text-info">开讲数</text><text class="text-info">1</text>
-      <text class="text-info">听讲数</text><text class="text-info">2</text>
-      <text class="text-info">点赞数</text><text class="text-info">3</text>      
+      <text class="text-info">开讲数</text><text class="text-info">0</text>
+      <text class="text-info">听讲数</text><text class="text-info">0</text>
+      <text class="text-info">点赞数</text><text class="text-info">0</text>      
     </view>
   </view>
 

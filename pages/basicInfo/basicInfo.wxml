@@ -8,7 +8,7 @@
         <view class="weui-label">手机号</view>
       </view>
       <view class="weui-cell__bd">
-        <input bindinput='onPhoneChange' class="weui-input" placeholder="请输入手机号"/>
+        <input value='{{userOldDetail.kuPhone}}' bindinput='onPhoneChange' class="weui-input" placeholder="请输入手机号"/>
       </view>
     </view>
 
@@ -39,8 +39,8 @@
         <view class="weui-label">个人简介</view>
       </view>
       <view class="weui-cell__bd">
-        <textarea bindinput='onIntroChange' class="weui-textarea" placeholder="请包括兴趣爱好" style="height: 3.3em" />
-        <view class="weui-textarea-counter">0/200</view>
+        <textarea  value='{{userOldDetail.kuIntro}}' bindinput='onIntroChange' class="weui-textarea" placeholder="请包括兴趣爱好" style="height: 3.3em" />
+        <view class="weui-textarea-counter">{{introCount}}/200</view>
       </view>
     </view>
 
