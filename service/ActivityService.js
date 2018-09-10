@@ -233,7 +233,7 @@ class ActivityService {
    */
   enrollActivity (ksId, callback) {
     // 参数ksId是在detail.wxml中传过来的
-    console.log("讲座Id", ksId)
+    console.log("报名讲座Id", ksId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId + '/enrollments');
     wx.request({
@@ -270,7 +270,7 @@ class ActivityService {
    * 点击参讲
    */
   partakeActivity(ksId, callback) {
-    console.log("讲座Id", ksId)
+    console.log("参讲讲座Id", ksId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId + '/participations');
     wx.request({
@@ -308,7 +308,7 @@ class ActivityService {
    * 点击删除主题
    */
   deleteActivity(ksId, callback) {
-    console.log("讲座Id", ksId)
+    console.log("删除讲座Id", ksId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId);
     wx.request({
@@ -344,8 +344,7 @@ class ActivityService {
    * 点击取消报名
    */
   cancelEnrollActivity(ksId, keId, callback) {
-    console.log("讲座Id", ksId)
-    console.log("参与用户Id", keId)
+    console.log("取消报名讲座Id", ksId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId + '/enrollments/' + keId);
     wx.request({
@@ -381,8 +380,7 @@ class ActivityService {
   * 点击取消参讲
   */
   cancelPartakeActivity(ksId, kpId, callback) {
-    console.log("讲座Id", ksId)
-    console.log("参讲用户Id", kpId)
+    console.log("取消参讲讲座Id", ksId)
 
     let url = new URL('http', serverAddr).path('subjects/' + ksId + '/participations/' + kpId);
     wx.request({

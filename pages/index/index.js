@@ -39,7 +39,7 @@ Page({
 
   onShow: function () {
     if (this.neverShow) this.neverShow = false;
-    else {
+    else if (!wx.getStorageSync('code')) {
       wx.switchTab({
         url: '../activity/activity'
       })
@@ -59,15 +59,12 @@ Page({
         if (res.authSetting['scope.userInfo']) {
           wx.getUserInfo({
             success: res => {
-              console.log("getUserInfo运行了")
-
               // 可以将 res 发送给后台解码出 unionId
               wx.setStorageSync('wxUserInfo', res.userInfo)
               
               // 在此处顺便obtain sid
               // userService.validate(wx.getStorageSync('code') || '', res.userInfo, () => {
               userService.validate(wx.getStorageSync('code'), res.userInfo, () => {
-                console.log("获取tokens成功")
                 wx.switchTab({
                   url: '../activity/activity'
                 })

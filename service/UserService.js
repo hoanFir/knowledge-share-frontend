@@ -150,7 +150,6 @@ class UserService {
       },
       success: ({ data: result, statusCode }) => {
         console.log("获取讲座用户的信息", statusCode);
-        console.log("获取讲座用户的信息", result);
 
         // TODO 状态码判断
         switch (statusCode) {

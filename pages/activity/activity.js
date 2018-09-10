@@ -290,8 +290,8 @@ Page({
               let activity = new Activity(item);
               activityList.push(activity);
             }
+            this.setData({ activityList: activityList })
             wx.setStorageSync('activityList', activityList);
-            this.setData({ activityList: wx.getStorageSync('activityList') })
             console.log("下拉刷新之后:", this.data.activityList)
             setTimeout(function(){
               wx.hideLoading()

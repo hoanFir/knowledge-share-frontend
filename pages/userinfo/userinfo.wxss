@@ -1,4 +1,8 @@
 /* pages/userinfo/userinfo.wxss */
+page {
+  padding-bottom: 50px;
+}
+
 .profile-container {
   height: 100%;
   display: flex;
