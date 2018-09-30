@@ -2,7 +2,7 @@
 <view class='profile-container'>
 
   <view class="header-container">
-    <image class="header-avatar" src="{{userInfo.avatarUrl}}" background-size="cover" bindtap="getBasicInfo"></image>
+    <image class="header-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
     <text class="header-nickname">{{userInfo.nickName}} {{userDetail.kuSex.kddDataName}}</text>
   </view>
 
@@ -51,5 +51,8 @@
     </view>
   </view>
 
-  <button class="weui-btn" type="default" bindtap="toBaiscInfo">修改个人资料</button>
+  <view class="weui-btn-area">
+    <button class="weui-btn" type="default" bindtap="toBaiscInfo">修改个人资料</button>
+    <button class="weui-btn" type="default" bindtap="toBack">返回</button>
+  </view>
 </view>

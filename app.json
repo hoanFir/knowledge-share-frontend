@@ -1,7 +1,6 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs",
     "pages/activity/activity",
     "pages/message/message",
     "pages/profile/profile",
@@ -19,7 +18,8 @@
     "pages/UserCenter/UserCenter",
     "pages/activityProfile/activityProfile",
     "pages/updateActivity/updateActivity",
-    "pages/endedActivity/endedActivity"
+    "pages/endedActivity/endedActivity",
+    "pages/auditPartake/auditPartake"
   ],
   "window":{
     "navigationBarBackgroundColor": "#40586d",

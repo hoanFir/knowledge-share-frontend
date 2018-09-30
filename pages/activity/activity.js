@@ -1,9 +1,8 @@
 // pages/activity/activity.js
 import activityService from '../../service/ActivityService';
-const util = require('../../utils/util.js')
+const util = require('../../utils/util.js');
 
-// 用于下拉刷新再申请，以及token
-import userService from '../../service/UserService';
+// 用于下拉刷新再请求
 import Activity from '../../model/Activity';
 import URL from '../../utils/URL';
 import StatusCode from '../../model/StatusCode';
@@ -13,8 +12,7 @@ const serverAddr = config.serverAddr;
 // 用于详情
 import ActivityDetail from '../../model/ActivityDetail';
 
-// 用于navbar
-// 需要设置slider的宽度，用于计算中间位置
+// 用于navbar，需要设置slider的宽度，用于计算中间位置
 var sliderWidth = 96;
 
 Page({
@@ -22,8 +20,10 @@ Page({
 
   // 当前页数
   pageNum: 1,
+  // 每页大小
+  pageSize: 10,
   // 是否没有数据了
-  isEnd: false,
+  hasNextPage: false,
 
   /**
    * 页面的初始数据
@@ -32,12 +32,8 @@ Page({
     // 讲座列表
     activityList: null,
 
-    // search
-    inputShowed: false,
-    inputVal: "",
-
-    // addDeliver
-    modalShowStyle: "",
+    // 搜索
+    keyword: '',
 
     // navbar
     tabs: ["最新", "最热", "最优"],
@@ -48,56 +44,14 @@ Page({
     // 点击页面详情
     ksId: null
   },
-
-  // search
-  showInput: function () {
-    this.setData({
-      inputShowed: true
-    });
-  },
-  hideInput: function () {
-    this.setData({
-      inputVal: "",
-      inputShowed: false
-    });
-  },
-  clearInput: function () {
-    this.setData({
-      inputVal: ""
-    });
-  },
-  inputTyping: function (e) {
-    this.setData({
-      inputVal: e.detail.value
-    });
-  },
   
-  // addDeliver
-  touchAdd: function (event) {
-    this.setData({
-      modalShowStyle: "opacity:1;pointer-events:auto;"
-    })
-  },
-  hideModal() {
-    this.setData({ modalShowStyle: "" });
-  },
-  touchAddNew: function (event) {
-    this.hideModal();
-    wx.navigateTo({
-      url: "../addDelivery/addDelivery"
-    });
-  },
-  touchCancel: function (event) {
-    this.hideModal();
-  }, 
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
 
     // 讲座列表
-    this.loadActivityList();
+    activityService.fetchAllActivitys(false, this.pageNum, this.pageSize, (activityList) => this.setData({ activityList })); 
 
     // navbar
     var that = this;
@@ -112,9 +66,55 @@ Page({
 
   },
 
-  // 讲座列表
-  loadActivityList() {
-    activityService.fetchAllActivitys(this.pageNum, (activityList) => this.setData({ activityList })); 
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   * 每次显示重新向服务器发起请求，获取讲座列表
+   */
+  onShow: function () {
+    if (this.neverShow) this.neverShow = false;
+    else {
+      // 每次再显示时，需要重新请求
+      let url = new URL('https', serverAddr).path('subjects').param('isAuthor', false).param('page', 1).param('pageSize', 10);
+      wx.request({
+        url: url.toString(),
+        method: 'GET',
+        header: {
+          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
+        },
+        success: ({ data: result, statusCode }) => {
+          console.log("onShow运行了:", statusCode)
+          // TODO 状态码判断
+          switch (statusCode) {
+            case 200:
+              wx.setStorageSync('pageData', result);
+              // 获取最新数据并缓存
+              let activityList = [];
+              for (let item of result.array) {
+                item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
+                let activity = new Activity(item);
+                activityList.push(activity);
+              }
+              wx.setStorageSync('activityList', activityList);
+              this.setData({ activityList: wx.getStorageSync('activityList') })
+              break;
+            // case StatusCode.FOUND_NOTHING:
+            //   console.warn('found nothing');
+            //   break;
+            // case StatusCode.INVALID_SID:
+            //   console.error('invalid sid');
+            //   break;
+          }
+        },
+        fail: (e) => console.error(e)
+      });
+    }
   },
 
   // navbar
@@ -125,134 +125,112 @@ Page({
     });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  // TODO：关键字搜索，暂时只能实现全匹配搜索，即输入标题必须跟讲座标题内容完全匹配
+  clearText() {
+    this.setData({ keyword: '' });
+    activityService.fetchAllActivitys(false, this.pageNum, this.pageSize, (activityList) => this.setData({ activityList }));
+  },
+  onTextChange(e) {
+    let value = e.detail.value;
+    if (value.length == 0) activityService.fetchAllActivitys(false, this.pageNum, this.pageSize, (activityList) => this.setData({ activityList }));
+    this.setData({ keyword: e.detail.value });
+  },
+  onConfirm() {
+    if (this.data.keyword) {
+      let activityList = activityService.searchByName(this.data.keyword);
+      this.setData({ activityList });
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    if (this.neverShow) this.neverShow = false;
-    else {
-      // 每次再显示时
-      // 需要重新请求，因为loadActivityList会先判断本地缓存有无，假如有则不向服务器请求新数据
-      let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'browser');
-      wx.request({
-        url: url.toString(),
-        method: 'GET',
-        header: {
-          'Authorization': 'Bearer ' + userService.getSid()
-        },
-        success: ({ data: result, statusCode }) => {
-          console.log("onShow运行了:", statusCode)
-
-          // TODO 状态码判断
-          switch (statusCode) {
-            case 200:
-              // 缓存页面数据，包括arrSize、array、pageNum 
-              wx.setStorageSync('pageData', result);
-              console.log("onShow运行了:", wx.getStorageSync('pageData'))
-
-              // 获取最新数据并缓存
-              let activityList = [];
-              for (let item of result.array) {
-                // 转换时间戳
-                item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
-                let activity = new Activity(item);
-                activityList.push(activity);
-              }
-              wx.setStorageSync('activityList', activityList);
-
-              console.log("onShow运行了:", wx.getStorageSync('activityList'))
-              this.setData({ activityList: wx.getStorageSync('activityList') })
-
-              break;
-            case StatusCode.FOUND_NOTHING:
-              console.warn('found nothing');
-              break;
-            case StatusCode.INVALID_SID:
-              console.error('invalid sid');
-              break;
+  // 警示
+  touchAdd() {
+    // 判断个人信息（手机号）是否已经填写，是则可以发起讲座，否则前往完善基本信息
+    if (!wx.getStorageSync('userDetail').kuPhone) {
+      wx.showModal({
+        title: '确认',
+        content: '完善基本信息再发布讲座',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: "../basicInfo/basicInfo"
+            })
           }
         },
-        fail: (e) => console.error(e)
-      });
+        fail: () => { }
+      })
+    } else {
+      wx.showModal({
+        title: '确认',
+        content: '我也要发布讲座',
+        success: (res) => {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: "../addDelivery/addDelivery"
+            })
+          }
+        },
+        fail: () => { }
+      })
     }
   },
 
   // 点击查看详情
   showDetail(event) {
-
-    // 需要先在此发起请求获取讲座详情，才能判断用户是否报名者、发起者、参讲者
+    // 需要先在此获取讲座详情，才能判断用户是否报名者、发起者、参讲者
     // 获取对应讲座的ksId
     let activity = this.data.activityList[event.currentTarget.id];
-    console.log("获取到讲座详情页面的ksId" + activity.ksId)
     this.setData({ ksId: activity.ksId })
 
     // 根据ksId获取主题详情
-    let url = new URL('http', serverAddr).path('subjects' + '/' + this.data.ksId);
+    let url = new URL('https', serverAddr).path('subjects' + '/' + this.data.ksId);
     wx.request({
       url: url.toString(),
       method: 'GET',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid(),
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid'),
         'content-type': 'application/json'
       },
       success: ({ data: result, statusCode }) => {
-        console.log("点击获取详情statuscode: " + statusCode)
-
-        // TODO 状态码判断
+        console.log("点击获取详情statuscode: ", statusCode)
+        console.log("result: ", result)
+        // TODO：状态码判断
         switch (statusCode) {
           case 200:
-          
             let activityDetail = new ActivityDetail(result)
-            // 时间戳转换
             activityDetail.ksStartTime = util.formatTime(new Date(activityDetail.ksStartTime));
             activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
             // 获取详情，存储到本地缓存
             wx.setStorageSync('activityDetail', activityDetail);
-            // 获取主题类型ksType，存储到本地缓存
+            // 获取主题类型ksType字典值，存储到本地缓存，方便调用
             wx.setStorageSync('activityType', activityDetail.ksType);
-            // 获取服务器时间
-            wx.setStorageSync('serverTime', activityDetail.serverTime);
             
             // 控制台输出详情数据
-            console.log("该主题详情", wx.getStorageSync("activityDetail"))
+            console.log("该主题详情为", wx.getStorageSync("activityDetail"))
 
             // 判断用户是否报名者、发起者、参讲者，进入不同的页面
             let whichEnter = wx.getStorageSync('activityDetail')
-            if (!whichEnter.isAuthor && !whichEnter.isEnroll && !whichEnter.isPartake) {
-              wx.navigateTo({ url: '../activity/detail' });
+            if ( whichEnter.ksEnd ) {
+              wx.navigateTo({ url: '../endedActivity/endedActivity' });
             } else if (whichEnter.isAuthor) {
               wx.navigateTo({ url: '../detailForAuthor/detailForAuthor' });
             } else if (whichEnter.isEnroll) {
               wx.navigateTo({ url: '../detailForEnroll/detailForEnroll' });
-            } else {
+            } else if (whichEnter.isPartake) {
               wx.navigateTo({ url: '../detailForPartake/detailForPartake' });
+            } else {
+              wx.navigateTo({ url: '../activity/detail' });
             }
-
-            // TODO：判断是否已经结束，进入已结束状态的页面
-            // let isEnded = false
-            // if (wx.getStorageSync('activityDetail').isEnded) {
-            //   wx.navigateTo({ url: '../endedActivity/endedActivity' });
-            // }
-
             break;
-          case StatusCode.FOUND_NOTHING:
-            console.warn('found nothing');
-            break;
-          case StatusCode.INVALID_SID:
-            console.error('invalid sid');
-            break;
+          // case StatusCode.FOUND_NOTHING:
+          //   console.warn('found nothing');
+          //   break;
+          // case StatusCode.INVALID_SID:
+          //   console.error('invalid sid');
+          //   break;
         }
       },
       fail: (e) => console.error(e)
     });
-    
   },
 
   /**
@@ -271,112 +249,96 @@ Page({
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
+   * 每次下拉刷新重新向服务器发起请求，获取讲座列表
    */
   onPullDownRefresh: function () {
+    wx.showLoading({
+      title: '刷新中'
+    })
     // 需要重新请求，因为loadActivityList会先判断本地缓存有无，假如有则不向服务器请求新数据
-    let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'browser');
+    let url = new URL('https', serverAddr).path('subjects').param('isAuthor', false).param('page', 1).param('pageSize', 10);
     wx.request({
       url: url.toString(),
       method: 'GET',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid()
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ data: result, statusCode }) => {
         console.log("下拉刷新运行了:", statusCode)
-
+        console.log(result)
         // TODO 状态码判断
         switch (statusCode) {
           case 200:
             let activityList = [];
-            for (let item of result.array) {
-              // 转换时间戳
+            for (let item of result.list) {
               item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
               let activity = new Activity(item);
               activityList.push(activity);
             }
+            this.setData({ activityList: activityList })
             wx.setStorageSync('activityList', activityList);
-            
-            this.setData({
-              activityList: wx.getStorageSync('activityList')
-            })
             console.log("下拉刷新之后:", this.data.activityList)
-
+            setTimeout(function(){
+              wx.hideLoading()
+            }, 500)              
             break;
-          case StatusCode.FOUND_NOTHING:
-            console.warn('found nothing');
-            break;
-          case StatusCode.INVALID_SID:
-            console.error('invalid sid');
-            break;
+          // case StatusCode.FOUND_NOTHING:
+          //   console.warn('found nothing');
+          //   break;
+          // case StatusCode.INVALID_SID:
+          //   console.error('invalid sid');
+          //   break;
         }
       },
       fail: (e) => console.error(e)
     });
-
     wx.stopPullDownRefresh()
   },
 
-  // TODO：实现实时搜索
-  bindinput() {
-
-  },
-
   /**
-   * 页面上拉触底事件的处理函数
+   * 页面触底事件的处理函数
    */
   onReachBottom: function () {
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-
     // 判断还有无数据
-    console.log("触底刷新isEnd:", wx.getStorageSync('pageData').isEnd)
-    this.isEnd = wx.getStorageSync('pageData').isEnd;
-    if (this.isEnd) notify("没有更多");
-    
+    console.log("触底刷新hasNextPage: ", wx.getStorageSync('pageData').hasNextPage)
+    this.hasNextPage = wx.getStorageSync('pageData').hasNextPage;
+    if (!this.hasNextPage) wx.showToast({ title: "没有更多", icon: 'none' });
     else {
-      let url = new URL('http', serverAddr).path('subjects').param('page', ++this.pageNum).param('queryType', 'browser');
+      let url = new URL('https', serverAddr).path('subjects').param('isAuthor', false).param('page', ++this.pageNum).param('pageSize', 10);
       console.log("正在加载第", this.pageNum, "页")
       wx.request({
         url: url.toString(),
         method: 'GET',
         header: {
-          'Authorization': 'Bearer ' + userService.getSid()
+          'Authorization': 'Bearer ' + wx.getStorageSync('sid')
         },
         success: ({ data: result, statusCode }) => {
           console.log("触底刷新运行了:", statusCode)
-
+          // TODO 状态码判断
           switch (statusCode) {
             case 200:
-              // 缓存页面数据，包括arrSize、array、pageNum
               console.log("触底刷新运行了:", result)
               wx.setStorageSync('pageData', result);
               console.log("触底刷新运行了:", wx.getStorageSync('pageData'))
 
               let addList = [];
-              for (let item of result.array) {
-                // 转换时间戳
+              for (let item of result.list) {
                 item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
                 let activity = new Activity(item);
                 addList.push(activity);
               }
-
-              // wx.setStorageSync('activityList', activityList);
-              // 触底刷新的不加入缓存，因为会覆盖原有的（缓存中activityList只用于缓存一页的数据）
-              // 通过push加入到this.data.activityList中
               var tmpArr = this.data.activityList;
               tmpArr.push.apply(tmpArr, addList);
-              this.setData({
-                activityList: tmpArr 
-              });
+              this.setData({ activityList: tmpArr });
               console.log(this.data.activityList)
               console.log("加载完第", this.pageNum, "页")
-
               break;
-            case StatusCode.FOUND_NOTHING:
-              console.warn('found nothing');
-              break;
-            case StatusCode.INVALID_SID:
-              console.error('invalid sid');
-              break;
+            // case StatusCode.FOUND_NOTHING:
+            //   console.warn('found nothing');
+            //   break;
+            // case StatusCode.INVALID_SID:
+            //   console.error('invalid sid');
+            //   break;
           }
         },
         fail: (e) => console.error(e)
@@ -384,9 +346,6 @@ Page({
     }
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
   
   }

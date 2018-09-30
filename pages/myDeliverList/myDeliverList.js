@@ -1,8 +1,6 @@
 // pages/myDeliverList/myDeliverList.js
 import activityService from '../../service/ActivityService';
 const util = require('../../utils/util.js')
-
-// 用于下拉刷新再申请，以及token
 import userService from '../../service/UserService';
 import Activity from '../../model/Activity';
 import URL from '../../utils/URL';
@@ -20,7 +18,7 @@ Page({
   // 当前页数
   pageNum: 1,
   // 是否没有数据了
-  isEnd: false,
+  hasNextPage: false,
 
   /**
    * 页面的初始数据
@@ -40,7 +38,7 @@ Page({
     let myDeliverList = wx.getStorageSync('myDeliverList');
     if (myDeliverList) this.setData({ myDeliverList: wx.getStorageSync('myDeliverList') });
     else {
-      let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'author');
+      let url = new URL('https', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'author');
       wx.request({
         url: url.toString(),
         method: 'GET',
@@ -53,14 +51,10 @@ Page({
           // TODO 状态码判断
           switch (statusCode) {
             case 200:
-              // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('myDeliverPageData', result);
-              console.log("myDeliverPageData:", wx.getStorageSync('myDeliverPageData'))
-
               // 获取最新数据并缓存
               let myList = [];
               for (let item of result.array) {
-                // 转换时间戳
                 item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
                 let activity = new Activity(item);
                 myList.push(activity);
@@ -97,7 +91,7 @@ Page({
   onShow: function () {
     if (this.neverShow) this.neverShow = false;
     else {
-      let url = new URL('http', serverAddr).path('subjects').param('page', this.pageNum).param('queryType', 'author');
+      let url = new URL('https', serverAddr).path('subjects').param('page', 1).param('queryType', 'author');
       wx.request({
         url: url.toString(),
         method: 'GET',
@@ -112,19 +106,15 @@ Page({
             case 200:
               // 缓存页面数据，包括arrSize、array、pageNum
               wx.setStorageSync('myDeliverPageData', result);
-              console.log("myDeliverPageData:", wx.getStorageSync('myDeliverPageData'))
 
               // 获取最新数据并缓存
               let myList = [];
               for (let item of result.array) {
-                // 转换时间戳
                 item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
                 let activity = new Activity(item);
                 myList.push(activity);
               }
               wx.setStorageSync('myDeliverList', myList);
-
-              console.log("myDeliverList:", wx.getStorageSync('myDeliverList'))
               this.setData({ myDeliverList: wx.getStorageSync('myDeliverList') })
 
               break;
@@ -149,7 +139,7 @@ Page({
     this.setData({ ksId: activity.ksId })
 
     // 根据ksId获取主题详情
-    let url = new URL('http', serverAddr).path('subjects' + '/' + this.data.ksId);
+    let url = new URL('https', serverAddr).path('subjects' + '/' + this.data.ksId);
     wx.request({
       url: url.toString(),
       method: 'GET',
@@ -170,21 +160,26 @@ Page({
             activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
             // 获取到详情，存储到本地缓存
             wx.setStorageSync('activityDetail', activityDetail);
+            // 获取主题类型ksType字典值，存储到本地缓存，方便调用
+            wx.setStorageSync('activityType', activityDetail.ksType);
 
             // 控制台输出详情数据
             console.log("该主题详情", wx.getStorageSync("activityDetail"))
 
             // 判断用户是否报名者、发起者、参讲者，进入不同的页面
             let whichEnter = wx.getStorageSync('activityDetail')
-            if (!whichEnter.isAuthor && !whichEnter.isEnroll && !whichEnter.isPartake) {
-              wx.navigateTo({ url: '../activity/detail?itemId=' + event.currentTarget.id });
+            if (whichEnter.ksEnd) {
+              wx.navigateTo({ url: '../endedActivity/endedActivity' });
             } else if (whichEnter.isAuthor) {
-              wx.navigateTo({ url: '../detailForAuthor/detailForAuthor?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../detailForAuthor/detailForAuthor' });
             } else if (whichEnter.isEnroll) {
-              wx.navigateTo({ url: '../detailForEnroll/detailForEnroll?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../detailForEnroll/detailForEnroll' });
+            } else if (whichEnter.isPartake) {
+              wx.navigateTo({ url: '../detailForPartake/detailForPartake' });
             } else {
-              wx.navigateTo({ url: '../detailForPartake/detailForPartake?itemId=' + event.currentTarget.id });
+              wx.navigateTo({ url: '../activity/detail' });
             }
+
             break;
           case StatusCode.FOUND_NOTHING:
             console.warn('found nothing');
@@ -199,19 +194,22 @@ Page({
 
   },
 
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  
   /**
-   * 页面上拉触底事件的处理函数
+   * 页面触底事件的处理函数
    */
   onReachBottom: function () {
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
 
     // 判断还有无数据
-    console.log("触底刷新isEnd:", wx.getStorageSync('myDeliverPageData').isEnd)
-    this.isEnd = wx.getStorageSync('myDeliverPageData').isEnd;
-    if (this.isEnd) notify("没有更多");
-
+    console.log("触底刷新hasNextPage:", wx.getStorageSync('myDeliverPageData').hasNextPage)
+    this.hasNextPage = wx.getStorageSync('myDeliverPageData').hasNextPage;
+    
+    if (this.hasNextPage) wx.showToast({ title: "没有更多", icon: 'none' });
     else {
-      let url = new URL('http', serverAddr).path('subjects').param('page', ++this.pageNum).param('queryType', 'author');
+      let url = new URL('https', serverAddr).path('subjects').param('page', ++this.pageNum).param('queryType', 'author');
       console.log("正在加载第", this.pageNum, "页")
       wx.request({
         url: url.toString(),
@@ -229,27 +227,22 @@ Page({
               console.log("触底刷新运行了:", wx.getStorageSync('myDeliverPageData'))
 
               let addList = [];
-              for (let item of result.array) {
-                // 转换时间戳
+              for (let item of result.list) {
                 item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
                 let activity = new Activity(item);
                 addList.push(activity);
               }
               var tmpArr = this.data.myDeliverList;
               tmpArr.push.apply(tmpArr, addList);
-              this.setData({
-                myDeliverList: tmpArr
-              });
-              console.log(this.data.myDeliverList)
+              this.setData({ myDeliverList: tmpArr });
               console.log("加载完第", this.pageNum, "页")
-
               break;
-            case StatusCode.FOUND_NOTHING:
-              console.warn('found nothing');
-              break;
-            case StatusCode.INVALID_SID:
-              console.error('invalid sid');
-              break;
+            // case StatusCode.FOUND_NOTHING:
+            //   console.warn('found nothing');
+            //   break;
+            // case StatusCode.INVALID_SID:
+            //   console.error('invalid sid');
+            //   break;
           }
         },
         fail: (e) => console.error(e)
@@ -258,9 +251,6 @@ Page({
     }
   },
 
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
 
   }

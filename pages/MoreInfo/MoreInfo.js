@@ -8,7 +8,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-    kuCompany: null,  // 公司名称
+    // userOldDetail，用于旧的个人信息显示
+    userOldDatail: null,
+
+    // post的参数
+    kuId: null,
+    kuCompany: "",
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    // userOldDetail，用于旧的个人信息显示
+    this.setData({ userOldDetail: wx.getStorageSync('userDetail') })
+
+    // 获取用户Id
+    this.setData({ kuId: this.data.userOldDetail.kuId })
+
+    // 如果未进行输入，使用默认
+    if (!this.data.kuCompany) this.setData({ kuCompany: this.data.userOldDetail.kuCompany })
   },
 
   // 当公司名称输入
@@ -20,29 +39,17 @@ Page({
 
     // 使用解构赋值
     let { kuId, kuCompany } = this.data;
-    kuId = wx.getStorageSync('userDetail').kuId;
-
-    // 如果未作修改
-    if (!kuCompany) {
-      this.data.kuCompany = wx.getStorageSync('userDetail').kuCompany
-    }
-    
     let data = { kuId, kuCompany };
     userService.updateMoreInfo(data, (successed) => {
       if (successed) {
         notify('保存成功');
-        wx.redirectTo({ url: '../userinfo/userinfo' });
+        wx.navigateBack({
+          delta: 2
+        })
       }
       else notify('保存失败');
     });
 
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    console.log(wx.getStorageSync('userDetail'))
   },
 
   // 重置内容
@@ -51,9 +58,12 @@ Page({
     notify("重置成功");
   },
 
-  /**
-   * 用户点击右上角分享
-   */
+  onReady() { },
+  onShow() { },
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  onReachBottom() { },
   onShareAppMessage: function () {
   
   }

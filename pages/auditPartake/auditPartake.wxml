@@ -1,0 +1,65 @@
+<!--pages/auditPartake/auditPartake.wxml-->
+<view class='profile-container'>
+
+  <view class="header-container">
+    <image class="header-avatar" src="{{activityUserDetail.kuHeadImgUrl}}" background-size="cover"></image>
+    <text class="header-nickname">{{activityUserDetail.kuName}}</text>
+    <view class='header-activtiy'>
+      <text class="text-info">开讲数</text><text class="text-info">0</text>
+      <text class="text-info">听讲数</text><text class="text-info">0</text>
+      <text class="text-info">点赞数</text><text class="text-info">0</text>      
+    </view>
+  </view>
+
+  <view class='flex basicinfo'>
+    基本信息
+    <view class='flex flex-base-top'>
+      <view class='flex msg-info'>
+        <view class=' flex flex-warp-right-item msg-info-other'>
+          <view class=' flex msg-info-company flex-msg-info'>
+            <image class='company-image icon-12px' src="../../images/industry.png" mode='aspectFit' />
+            <text class="company-text text-info">行业&职业</text>
+            <text class="company-text text-info">{{activityUserDetail.kuIndustry.kddDataName}}</text>
+          </view>
+          <view class='msg-info-location flex-msg-info'>
+            <image class='location-image icon-12px' src="../../images/hobby.png" mode='aspectFit' />
+            <text class="location-text text-info">个人简介</text>
+            <text class="location-text text-info kuIntro">{{activityUserDetail.kuIntro}}</text>
+          </view>
+          <view class='msg-info-email flex-msg-info'>
+            <image class='email-image icon-12px' src="../../images/phone.png" mode='aspectFit' />
+            <text class="email-text text-info">联系方式</text>
+            <text class="email-text text-info" selectable='true'>  {{activityUserDetail.kuPhone}}</text>
+          </view>
+          <view class='msg-info-link flex-msg-info'>
+            <image class='link-image icon-12px' src="../../images/education.png" mode='aspectFit' />
+            <text class="link-text text-info">受教育水平</text>
+            <text class="link-text text-info">{{activityUserDetail.kuEducation.kddDataName}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class='flex moreinfo'>
+    高级信息
+    <view class='flex flex-base-top'>
+      <view class='flex msg-info flex-warp-right'>
+        <view class=' flex flex-warp-right-item msg-info-other'>
+          <view class=' flex msg-info-company flex-msg-info'>
+            <image class='company-image icon-12px' src="../../images/company.png" mode='aspectFit' />
+            <text class="company-text text-info">公司单位名&学校单位名</text>
+            <text class="company-text text-info">{{activityUserDetail.kuCompany}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+</view>
+
+<view class='button-sp-area'>
+  <button class="weui-btn mini-btn" type="primary" size="mini" bindtap="onTapCopy">复制联系方式</button>
+  <button class="weui-btn mini-btn" type="primary" size="mini" bindtap="onTapOk">通过</button>
+  <button class="weui-btn mini-btn" type="warn" size="mini" bindtap="onTapDelete">删除</button>
+</view>

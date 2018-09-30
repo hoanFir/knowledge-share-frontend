@@ -1,6 +1,10 @@
 /* pages/activity/detail.wxss */
-.page {
+page {
   padding-bottom: 50px;
+}
+
+.last-div {
+  margin-bottom: 100px;
 }
 
 .page__hd {
@@ -20,6 +24,77 @@
   background: #40586d;
   color: #fff;
   text-align: center;
-  width: 50%;
+  width: 33%;
   border-radius: 0px;
+}
+
+/* 摘要和内容 */
+.list-abstract, .list-title {
+  margin: 0 40rpx;
+  position: relative;
+  height: auto;
+  border-bottom:1rpx solid #e5e5e5;
+  padding: 20rpx 0;
+  text-align: left;
+  font-size: 34rpx;
+  color: black;
+}
+.list-abstract text, .list-title text  {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 评论模块 */
+.comment {
+  margin-top: 50rpx;
+  padding: 20rpx 40rpx;
+}
+
+.comment-header {
+  display: flex;
+  justify-content:space-between;
+}
+.comment-header image {
+  height: 40rpx;
+  width: 40rpx;
+}
+
+.author-box {
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  color: #999;
+}
+.avatar {
+  height: 60rpx;
+  width: 60rpx;
+  border-radius: 50%;
+}
+.author {
+  margin: 0 20rpx;
+}
+.date {
+  margin-left: 100rpx;
+  margin-top: 20rpx;
+  font-size: 20rpx;
+}
+
+.tool {
+  display: flex;
+  justify-content: flex-end;
+  height: 64rpx;
+}
+.tool-item {
+  display: inline-block;
+  margin-right: 30rpx;
+}
+.tool-item image {
+  height: 40rpx;
+  width: 40rpx;
+}
+
+/* 报名列表头像 */
+.enrollImage {
+  display: inline-block;
 }

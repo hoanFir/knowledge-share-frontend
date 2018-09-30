@@ -1,92 +1,128 @@
 <!--pages/detailForPartake/detailForPartake.wxml-->
-<view class="page">
 
-  <!-- 一个全屏模态对话框开始 -->
-  <view class="modal" style="{{modalShowStyle}}">
-    <view class="dialog">
-      <view class="modal-item" style="display:flex;justify-content:center;align-items:center;">
-        确定取消参讲
-      </view>
-      <view class="modal-button" style="width:100%">
-        <view style="color:#7da4ff;border-right:1px solid #E5E7ED;" bindtap="onTapCancelPartake">确定</view>
-        <view bindtap="touchCancel">取消</view>
-      </view>
-    </view>
+<view class="page__hd">
+  <view class="page__title">{{activityDetail.ksTitle}}</view>
+  <view wx:if="{{!ksAudit}}" class="page__desc">待审核 | 类型 {{ksType}}</view>
+  <view wx:else class="page__desc">审核通过 | 类型 {{ksType}}</view>
+</view>
+
+<!-- 摘要和主讲内容 -->
+<view class='activity-main'>
+  <view class='list-title'>
+    摘要
+    <text class="list-item-title ksTitle">{{activityDetail.ksAbstract}}</text>
   </view>
-  <!-- 一个全屏模态对话框结束 -->
-
-  <view class="page__hd">
-    <view class="page__title">讲座主题 #类型 {{ksType}}#</view>
-    <view class="page__desc">{{activityDetail.ksTitle}}</view>
+  <view class='list-abstract'>
+    主讲内容
+    <text class="list-item-abstract">{{activityDetail.ksContent}}</text>
   </view>
+</view>
 
-  <view class="weui-media-box weui-media-box_text">
-    <view class="weui-media-box__title weui-media-box__title_in-text">摘要</view>
-    <view class="weui-media-box__desc">{{activityDetail.ksAbstract}}</view>
+<view class="weui-form-preview__bd">
+
+  <view class="weui-form-preview__item">
+    <view class="weui-form-preview__label">讲座开始时间</view>
+    <view class="weui-form-preview__value">{{activityDetail.ksStartTime}}</view>
   </view>
-  <view class="weui-media-box weui-media-box_text">
-    <view class="weui-media-box__title weui-media-box__title_in-text">主讲内容</view>
-    <view class="weui-media-box__desc">{{activityDetail.ksContent}}</view>
+  <view class="weui-form-preview__item">
+    <view class="weui-form-preview__label">讲座结束时间</view>
+    <view class="weui-form-preview__value">{{activityDetail.ksEndTime}}</view>
   </view>
-
-  <view class="weui-form-preview__bd">
-
-    <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">讲座开始时间</view>
-      <view class="weui-form-preview__value">{{activityDetail.ksStartTime}}</view>
-    </view>
-    <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">讲座结束时间</view>
-      <view class="weui-form-preview__value">{{activityDetail.ksEndTime}}</view>
-    </view>
-    <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">讲座地点</view>
-      <view class="weui-form-preview__value">{{activityDetail.ksBusiness.kbName}}</view>
-    </view>
-    <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">当前预约人数</view>
-      <view class="weui-form-preview__value">{{activityDetail.ksEnrollNum}}/{{activityDetail.ksEnrollLimit}}</view>
-    </view>
-    <view class="weui-form-preview__item">
-      <view class="weui-form-preview__label">当前参讲人数，名额有限</view>
-      <view class="weui-form-preview__value">{{activityDetail.ksPartNum}}/{{activityDetail.ksPartLimit}}</view>
-    </view>
-
-    <view url="" class="weui-media-box weui-media-box_appmsg">
-      <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-        <image style='border-radius: 50%;' class="weui-media-box__thumb" src="{{activityDetail.ksUser.kuHeadImgUrl}}" />
-      </view>
-      <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-        <view class="weui-media-box__title">{{activityDetail.ksUser.kuName}} {{activityDetail.ksUser.kuPhone}}</view>
-        <view class="weui-media-box__desc">{{activityDetail.ksUser.kuIntro}}</view>
-      </view>
-    </view>
+  <view class="weui-form-preview__item">
+    <view class="weui-form-preview__label">讲座地点</view>
+    <view class="weui-form-preview__value">{{activityDetail.ksBusiness.kbName}}</view>
+  </view>
+  <view class="weui-form-preview__item">
+    <view class="weui-form-preview__label">当前预约人数</view>
+    <view class="weui-form-preview__value">{{activityDetail.ksEnrollNum}}/{{activityDetail.ksEnrollLimit}}</view>
+  </view>
+  <view class="weui-form-preview__item">
+    <view class="weui-form-preview__label">当前参讲人数，名额有限</view>
+    <view class="weui-form-preview__value">{{activityDetail.ksPartNum}}/{{activityDetail.ksPartLimit}}</view>
   </view>
 
-  <!-- 参讲人列表 -->
-  <view wx:if="{{activityDetail.ksPartNum}}" wx:key="participations" wx:for="{{activityDetail.participations}}" wx:for-index="idx" id='{{idx}}'>
-    <view url="" class="weui-cell weui-cell_access">
-      <view class="weui-cell__hd"><image src="{{item.ksUser.kuHeadImgUrl}}" style="width: 20px;height: 20px;margin-right: 5px;border-radius: 50%" /></view>
-      <view class="weui-cell__bd weui-cell_primary">
-        <view>{{item.ksUser.kuName}}</view>
-      </view>
-      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  <view url="" class="weui-media-box weui-media-box_appmsg">
+    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+      <image bindtap='toActivityProfile' id='{{activityDetail.ksUser.kuId}}' style='border-radius: 50%;' class="weui-media-box__thumb" src="{{activityDetail.ksUser.kuHeadImgUrl}}" />
+    </view>
+    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+      <view class="weui-media-box__title">{{activityDetail.ksUser.kuName}} {{activityDetail.ksUser.kuPhone}}</view>
+      <view class="weui-media-box__desc">{{activityDetail.ksUser.kuIntro}}</view>
     </view>
   </view>
+</view>
 
-  <view class="weui-cells__title">参讲审核</view>
-  <view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell weui-cell_access">
-      <view class="weui-cell__bd">审核中</view>
-      <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
-      <view class="weui-badge weui-badge_dot" style="margin-left: 5px;margin-right: 5px;"></view>
+<!-- 参讲人列表 -->
+<view class="weui-cells__title">参讲者</view>
+<view class="weui-cells weui-cells_after-title">
+  <view wx:if="{{!activityDetail.participations.length}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
+  <view wx:else>
+    <view wx:key="participations" wx:for="{{activityDetail.participations}}" wx:for-index="idx" id='{{idx}}'>
+      <view class="weui-cell weui-cell_access" bindtap='toActivityProfile' id='{{item.ksUser.kuId}}'>
+        <view class="weui-cell__bd">{{item.ksUser.kuName}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
+        <view class="weui-badge" style="margin-left: 5px;margin-right: 5px;">待审核{{item.ksUser.isAudit}}</view>
+        </view>
       </view>
     </view>
   </view>
+</view>
 
-  <view class="flex-wrp" style="flex-direction:row;">
-    <button class="flex-item" bindtap='touchCancelPartake'>取消参讲</button>
-    <button open-type='share' class="flex-item">分享</button>
+<!-- 报名者列表 -->
+<view class="weui-cells__title">已报名</view>
+<view class="weui-cells weui-cells_after-title">
+  <view wx:if="{{!activityDetail.enrollments.length}}" style='padding: 10rpx 40rpx;color: #999;'>暂无小伙伴参与听讲</view>  
+  <view wx:else>
+    <view class='enrollImage' wx:key="enrollments" wx:for="{{activityDetail.enrollments}}" wx:for-index="idx" id='{{idx}}'>
+      <image bindtap='toActivityProfile' id='{{item.ksUser.kuId}}' src="{{item.ksUser.kuHeadImgUrl}}" style="width: 30px;height: 30px;margin: 10px;border-radius: 50%" />
+    </view>
   </view>
+</view>
+
+<!--添加评论 -->
+<intput-dialog id='addStrainDialog'
+  title='请输入评论内容'
+  bind:onChange="onAddStrainDialogInputChange"
+  bind:onCancel="hideAddStrainDialog"  
+  bind:onSubmit="submitAddStrain">
+</intput-dialog>
+<!-- 评论模块 -->
+<view class="comment last-div">
+  <view class='comment-header' style='border-bottom:1rpx solid #e5e5e5;'>
+    <text>评论</text>
+    <image bindtap='showAddStrainDialog' src="../../images/icon/comment.png"></image>
+  </view>
+
+  <view wx:if="{{commentList.length == 0}}" style='text-align: center;padding: 10rpx 40rpx;color: #999;'>
+    暂无小伙伴评论
+  </view>
+  <view wx:else>
+    <view wx:key="comments" wx:for="{{commentList}}" wx:for-index="idx" id='{{idx}}'>
+      <view class="author-box">
+          <image class="avatar" src="{{item.user.kuHeadImgUrl}}"></image>
+          <text class="author">{{item.user.kuName}}</text>
+          <text class="date">{{item.addTime}}</text>
+      </view>
+      <text class="detail">{{item.kcContent}}</text>
+      <view class="tool" style='border-bottom:1rpx solid #e5e5e5;'>
+        <!-- 点赞 -->
+        <view class="tool-item" catchtap='onUpTap'>
+          <image wx:if="{{item.upStatus}}" src="../../images/icon/like_actived.png"></image>
+          <image wx:else src="../../images/icon/like.png"></image>
+          <text>{{item.upNum}}</text>
+        </view>
+        <!-- 评论 -->
+        <view class="tool-item">
+          <image bindtap='onCommentOthersTap' src="../../images/icon/comment.png"></image>
+          <text>{{item.commentNum}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="flex-wrp" style="flex-direction:row;">
+  <button class="flex-item" bindtap='touchCancelPartake' disabled="{{disabled}}">取消参讲</button>
+  <button open-type='share' class="flex-item">分享</button>
 </view>
 

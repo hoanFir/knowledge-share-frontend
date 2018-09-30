@@ -1,6 +1,10 @@
 /* pages/detailForEnroll/detailForEnroll.wxss */
 .page {
-  padding-bottom: 50px;
+  padding-bottom: 150px;
+}
+
+.last-div {
+  margin-bottom: 100px;
 }
 
 .page__hd {
@@ -24,51 +28,73 @@
   border-radius: 0px;
 }
 
-/* modal */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, .5);
-    z-index: 99999;
-    opacity: 0;
-    transition: opacity 400ms ease-in;
-    pointer-events: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* 摘要和内容 */
+.list-abstract, .list-title {
+  margin: 0 40rpx;
+  position: relative;
+  height: auto;
+  border-bottom:1rpx solid #e5e5e5;
+  padding: 20rpx 0;
+  text-align: left;
+  font-size: 34rpx;
+  color: black;
+}
+.list-abstract text, .list-title text  {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
 }
 
-.modal .dialog {
-    width: 84%;
-    height: 18%;
-    background-color: #eceff4;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-top: 19rpx;
+/* 评论模块 */
+.comment {
+  margin-top: 50rpx;
+  padding: 20rpx 40rpx;
 }
 
-.dialog .modal-item {
-    height: 33.3%;
-    width: 100%;
+.comment-header {
+  display: flex;
+  justify-content:space-between;
+}
+.comment-header image {
+  height: 40rpx;
+  width: 40rpx;
 }
 
-.modal-button {
-    height: 100rpx;
-    margin-bottom: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.author-box {
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  color: #999;
+}
+.avatar {
+  height: 60rpx;
+  width: 60rpx;
+  border-radius: 50%;
+}
+.author {
+  margin: 0 20rpx;
+}
+.date {
+  margin-left: 100rpx;
+  margin-top: 20rpx;
+  font-size: 20rpx;
 }
 
-.modal-button view {
-    width: 50%;
-    border-top: 1px solid #E5E7ED;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.tool {
+  display: flex;
+  justify-content: flex-end;
+  height: 64rpx;
+}
+.tool-item {
+  display: inline-block;
+  margin-right: 30rpx;
+}
+.tool-item image {
+  height: 40rpx;
+  width: 40rpx;
+}
+
+/* 报名列表头像 */
+.enrollImage {
+  display: inline-block;
 }

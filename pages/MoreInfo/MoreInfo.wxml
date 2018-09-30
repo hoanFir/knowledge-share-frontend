@@ -8,7 +8,7 @@
           <view class="weui-label">单位名称</view>
       </view>
       <view class="weui-cell__bd">
-          <input bindinput='onCompanyChange' class="weui-input" placeholder="请输入名称,如: xx科技有限公司"/>
+          <input value='{{userOldDetail.kuCompany}}' bindinput='onCompanyChange' class="weui-input" placeholder="请输入名称,如: xx科技有限公司"/>
       </view>
     </view>
     

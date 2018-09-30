@@ -17,25 +17,25 @@ Page({
   onLoad: function (options) {
     // 获取用户Id
     let kuId = options.itemId
-    // 解构赋值
     this.setData({ kuId })
-    console.log("获取到用户Id", this.data.kuId)
 
     // 通过kuId获取用户信息
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
     userService.getActivityUserDetail(this.data.kuId, (successed) => {
       if (successed) {
         this.setData({
           activityUserDetail: wx.getStorageSync('activityUserDetail')
         })
       }
-      else notify('获取用户信息失败');
+      else wx.showToast({ title: "获取信息失败", icon: 'none' });
     });     
   },
 
-  /**
-   * 用户点击右上角分享
-   */
+  onReady() { },
+  onShow() { },
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  onReachBottom() { },
   onShareAppMessage: function () {
   
   }

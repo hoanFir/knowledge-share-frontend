@@ -1,0 +1,14 @@
+
+<view class='wx_dialog_container' hidden="{{!isShow}}">
+    <view class='wx-mask'></view>
+    <view class='wx-dialog'>
+        <view class='wx-dialog-title'>{{ title }}</view>
+        <view class='wx-dialog-input'>
+          <input bindinput='_inputChangeEvent' value='{{inputValue}}' />
+        </view>
+        <view class='wx-dialog-action'>
+          <button class="weui-btn mini-btn wx-dialog-action-btn" bindtap="_cancelEvent" plain='true' type="default" size="mini">{{ cancelText }}</button>
+          <button class="weui-btn mini-btn wx-dialog-action-btn" bindtap="_submitEvent" plain='true' type="default" size="mini">{{ submitText }}</button>
+        </view>
+    </view>
+</view>

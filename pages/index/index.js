@@ -1,88 +1,85 @@
 // pages/index/index.js
 import userService from '../../service/UserService';
-const app = getApp()
 
 Page({
+  neverShow: true,
+
   data: {
-    motto: '进入微言',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+
   },
 
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
+  onLoad: function (options) {
+
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 token等值
+        console.log("wx.login获取到code:" + res.code)
+        wx.setStorageSync('code', res.code)
+      },
+      fail: (e) => {
+        console.log(e)
+      }
+    })
+
+    // 判断进入该页面的来源是否是用户点击了分享的卡片，然后其他用户进行访问
+    if (options.pageId) {
+      // 假如pageId存在，则证明页面这次的开启来源于用户点击分享来的
+      // 同时也可以通过获取到的pageId的值跳转导航到对应的详情页
+
+      // wx.navigateTo({
+      //   url: '../pageDetail/pageDetail?pageId=' + options.pageId,
+      // })
+
+      console.log("code", wx.getStorageSync('code'))
+    }
+  },
+
+  onReady() { },
+
+  onShow: function () {
+    if (this.neverShow) this.neverShow = false;
+    else {
+      console.log("code", wx.getStorageSync('code'))
+      console.log(wx.getStorageSync("wxUserInfo"))
+      // 第二次进入微言发现出现无法获取到缓存中的token的问题，需要重新获取sid
+      userService.validate(wx.getStorageSync('code'), wx.getStorageSync("wxUserInfo"), () => {
+        wx.switchTab({
+          url: '../activity/activity'
+        })
+      });
+    }
+  },
+  
+
+  // 点击头像时的操作，open-type=getUserInfo
+  getUserInfo: function (e) {
+    wx.getSetting({
+      success: res => {
+        // 判断是否已经授权，是则可以直接调用 getUserInfo 获取头像昵称，不会弹框
+        if (res.authSetting['scope.userInfo']) {
+          wx.getUserInfo({
+            success: res => {
+              // 可以将 res 发送给后台解码出 unionId
+              wx.setStorageSync('wxUserInfo', res.userInfo)
+
+              // 在此处顺便obtain sid
+              // userService.validate(wx.getStorageSync('code') || '', res.userInfo, () => {
+              userService.validate(wx.getStorageSync('code'), res.userInfo, () => {
+                wx.switchTab({
+                  url: '../activity/activity'
+                })
+              });
+            }
+          })
+        }
+      }
     })
   },
 
-  onLoad: function () {
-
-    // 获取本地app.globalData.userInfo的用户信息或者等待app.js中用户信息的获取
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      // 一般已经实现兼容，该部分不需要执行
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
-
-  },
-
-  // 点击头像时的操作，open-type=getUserInfo
-  getUserInfo: function(e) {
-    
-    // 获取用户信息
-    app.globalData.userInfo = e.detail.userInfo
-    if(app.globalData.userInfo) {
-      this.setData({
-        userInfo: e.detail.userInfo,
-        hasUserInfo: true
-      })
-
-      // 在此处顺便obtain sid
-      let userdata = this.data.userInfo;
-      let code = wx.getStorageSync('code');
-      userService.validate(code || '', userdata, () => {
-        console.log("fetchToken ends")
-      });
-    } else {
-      this.setData({
-        hasUserInfo: false,
-      })
-    }
-  },
-
-  handleStart: function () {
-    const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-    if ( !app.globalData.userInfo )
-      notify("请先获取头像昵称")
-    else {
-      wx.switchTab ({
-        url: '../activity/activity'
-      })
-    }
-  }
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  onReachBottom() { }
 
 })

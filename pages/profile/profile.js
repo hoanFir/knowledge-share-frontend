@@ -3,7 +3,6 @@ import activityService from '../../service/ActivityService';
 const util = require('../../utils/util.js')
 
 // 用于下拉刷新再申请，以及token
-import userService from '../../service/UserService';
 import Activity from '../../model/Activity';
 import URL from '../../utils/URL';
 import StatusCode from '../../model/StatusCode';
@@ -20,9 +19,9 @@ Page({
     userInfo: {},
 
     // 参讲次数、听讲次数和主讲次数
-    partakeCount: 0,
-    listenCount: 0,
-    deliverCount: 0,
+    // partakeCount: 0,
+    // listenCount: 0,
+    // deliverCount: 0,
 
     // 用户中心
 		icons: [
@@ -81,8 +80,7 @@ Page({
         url: '../UserCenter/UserCenter'
       })
     } else {
-      const notify = (content) => wx.showToast({ title: content, icon: 'none' });
-      notify("暂未开放")
+      wx.showToast({ title: "即将开放", icon: 'none' });
     }
   },
 
@@ -90,18 +88,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-    console.log(getApp().globalData)
-    this.setData({
-      userInfo: getApp().globalData.userInfo
-    })
+    this.setData({ userInfo: wx.getStorageSync('wxUserInfo') })
 
     // TODO：暂时只获取第一页，初期一般讲座不超过12个，可以轻松获取到讲座数目
-    let url1 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'author');
+    let url1 = new URL('https', serverAddr).path('subjects').param('page', 1).param('queryType', 'author');
     wx.request({
       url: url1.toString(),
       method: 'GET',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid()
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ data: result, statusCode }) => {
         console.log("加载我的主讲:", statusCode)
@@ -109,7 +104,7 @@ Page({
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myDeliverPageData', result);
-            console.log("myDeliverPageData:", wx.getStorageSync('myDeliverPageData'))
+
             let myList = [];
             for (let item of result.array) {
               item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
@@ -117,7 +112,7 @@ Page({
               myList.push(activity);
             }
             wx.setStorageSync('myDeliverList', myList);
-            this.setData({ deliverCount: wx.getStorageSync('myDeliverList').length })
+            // this.setData({ deliverCount: wx.getStorageSync('myDeliverList').length })
             break;
           case StatusCode.FOUND_NOTHING:
             console.warn('found nothing');
@@ -131,12 +126,12 @@ Page({
     });
 
     // TODO：暂时只获取第一页，初期一般讲座不超过12个，可以轻松获取到讲座数目
-    let url2 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'applicant');
+    let url2 = new URL('https', serverAddr).path('subjects').param('page', 1).param('queryType', 'applicant');
     wx.request({
       url: url2.toString(),
       method: 'GET',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid()
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ data: result, statusCode }) => {
         console.log("加载我的听讲:", statusCode)
@@ -144,7 +139,6 @@ Page({
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myEnrollPageData', result);
-            console.log("myEnrollPageData:", wx.getStorageSync('myEnrollPageData'))
             let myList = [];
             for (let item of result.array) {
               item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
@@ -152,7 +146,7 @@ Page({
               myList.push(activity);
             }
             wx.setStorageSync('myEnrollList', myList);
-            this.setData({ listenCount: wx.getStorageSync('myEnrollList').length })
+            // this.setData({ listenCount: wx.getStorageSync('myEnrollList').length })
 
             break;
           case StatusCode.FOUND_NOTHING:
@@ -167,12 +161,12 @@ Page({
     });
 
     // TODO：暂时只获取第一页，初期一般讲座不超过12个，可以轻松获取到讲座数目
-    let url3 = new URL('http', serverAddr).path('subjects').param('page', 1).param('queryType', 'participant');
+    let url3 = new URL('https', serverAddr).path('subjects').param('page', 1).param('queryType', 'participant');
     wx.request({
       url: url3.toString(),
       method: 'GET',
       header: {
-        'Authorization': 'Bearer ' + userService.getSid()
+        'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ data: result, statusCode }) => {
         console.log("加载我的参讲:", statusCode)
@@ -180,7 +174,6 @@ Page({
         switch (statusCode) {
           case 200:
             wx.setStorageSync('myPartakePageData', result);
-            console.log("myPartakePageData:", wx.getStorageSync('myPartakePageData'))
             let myList = [];
             for (let item of result.array) {
               item.ksStartTime = util.formatTime(new Date(item.ksStartTime));
@@ -188,8 +181,7 @@ Page({
               myList.push(activity);
             }
             wx.setStorageSync('myPartakeList', myList);
-            console.log("myPartakeList:", wx.getStorageSync('myPartakeList'))
-            this.setData({ partakeCount: wx.getStorageSync('myPartakeList').length })
+            // this.setData({ partakeCount: wx.getStorageSync('myPartakeList').length })
             break;
           case StatusCode.FOUND_NOTHING:
             console.warn('found nothing');
@@ -229,9 +221,12 @@ Page({
     })
   },
 
-  /**
-   * 用户点击右上角分享
-   */
+  onReady() { },
+  onShow() { },
+  onHide() { },
+  onUnload() { },
+  onPullDownRefresh() { },
+  onReachBottom() { },
   onShareAppMessage: function () {
   
   }
