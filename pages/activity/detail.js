@@ -12,7 +12,7 @@ Page({
   data: {
     // 用于页面数据显示
     activityDetail: null,
-    // 方便用于主题操作，不用于页面数据显示
+    // 方便用于讲座操作，不用于页面数据显示
     ksId: null,
     // 讲座类型
     ksType: null,

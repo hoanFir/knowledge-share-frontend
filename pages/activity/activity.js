@@ -89,7 +89,7 @@ Page({
           'Authorization': 'Bearer ' + wx.getStorageSync('sid')
         },
         success: ({ data: result, statusCode }) => {
-          console.log("onShow运行了:", statusCode)
+          console.log("onShow运行了", statusCode)
           // TODO 状态码判断
           switch (statusCode) {
             case 200:
@@ -181,7 +181,7 @@ Page({
     let activity = this.data.activityList[event.currentTarget.id];
     this.setData({ ksId: activity.ksId })
 
-    // 根据ksId获取主题详情
+    // 根据ksId获取讲座详情
     let url = new URL('https', serverAddr).path('subjects' + '/' + this.data.ksId);
     wx.request({
       url: url.toString(),
@@ -201,11 +201,11 @@ Page({
             activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
             // 获取详情，存储到本地缓存
             wx.setStorageSync('activityDetail', activityDetail);
-            // 获取主题类型ksType字典值，存储到本地缓存，方便调用
+            // 获取讲座类型ksType字典值，存储到本地缓存，方便调用
             wx.setStorageSync('activityType', activityDetail.ksType);
             
             // 控制台输出详情数据
-            console.log("该主题详情为", wx.getStorageSync("activityDetail"))
+            console.log("该讲座详情为", wx.getStorageSync("activityDetail"))
 
             // 判断用户是否报名者、发起者、参讲者，进入不同的页面
             let whichEnter = wx.getStorageSync('activityDetail')
@@ -264,7 +264,7 @@ Page({
         'Authorization': 'Bearer ' + wx.getStorageSync('sid')
       },
       success: ({ data: result, statusCode }) => {
-        console.log("下拉刷新运行了:", statusCode)
+        console.log("onPullDownRefresh运行了", statusCode)
         console.log(result)
         // TODO 状态码判断
         switch (statusCode) {
@@ -313,13 +313,13 @@ Page({
           'Authorization': 'Bearer ' + wx.getStorageSync('sid')
         },
         success: ({ data: result, statusCode }) => {
-          console.log("触底刷新运行了:", statusCode)
+          console.log("onReachBottom运行了", statusCode)
           // TODO 状态码判断
           switch (statusCode) {
             case 200:
-              console.log("触底刷新运行了:", result)
+              console.log("onReachBottom运行了", result)
               wx.setStorageSync('pageData', result);
-              console.log("触底刷新运行了:", wx.getStorageSync('pageData'))
+              console.log("onReachBottom运行了", wx.getStorageSync('pageData'))
 
               let addList = [];
               for (let item of result.list) {

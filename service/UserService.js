@@ -25,7 +25,7 @@ class UserService {
         "province": userdata.province
       },
       success: ({ data: result, statusCode }) => {
-        console.log("UserService validate方法运行后", statusCode)
+        console.log("validate运行了", statusCode)
         // TODO 状态码判断
         switch (statusCode) {
           case 200:

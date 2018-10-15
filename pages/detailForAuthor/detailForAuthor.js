@@ -11,7 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // 方便用于主题操作，不用于页面数据显示
+    // 方便用于讲座操作，不用于页面数据显示
     ksId: null,
     // 用于页面数据显示
     activityDetail: null,
@@ -97,7 +97,7 @@ Page({
     })
   },
 
-  // 点击修改主题
+  // 点击修改讲座
   touchUpdate: function () {
     wx.redirectTo({ url: '../updateActivity/updateActivity' });
   },

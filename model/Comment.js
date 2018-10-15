@@ -7,7 +7,7 @@ class Comment {
     this.kcContent = json.kcContent; // 商家id
     this.kcDeleted = json.kcDeleted;  // 是否删除
     this.kcId = json.kcId;  // 评论Id
-    this.kcShow = json.kcShow;  // 主题人选择是否显示该评论
+    this.kcShow = json.kcShow;  // 讲座发起人选择是否显示该评论
     this.ksId = json.ksId;  // 讲座信息
     this.user = json.user;  // 评论者信息
   }

@@ -14,7 +14,7 @@ Page({
     abstractCount: 0,
     contentCount: 0,
 
-    // 原主题详情
+    // 原讲座详情
     oldActivityDetail: null,
 
     // 可选商家列表
@@ -70,12 +70,12 @@ Page({
     // 设置6小时之后的时间
     this.setData({ time: TimeHelper.nowTime() })
 
-    // 获取主题Id
+    // 获取讲座Id
     this.setData({ ksId: wx.getStorageSync('activityDetail').ksId })
 
-    // 获取原主题详情
+    // 获取原讲座详情
     this.setData({ oldActivityDetail: wx.getStorageSync('activityDetail') })
-    console.log("原主题详情", this.data.oldActivityDetail)
+    console.log("原讲座详情", this.data.oldActivityDetail)
 
     // 获取商家列表
     activityService.getBusinessMap(this.setIndustry);

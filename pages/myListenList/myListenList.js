@@ -137,7 +137,7 @@ Page({
     console.log("获取到讲座详情页面的ksId" + activity.ksId)
     this.setData({ ksId: activity.ksId })
 
-    // 根据ksId获取主题详情
+    // 根据ksId获取讲座详情
     let url = new URL('https', serverAddr).path('subjects' + '/' + this.data.ksId);
     wx.request({
       url: url.toString(),
@@ -159,11 +159,11 @@ Page({
             activityDetail.ksEndTime = util.formatTime(new Date(activityDetail.ksEndTime));
             // 获取到详情，存储到本地缓存
             wx.setStorageSync('activityDetail', activityDetail);
-            // 获取主题类型ksType字典值，存储到本地缓存，方便调用
+            // 获取讲座类型ksType字典值，存储到本地缓存，方便调用
             wx.setStorageSync('activityType', activityDetail.ksType);
 
             // 控制台输出详情数据
-            console.log("该主题详情", wx.getStorageSync("activityDetail"))
+            console.log("该讲座详情", wx.getStorageSync("activityDetail"))
 
             // 判断用户是否报名者、发起者、参讲者，进入不同的页面
             let whichEnter = wx.getStorageSync('activityDetail')
@@ -217,7 +217,7 @@ Page({
           'Authorization': 'Bearer ' + userService.getSid()
         },
         success: ({ data: result, statusCode }) => {
-          console.log("触底刷新运行了:", statusCode)
+          console.log("onReachBottom运行了", statusCode)
           
           switch (statusCode) {
             case 200:

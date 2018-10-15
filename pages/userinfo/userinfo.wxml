@@ -43,7 +43,7 @@
         <view class=' flex flex-warp-right-item msg-info-other'>
           <view class=' flex msg-info-company flex-msg-info'>
             <image class='company-image icon-12px' src="../../images/company.png" mode='aspectFit' />
-            <text class="company-text text-info">公司单位名&学校单位名</text>
+            <text class="company-text text-info">公司单位&学校单</text>
             <text class="company-text text-info">{{userDetail.kuCompany}}</text>
           </view>
         </view>

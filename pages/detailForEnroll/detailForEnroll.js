@@ -13,7 +13,7 @@ Page({
     // 防止重复点击button
     disabled: false,
 
-    // 方便用于主题操作，不用于页面数据显示
+    // 方便用于讲座操作，不用于页面数据显示
     ksId: null,
     keId: null,
     // 用于页面数据显示

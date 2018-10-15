@@ -132,8 +132,8 @@
 </view>
 
 <view class="flex-wrp" style="flex-direction:row;">
-  <button class="flex-item" bindtap='onTapDelete'>删除主题</button>
+  <button class="flex-item" bindtap='onTapDelete'>删除讲座</button>
   <button open-type='share' class="flex-item">分享</button>
-  <button class="flex-item" bindtap='touchUpdate'>修改主题</button>
+  <button class="flex-item" bindtap='touchUpdate'>修改讲座</button>
 </view>
 
