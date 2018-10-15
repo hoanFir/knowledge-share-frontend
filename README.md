@@ -1,2 +1,1 @@
-# knowledge-share-frontend
-miniprograming for knowledge-share
+miniprograming for knowledge-share社区知识分享
