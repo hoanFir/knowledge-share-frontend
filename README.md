@@ -1,1 +1,1 @@
-miniprograming for knowledge-share社区知识分享
+社区知识分享小程序平台
